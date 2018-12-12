@@ -89,12 +89,12 @@ export class RepositoryView extends React.Component<
     return (
       <TabBar selectedIndex={selectedTab} onTabClicked={this.onTabClicked}>
         <span className="with-indicator">
-          <span>Changes</span>
+          <span>變更</span>
           {this.renderChangesBadge()}
         </span>
 
         <div className="with-indicator">
-          <span>History</span>
+          <span>歷史</span>
           {this.props.state.compareState.isDivergingBranchBannerVisible ? (
             <Octicon
               className="indicator"
@@ -176,7 +176,7 @@ export class RepositoryView extends React.Component<
     } else if (selectedSection === RepositorySectionTab.History) {
       return this.renderCompareSidebar()
     } else {
-      return assertNever(selectedSection, 'Unknown repository section')
+      return assertNever(selectedSection, '未知的存儲庫部分')
     }
   }
 
@@ -281,7 +281,7 @@ export class RepositoryView extends React.Component<
         />
       )
     } else {
-      return assertNever(selectedSection, 'Unknown repository section')
+      return assertNever(selectedSection, '未知的存儲庫部分')
     }
   }
 

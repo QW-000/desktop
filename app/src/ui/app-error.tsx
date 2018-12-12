@@ -95,7 +95,7 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
               Close
             </Button>
             <Button onClick={this.showPreferencesDialog}>
-              {__DARWIN__ ? 'Open Preferences' : 'Open options'}
+              {__DARWIN__ ? 'Open Preferences' : '¶}±Ò¿ï¶µ'}
             </Button>
           </ButtonGroup>
         )
