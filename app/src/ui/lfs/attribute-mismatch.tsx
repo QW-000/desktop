@@ -41,7 +41,7 @@ export class AttributeMismatch extends React.Component<
 
   private renderGlobalGitConfigLink() {
     const path = this.state.globalGitConfigPath
-    const msg = 'your global git config'
+    const msg = '你的 git 全局設定'
     if (path) {
       return <LinkButton onClick={this.showGlobalGitConfig}>{msg}</LinkButton>
     } else {
@@ -63,16 +63,15 @@ export class AttributeMismatch extends React.Component<
         title={
           __DARWIN__
             ? 'Update Existing Git LFS Filters?'
-            : 'Update existing Git LFS filters?'
+            : '更新現存的 Git LFS 過濾器?'
         }
         onDismissed={this.props.onDismissed}
         onSubmit={this.props.onUpdateExistingFilters}
       >
         <DialogContent>
           <p>
-            Git LFS filters are already configured in{' '}
-            {this.renderGlobalGitConfigLink()} but are not the values it
-            expects. Would you like to update them now?
+            Git 過濾器已在{' '}
+            {this.renderGlobalGitConfigLink()} 中設置，但不是預期的值。 你想現在更新嗎?
           </p>
         </DialogContent>
 
@@ -81,10 +80,10 @@ export class AttributeMismatch extends React.Component<
             <Button type="submit">
               {__DARWIN__
                 ? 'Update Existing Filters'
-                : 'Update existing filters'}
+                : '更新現存過濾器'}
             </Button>
             <Button onClick={this.props.onDismissed}>
-              {__DARWIN__ ? 'Not Now' : 'Not now'}
+              {__DARWIN__ ? 'Not Now' : '現在不要'}
             </Button>
           </ButtonGroup>
         </DialogFooter>

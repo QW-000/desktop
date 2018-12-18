@@ -306,7 +306,7 @@ export class CreateRepository extends React.Component<
     if (status === null) {
       this.props.dispatcher.postError(
         new Error(
-          `Unable to create the new repository because there are too many new files in this directory`
+          `無法建立新存儲庫，因為此目錄中有許多新檔案`
         )
       )
 
@@ -317,7 +317,7 @@ export class CreateRepository extends React.Component<
       const wd = status.workingDirectory
       const files = wd.files
       if (files.length > 0) {
-        await createCommit(repository, 'Initial commit', files)
+        await createCommit(repository, '初始提交', files)
       }
     } catch (e) {
       log.error(`createRepository: initial commit failed at ${fullPath}`, e)
@@ -359,7 +359,7 @@ export class CreateRepository extends React.Component<
     return (
       <Row className="warning-helper-text">
         <Octicon symbol={OcticonSymbol.alert} />
-        Will be created as {sanitizedName}
+        將被建立為 {sanitizedName}
       </Row>
     )
   }
@@ -381,7 +381,7 @@ export class CreateRepository extends React.Component<
     return (
       <Row>
         <Select
-          label={__DARWIN__ ? 'Git Ignore' : 'Git ignore'}
+          label={__DARWIN__ ? 'Git Ignore' : 'Git 忽略'}
           value={this.state.gitIgnore}
           onChange={this.onGitIgnoreChange}
         >
@@ -406,7 +406,7 @@ export class CreateRepository extends React.Component<
     return (
       <Row>
         <Select
-          label="License"
+          label="許可證"
           value={this.state.license}
           onChange={this.onLicenseChange}
         >
@@ -436,8 +436,7 @@ export class CreateRepository extends React.Component<
 
     return (
       <DialogError>
-        Directory could not be created at this path. You may not have
-        permissions to create a directory here.
+        無法在此路徑中建立目錄，您可能沒有權限在此處建立目錄。
       </DialogError>
     )
   }
@@ -453,11 +452,11 @@ export class CreateRepository extends React.Component<
       <Row className="warning-helper-text">
         <Octicon symbol={OcticonSymbol.alert} />
         <p>
-          This directory appears to be a Git repository. Would you like to{' '}
+          此目錄似乎是 Git 存儲庫。 您想要 {' '}
           <LinkButton onClick={this.onAddRepositoryClicked}>
-            add this repository
+            增加此
           </LinkButton>{' '}
-          instead?
+           存儲庫嗎?
         </p>
       </Row>
     )
@@ -506,7 +505,7 @@ export class CreateRepository extends React.Component<
       <Dialog
         id="create-repository"
         title={
-          __DARWIN__ ? 'Create a New Repository' : 'Create a new repository'
+          __DARWIN__ ? 'Create a New Repository' : '建立新的存儲庫'
         }
         loading={this.state.creating}
         onSubmit={this.createRepository}
@@ -518,8 +517,8 @@ export class CreateRepository extends React.Component<
           <Row>
             <TextBox
               value={this.state.name}
-              label="Name"
-              placeholder="repository name"
+              label="名稱"
+              placeholder="存儲庫名稱"
               onValueChanged={this.onNameChanged}
               autoFocus={true}
             />
@@ -530,7 +529,7 @@ export class CreateRepository extends React.Component<
           <Row>
             <TextBox
               value={this.state.description}
-              label="Description"
+              label="描述"
               onValueChanged={this.onDescriptionChanged}
             />
           </Row>
@@ -538,13 +537,13 @@ export class CreateRepository extends React.Component<
           <Row>
             <TextBox
               value={this.state.path}
-              label={__DARWIN__ ? 'Local Path' : 'Local path'}
-              placeholder="repository path"
+              label={__DARWIN__ ? 'Local Path' : '本機路徑'}
+              placeholder="存儲庫路徑"
               onValueChanged={this.onPathChanged}
               disabled={readOnlyPath}
             />
             <Button onClick={this.showFilePicker} disabled={readOnlyPath}>
-              Choose…
+              選擇…
             </Button>
           </Row>
 
@@ -552,7 +551,7 @@ export class CreateRepository extends React.Component<
 
           <Row>
             <Checkbox
-              label="Initialize this repository with a README"
+              label="初始化此存儲庫與 README 檔案"
               value={
                 this.state.createWithReadme
                   ? CheckboxValue.On
@@ -570,10 +569,10 @@ export class CreateRepository extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" disabled={disabled}>
-              {__DARWIN__ ? 'Create Repository' : 'Create repository'}
+              {__DARWIN__ ? 'Create Repository' : '建立存儲庫'}
             </Button>
 
-            <Button onClick={this.props.onDismissed}>Cancel</Button>
+            <Button onClick={this.props.onDismissed}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>

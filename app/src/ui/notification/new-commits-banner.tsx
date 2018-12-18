@@ -52,24 +52,24 @@ export class NewCommitsBanner extends React.Component<
         <div className="notification-banner-content">
           <div className="notification-banner-content-body">
             <p>
-              We have noticed that your branch is{' '}
+              我們注意到你的分支是{' '}
               <strong>
-                {this.props.commitsBehindBaseBranch} commit
+                {this.props.commitsBehindBaseBranch} 提交
                 {pluralize ? 's' : ''}
               </strong>{' '}
-              behind <Ref>{this.props.baseBranch.name}</Ref>.
+              落後 <Ref>{this.props.baseBranch.name}</Ref>.
             </p>
           </div>
           <div>
             <Button className="small-button" onClick={this.onComparedClicked}>
-              View commits
+              檢閱提交
             </Button>
             <Button
               className="small-button"
               type="submit"
               onClick={this.onMergeClicked}
             >
-              Merge...
+              合併...
             </Button>
           </div>
         </div>

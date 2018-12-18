@@ -230,20 +230,18 @@ export class CompareSidebar extends React.Component<
 
     let emptyListMessage: string | JSX.Element
     if (formState.kind === HistoryTabMode.History) {
-      emptyListMessage = 'No history'
+      emptyListMessage = '沒有歷史'
     } else {
       const currentlyComparedBranchName = formState.comparisonBranch.name
 
       emptyListMessage =
         formState.comparisonMode === ComparisonMode.Ahead ? (
           <p>
-            The compared branch (<Ref>{currentlyComparedBranchName}</Ref>) is up
-            to date with your branch
+            比較分支 (<Ref>{currentlyComparedBranchName}</Ref>) 與您的分支是最新的
           </p>
         ) : (
           <p>
-            Your branch is up to date with the compared branch (
-            <Ref>{currentlyComparedBranchName}</Ref>)
+            比較分支 (<Ref>{currentlyComparedBranchName}</Ref>) 您的分支是最新的
           </p>
         )
     }
@@ -348,8 +346,8 @@ export class CompareSidebar extends React.Component<
     return (
       <div className="compare-content">
         <TabBar selectedIndex={selectedTab} onTabClicked={this.onTabClicked}>
-          <span>{`Behind (${formState.aheadBehind.behind})`}</span>
-          <span>{`Ahead (${formState.aheadBehind.ahead})`}</span>
+          <span>{`落後 (${formState.aheadBehind.behind})`}</span>
+          <span>{`向前 (${formState.aheadBehind.ahead})`}</span>
         </TabBar>
         {this.renderActiveTab(formState)}
       </div>
@@ -571,11 +569,11 @@ function getPlaceholderText(state: ICompareState) {
   const { allBranches, formState } = state
 
   if (allBranches.length === 0) {
-    return __DARWIN__ ? 'No Branches to Compare' : 'No branches to compare'
+    return __DARWIN__ ? 'No Branches to Compare' : '沒有分支比較'
   } else if (formState.kind === HistoryTabMode.History) {
     return __DARWIN__
       ? 'Select Branch to Compare...'
-      : 'Select branch to compare...'
+      : '選擇分支比較...'
   } else {
     return undefined
   }

@@ -36,44 +36,42 @@ export class BlankSlateView extends React.Component<IBlankSlateProps, {}> {
 
         <div className="content">
           <div className="title">
-            {__DARWIN__ ? 'No Repositories Found' : 'No repositories found'}
+            {__DARWIN__ ? 'No Repositories Found' : '找不到存儲庫'}
           </div>
 
           <div className="callouts">
             <div className="callout">
               <Octicon symbol={OcticonSymbol.plus} />
-              <div>Create a new project and publish it to GitHub</div>
+              <div>建立新項目並將其發佈到 GitHub</div>
               <Button onClick={this.props.onCreate}>
-                {__DARWIN__ ? 'Create New Repository' : 'Create new repository'}
+                {__DARWIN__ ? 'Create New Repository' : '建立新存儲庫'}
               </Button>
             </div>
 
             <div className="callout">
               <Octicon symbol={OcticonSymbol.deviceDesktop} />
               <div>
-                Add an existing project on your computer and publish it to
-                GitHub
+                在電腦上增加現有項目並將其發佈到 GitHub
               </div>
               <Button onClick={this.props.onAdd}>
                 {__DARWIN__
                   ? 'Add a Local Repository'
-                  : 'Add a local repository'}
+                  : '增加本機存儲庫'}
               </Button>
             </div>
 
             <div className="callout">
               <Octicon symbol={OcticonSymbol.repoClone} />
-              <div>Clone an existing project from GitHub to your computer</div>
+              <div>將現有項目從 GitHub 克隆到您的電腦</div>
               <Button onClick={this.props.onClone}>
-                {__DARWIN__ ? 'Clone a Repository' : 'Clone a repository'}
+                {__DARWIN__ ? 'Clone a Repository' : '克隆存儲庫'}
               </Button>
             </div>
           </div>
         </div>
 
         <p className="footer">
-          Alternatively, you can drag and drop a local repository here to add
-          it.
+          或者，您可以拖曳本機存儲庫增加在此處。
         </p>
       </UiView>
     )
