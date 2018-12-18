@@ -118,6 +118,7 @@ export class MergeConflictsDialog extends React.Component<
       RepositorySectionTab.Changes
     )
     this.props.onDismissed()
+    this.props.dispatcher.recordGuidedConflictedMergeCompletion()
   }
 
   /**
@@ -137,6 +138,23 @@ export class MergeConflictsDialog extends React.Component<
         ourBranch: this.props.ourBranch,
         theirBranch: this.props.theirBranch,
       })
+    }
+  }
+
+  private onDismissed = async () => {
+    this.props.onDismissed()
+    this.props.dispatcher.setMergeConflictsBannerState({
+      ourBranch: this.props.ourBranch,
+      popup: {
+        type: PopupType.MergeConflicts,
+        ourBranch: this.props.ourBranch,
+        theirBranch: this.props.theirBranch,
+        repository: this.props.repository,
+      },
+    })
+    this.props.dispatcher.recordMergeConflictsDialogDismissal()
+    if (getConflictedFiles(this.props.workingDirectory).length > 0) {
+      this.props.dispatcher.recordAnyConflictsLeftOnMergeConflictsDialogDismissal()
     }
   }
 
@@ -165,11 +183,10 @@ export class MergeConflictsDialog extends React.Component<
   private renderShellLink(openThisRepositoryInShell: () => void): JSX.Element {
     return (
       <div className="cli-link">
-         也可以{' '}
         <LinkButton onClick={openThisRepositoryInShell}>
           開啟命令行
         </LinkButton>{' '}
-        來解決
+        您選擇的工具或手動解決。
       </div>
     )
   }
@@ -218,6 +235,7 @@ export class MergeConflictsDialog extends React.Component<
             onClick={onOpenEditorClick}
             disabled={disabled}
             tooltip={tooltip}
+            className="small-button"
           >
             {editorButtonString(this.props.resolvedExternalEditor)}
           </Button>
@@ -330,11 +348,16 @@ export class MergeConflictsDialog extends React.Component<
     return (
       <Dialog
         id="merge-conflicts-list"
-        dismissable={false}
-        onDismissed={this.onCancel}
+        dismissable={true}
+        onDismissed={this.onDismissed}
+        disableClickDismissalAlways={true}
         onSubmit={this.onSubmit}
       >
-        <DialogHeader title={headerTitle} dismissable={false} />
+        <DialogHeader
+          title={headerTitle}
+          dismissable={true}
+          onDismissed={this.onDismissed}
+        />
         <DialogContent>
           {this.renderContent(unmergedFiles, conflictedFilesCount)}
         </DialogContent>
