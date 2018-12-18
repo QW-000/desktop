@@ -120,8 +120,8 @@ export class CrashApp extends React.Component<ICrashAppProps, ICrashAppState> {
   private renderTitle() {
     const message =
       this.state.type === 'launch'
-        ? 'GitHub Desktop µLªk±Ò°Ê'
-        : 'GitHub Desktop ¹J¨ì¿ù»~'
+        ? 'GitHub Desktop ç„¡æ³•å•Ÿå‹•'
+        : 'GitHub Desktop é‡åˆ°éŒ¯èª¤'
 
     return (
       <header>
@@ -172,9 +172,9 @@ export class CrashApp extends React.Component<ICrashAppProps, ICrashAppState> {
     // We don't support restarting in dev mode since we can't
     // control the life time of the dev server.
     if (__DEV__) {
-      quitText = __DARWIN__ ? 'Quit' : 'µ²§ô'
+      quitText = __DARWIN__ ? 'Quit' : 'çµæŸ'
     } else {
-      quitText = __DARWIN__ ? 'Quit and Restart' : 'µ²§ô¨Ã­«·s±Ò°Ê'
+      quitText = __DARWIN__ ? 'Quit and Restart' : 'çµæŸä¸¦é‡æ–°å•Ÿå‹•'
     }
 
     return (

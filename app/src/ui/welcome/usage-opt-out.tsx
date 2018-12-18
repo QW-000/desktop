@@ -36,7 +36,7 @@ export class UsageOptOut extends React.Component<
         <h1 className="welcome-title">讓 GitHub Desktop&nbsp;更好!</h1>
 
         <p>
-          您是否願意定期幫助我們改進 GitHub Desktop?
+          您是否願意定期幫助我們改善 GitHub Desktop?
           提交 <LinkButton uri={SamplesURL}>使用狀態</LinkButton>?
         </p>
 

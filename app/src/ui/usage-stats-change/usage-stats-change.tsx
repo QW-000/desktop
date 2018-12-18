@@ -35,7 +35,7 @@ export class UsageStatsChange extends React.Component<
       <Dialog
         id="usage-reporting"
         title={
-          __DARWIN__ ? 'Usage Reporting Changes' : '¨Ï¥Î³ø§iÅÜ§ó'
+          __DARWIN__ ? 'Usage Reporting Changes' : 'ä½¿ç”¨è®ŠåŒ–å ±å‘Š'
         }
         dismissable={false}
         onDismissed={this.onDismissed}
@@ -44,29 +44,29 @@ export class UsageStatsChange extends React.Component<
       >
         <DialogContent>
           <Row>
-            GitHub Desktop ±Ä¨ú¦³Ãö¦p¦ó³ø§i¨Ï¥Î±¡ªpªºª¬ºAÅÜ¤Æ¡AÀ°§U§Ú­Ì§ó¦n¦a¤F¸Ñ GitHub ¥Î¤á¦p¦ó±q Desktop Àò¨ú­È:
+            GitHub Desktop æ¡å–æœ‰é—œå¦‚ä½•å ±å‘Šä½¿ç”¨æƒ…æ³çš„ç‹€æ…‹è®ŠåŒ–ï¼Œå¹«åŠ©æˆ‘å€‘æ›´å¥½åœ°äº†è§£ GitHub ç”¨æˆ¶å¦‚ä½•å¾ Desktop ç²å–å€¼:
           </Row>
           <Row>
             <ul>
               <li>
                 <span>
-                  <strong>¦pªG±z¤wµn¤J GitHub ±b¤á</strong>, ±zªº
-                  GitHub.com ±b¤á ID ±N¥]§t¦b©w´Á¨Ï¥Îª¬ºA¤¤¡C
+                  <strong>å¦‚æœæ‚¨å·²ç™»å…¥ GitHub å¸³æˆ¶</strong>, æ‚¨çš„
+                  GitHub.com å¸³æˆ¶ ID å°‡åŒ…å«åœ¨å®šæœŸä½¿ç”¨ç‹€æ…‹ä¸­ã€‚
                 </span>
               </li>
               <li>
                 <span>
                   <strong>
-                    ¦pªG¥u¬Oµn¤J¨ì GitHub Enterprise ±b¤á¡A©ÎªÌ¥u¨Ï¥Î±a¦³«D GitHub »·ºİ±±¨î¥xªº Desktop
+                    å¦‚æœåªæ˜¯ç™»å…¥åˆ° GitHub Enterprise å¸³æˆ¶ï¼Œæˆ–è€…åªä½¿ç”¨å¸¶æœ‰é GitHub é ç«¯æ§åˆ¶å°çš„ Desktop
                   </strong>
-                  ¤°»ò³£¤£·|§ïÅÜ¡C
+                  ä»€éº¼éƒ½ä¸æœƒæ”¹è®Šã€‚
                 </span>
               </li>
             </ul>
           </Row>
           <Row className="selection">
             <Checkbox
-              label="¥Ñ´£¥æ¨Ï¥Îª¬ºA¨ÓÀ°§U§ïµ½ GitHub Desktop"
+              label="ç”±æäº¤ä½¿ç”¨ç‹€æ…‹ä¾†å¹«åŠ©æ”¹å–„ GitHub Desktop"
               value={
                 this.state.optOutOfUsageTracking
                   ? CheckboxValue.Off
@@ -78,10 +78,10 @@ export class UsageStatsChange extends React.Component<
         </DialogContent>
         <DialogFooter>
           <ButtonGroup>
-            <Button type="submit">Ä~Äò</Button>
+            <Button type="submit">ç¹¼çºŒ</Button>
             <Button onClick={this.viewMoreInfo}>
               {' '}
-              {__DARWIN__ ? 'More Info' : '§ó¦h¸ê°T'}
+              {__DARWIN__ ? 'More Info' : 'æ›´å¤šè³‡è¨Š'}
             </Button>
           </ButtonGroup>
         </DialogFooter>

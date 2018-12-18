@@ -6,11 +6,11 @@ import { openDesktop } from '../open-desktop'
 const command: ICommandModule = {
   command: 'open <path>',
   aliases: ['<path>'],
-  description: '¦b GitHub Desktop ¤¤¶}±Ò¤@­Ó git ¦sÀx®w',
+  description: 'åœ¨ GitHub Desktop ä¸­é–‹å•Ÿä¸€å€‹ git å­˜å„²åº«',
   args: [
     {
       name: 'path',
-      description: '­n¶}±Òªº¦sÀx®w¸ô®|',
+      description: 'è¦é–‹å•Ÿçš„å­˜å„²åº«è·¯å¾‘',
       type: 'string',
       required: false,
     },

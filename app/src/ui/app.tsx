@@ -1617,7 +1617,7 @@ export class App extends React.Component<IAppProps, IAppState> {
       title = repository.name
     } else if (this.state.repositories.length > 0) {
       icon = OcticonSymbol.repo
-      title = __DARWIN__ ? 'Select a Repository' : '選擇一個存儲庫'
+      title = __DARWIN__ ? 'Select a Repository' : '選擇存儲庫'
     } else {
       icon = OcticonSymbol.repo
       title = __DARWIN__ ? 'No Repositories' : '沒有存儲庫'

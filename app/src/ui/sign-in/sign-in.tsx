@@ -123,24 +123,24 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
     switch (state.kind) {
       case SignInStep.EndpointEntry:
         disableSubmit = this.state.endpoint.length === 0
-        primaryButtonText = 'Continue'
+        primaryButtonText = '繼續'
         break
       case SignInStep.TwoFactorAuthentication:
         // ensure user has entered non-whitespace characters
         const codeProvided = /\S+/.test(this.state.otpToken)
         disableSubmit = !codeProvided
-        primaryButtonText = 'Sign in'
+        primaryButtonText = '登入'
         break
       case SignInStep.Authentication:
         if (!state.supportsBasicAuth) {
           primaryButtonText = __DARWIN__
             ? 'Continue With Browser'
-            : 'Continue with browser'
+            : '用瀏覽器繼續'
         } else {
           const validUserName = this.state.username.length > 0
           const validPassword = this.state.password.length > 0
           disableSubmit = !validUserName || !validPassword
-          primaryButtonText = 'Sign in'
+          primaryButtonText = '登入'
         }
         break
       default:
@@ -153,7 +153,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
           <Button disabled={disableSubmit} type="submit">
             {primaryButtonText}
           </Button>
-          <Button onClick={this.props.onDismissed}>Cancel</Button>
+          <Button onClick={this.props.onDismissed}>取消</Button>
         </ButtonGroup>
       </DialogFooter>
     )
@@ -164,7 +164,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       <DialogContent>
         <Row>
           <TextBox
-            label="Enterprise server address"
+            label="Enterprise 服務器地址"
             value={this.state.endpoint}
             onValueChanged={this.onEndpointChanged}
             placeholder="https://github.example.com"
@@ -179,8 +179,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       return (
         <DialogContent>
           <p>
-            Your GitHub Enterprise instance requires you to sign in with your
-            browser.
+            您的 GitHub Enterprise 狀況需要使用瀏覽器登入。
           </p>
         </DialogContent>
       )
@@ -192,14 +191,14 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       <DialogContent>
         <Row>
           <TextBox
-            label="Username or email address"
+            label="用戶名或電子郵件地址"
             value={this.state.username}
             onValueChanged={this.onUsernameChanged}
           />
         </Row>
         <Row>
           <TextBox
-            label="Password"
+            label="密碼"
             value={this.state.password}
             type="password"
             onValueChanged={this.onPasswordChanged}
@@ -210,12 +209,12 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
             className="forgot-password-link-sign-in"
             uri={state.forgotPasswordUrl}
           >
-            Forgot password?
+            忘記密碼?
           </LinkButton>
         </Row>
 
         <div className="horizontal-rule">
-          <span className="horizontal-rule-content">or</span>
+          <span className="horizontal-rule-content">或</span>
         </div>
 
         <Row className="sign-in-with-browser">
@@ -224,7 +223,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
             onClick={this.onSignInWithBrowser}
             disabled={disableSubmit}
           >
-            Sign in using your browser
+            使用您的瀏覽器登入
             <Octicon symbol={OcticonSymbol.linkExternal} />
           </LinkButton>
         </Row>
@@ -240,10 +239,10 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
         <p>{getWelcomeMessage(state.type)}</p>
         <Row>
           <TextBox
-            label="Authentication code"
+            label="驗證碼"
             value={this.state.otpToken}
             onValueChanged={this.onOTPTokenChanged}
-            labelLinkText={`What's this?`}
+            labelLinkText={`這是什麼?`}
             labelLinkUri="https://help.github.com/articles/providing-your-2fa-authentication-code/"
             autoFocus={true}
           />
@@ -291,7 +290,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
     return (
       <Dialog
         id="sign-in"
-        title="Sign in"
+        title="登入"
         disabled={disabled}
         onDismissed={this.props.onDismissed}
         onSubmit={this.onSubmit}

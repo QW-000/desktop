@@ -152,11 +152,11 @@ export class CloneGithubRepository extends React.PureComponent<
         <Row className="local-path-field">
           <TextBox
             value={this.props.path}
-            label={__DARWIN__ ? 'Local Path' : 'Local path'}
-            placeholder="repository path"
+            label={__DARWIN__ ? 'Local Path' : '本機路徑'}
+            placeholder="存儲庫路徑"
             onValueChanged={this.onPathChanged}
           />
-          <Button onClick={this.props.onChooseDirectory}>Choose…</Button>
+          <Button onClick={this.props.onChooseDirectory}>選擇…</Button>
         </Row>
       </DialogContent>
     )
@@ -169,7 +169,7 @@ export class CloneGithubRepository extends React.PureComponent<
     ) {
       return (
         <div className="clone-github-repo clone-loading">
-          <Loading /> Loading repositories…
+          <Loading /> 載入存儲庫…
         </div>
       )
     }
@@ -203,7 +203,7 @@ export class CloneGithubRepository extends React.PureComponent<
       <Button
         disabled={this.props.loading}
         onClick={this.refreshRepositories}
-        tooltip="Refresh the list of repositories"
+        tooltip="更新存儲庫清單"
       >
         <Octicon
           symbol={OcticonSymbol.sync}
@@ -216,7 +216,7 @@ export class CloneGithubRepository extends React.PureComponent<
   private noMatchingRepositories = function() {
     return (
       <div className="no-results-found">
-        Sorry, I can't find that repository.
+        抱歉，找不到此存儲庫。
       </div>
     )
   }
@@ -238,7 +238,7 @@ export class CloneGithubRepository extends React.PureComponent<
   private renderGroupHeader = (identifier: string) => {
     let header = identifier
     if (identifier === YourRepositoriesIdentifier) {
-      header = __DARWIN__ ? 'Your Repositories' : 'Your repositories'
+      header = __DARWIN__ ? 'Your Repositories' : '你的存儲庫'
     }
     return (
       <div className="clone-repository-list-content clone-repository-list-group-header">

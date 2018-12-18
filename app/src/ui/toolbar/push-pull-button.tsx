@@ -125,10 +125,10 @@ export class PushPullButton extends React.Component<IPushPullButtonProps, {}> {
 
   private getTitle(): string {
     if (!this.props.remoteName) {
-      return '發布存儲庫'
+      return '發佈存儲庫'
     }
     if (!this.props.aheadBehind) {
-      return '發布分支'
+      return '發佈分支'
     }
 
     const { ahead, behind } = this.props.aheadBehind
@@ -176,11 +176,11 @@ export class PushPullButton extends React.Component<IPushPullButtonProps, {}> {
     }
 
     if (tipState === TipState.Detached) {
-      return '無法發布 detached HEAD'
+      return '無法發佈分離的 HEAD'
     }
 
     if (tipState === TipState.Unborn) {
-      return '無法發布 unborn HEAD'
+      return '無法發佈原生的 HEAD'
     }
 
     if (!this.props.aheadBehind) {

@@ -31,11 +31,11 @@ export class UpstreamAlreadyExists extends React.Component<
   public render() {
     const name = this.props.repository.name
     const gitHubRepository = forceUnwrap(
-      'A repository must have a GitHub repository to add an upstream remote',
+      '存儲庫必須具有 GitHub 存儲庫才能增加上游遠端資料庫',
       this.props.repository.gitHubRepository
     )
     const parent = forceUnwrap(
-      'A repository must have a parent repository to add an upstream remote',
+      '存儲庫必須具有父代存儲庫才能增加上游遠端資料庫',
       gitHubRepository.parent
     )
     const parentName = parent.fullName
@@ -44,7 +44,7 @@ export class UpstreamAlreadyExists extends React.Component<
     return (
       <Dialog
         title={
-          __DARWIN__ ? 'Upstream Already Exists' : 'Upstream already exists'
+          __DARWIN__ ? 'Upstream Already Exists' : '上游已經存在'
         }
         onDismissed={this.props.onDismissed}
         onSubmit={this.onIgnore}
@@ -52,24 +52,24 @@ export class UpstreamAlreadyExists extends React.Component<
       >
         <DialogContent>
           <p>
-            The repository <Ref>{name}</Ref> is a fork of{' '}
-            <Ref>{parentName}</Ref>, but its <Ref>{UpstreamRemoteName}</Ref>{' '}
-            remote points elsewhere.
+            存儲庫 <Ref>{name}</Ref> 是 {' '}
+            <Ref>{parentName}</Ref> 的分支，但其 <Ref>{UpstreamRemoteName}</Ref>{' '}
+            遠端指向其它位置。
           </p>
           <ul>
             <li>
-              Current: <Ref>{existingURL}</Ref>
+              當前: <Ref>{existingURL}</Ref>
             </li>
             <li>
-              Expected: <Ref>{replacementURL}</Ref>
+              預定: <Ref>{replacementURL}</Ref>
             </li>
           </ul>
-          <p>Would you like to update the remote to use the expected URL?</p>
+          <p>是否使用預定的遠端網址更新?</p>
         </DialogContent>
         <DialogFooter>
           <ButtonGroup destructive={true}>
-            <Button type="submit">Ignore</Button>
-            <Button onClick={this.onUpdate}>Update</Button>
+            <Button type="submit">忽略</Button>
+            <Button onClick={this.onUpdate}>更新</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>

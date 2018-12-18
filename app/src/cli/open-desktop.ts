@@ -14,7 +14,7 @@ export function openDesktop(url: string = '') {
     return ChildProcess.spawn('cmd', ['/c', 'start', url], { env })
   } else {
     throw new Error(
-      `®à­±©R¥O¦æ¤¶­±¥Ø«e¤£¤ä«ùªº¥­¥x ${
+      `æ¡Œé¢å‘½ä»¤è¡Œä»‹é¢ç›®å‰ä¸æ”¯æŒçš„å¹³å° ${
         process.platform
       }`
     )

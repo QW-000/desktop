@@ -82,7 +82,7 @@ export class RepositorySettings extends React.Component<
     return (
       <Dialog
         id="repository-settings"
-        title={__DARWIN__ ? 'Repository Settings' : 'Repository settings'}
+        title={__DARWIN__ ? 'Repository Settings' : '存儲庫設定'}
         onDismissed={this.props.onDismissed}
         onSubmit={this.onSubmit}
         disabled={this.state.disabled}
@@ -94,7 +94,7 @@ export class RepositorySettings extends React.Component<
           selectedIndex={this.state.selectedTab}
         >
           <span>Remote</span>
-          <span>{__DARWIN__ ? 'Ignored Files' : 'Ignored files'}</span>
+          <span>{__DARWIN__ ? 'Ignored Files' : '忽略的檔案'}</span>
         </TabBar>
 
         {this.renderActiveTab()}
@@ -113,8 +113,8 @@ export class RepositorySettings extends React.Component<
     return (
       <DialogFooter>
         <ButtonGroup>
-          <Button type="submit">Save</Button>
-          <Button onClick={this.props.onDismissed}>Cancel</Button>
+          <Button type="submit">儲存</Button>
+          <Button onClick={this.props.onDismissed}>取消</Button>
         </ButtonGroup>
       </DialogFooter>
     )
@@ -147,7 +147,7 @@ export class RepositorySettings extends React.Component<
       }
     }
 
-    return assertNever(tab, `Unknown tab type: ${tab}`)
+    return assertNever(tab, `未知的標籤類型: ${tab}`)
   }
 
   private onPublish = () => {
@@ -180,7 +180,7 @@ export class RepositorySettings extends React.Component<
             }`,
             e
           )
-          errors.push(`Failed setting the remote URL: ${e}`)
+          errors.push(`設定遠端網址失敗: ${e}`)
         }
       }
     }
@@ -198,7 +198,7 @@ export class RepositorySettings extends React.Component<
           }`,
           e
         )
-        errors.push(`Failed saving the .gitignore file: ${e}`)
+        errors.push(`無法儲存 .gitignore 檔案: ${e}`)
       }
     }
 

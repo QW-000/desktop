@@ -6,7 +6,7 @@ import { dasherizeOption, printTable } from '../util'
 
 const command: ICommandModule = {
   command: 'help [command]',
-  description: 'Åã¥Ü©R¥Oªº»¡©ú­¶­±',
+  description: 'é¡¯ç¤ºå‘½ä»¤çš„èªªæ˜Žé é¢',
   handler({ _: [command] }) {
     if (command) {
       printCommandHelp(command, commands[command])
@@ -52,7 +52,7 @@ function printCommandHelp(name: string, command: ICommandModule) {
   }
   const { options, args } = command
   if (options) {
-    console.log(chalk.underline('\n¿ï¶µ:'))
+    console.log(chalk.underline('\né¸é …:'))
     printTable(
       Object.keys(options)
         .map(k => [k, options[k]] as [string, IOption])
@@ -67,7 +67,7 @@ function printCommandHelp(name: string, command: ICommandModule) {
     )
   }
   if (args && args.length) {
-    console.log(chalk.underline('\n¤Þ¼Æ:'))
+    console.log(chalk.underline('\nå¼•æ•¸:'))
     printTable(
       args.map(arg => [
         (arg.required ? chalk.bold : chalk).blue(arg.name),

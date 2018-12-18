@@ -70,7 +70,7 @@ function getConflictedFiles(status: WorkingDirectoryStatus) {
 
 function editorButtonString(editorName: string | null): string {
   const defaultEditorString = 'editor'
-  return `Open in ${editorName || defaultEditorString}`
+  return `開啟 ${editorName || defaultEditorString}`
 }
 
 function editorButtonTooltip(editorName: string | null): string | undefined {
@@ -80,14 +80,14 @@ function editorButtonTooltip(editorName: string | null): string | undefined {
   }
 
   if (__DARWIN__) {
-    return `No editor configured in Preferences > Advanced`
+    return `在首選項 > 進階中未設置編輯器`
   } else {
-    return `No editor configured in Options > Advanced`
+    return `沒有在選項 > 進階中未設置編輯器`
   }
 }
 
-const submitButtonString = 'Commit merge'
-const cancelButtonString = 'Abort merge'
+const submitButtonString = '提交合併'
+const cancelButtonString = '中止合併'
 
 /**
  * Modal to tell the user their merge encountered conflicts
@@ -144,16 +144,16 @@ export class MergeConflictsDialog extends React.Component<
     if (theirBranch !== undefined) {
       return (
         <span>
-          {`Resolve conflicts before merging `}
+          {`在合併之前解決衝突 `}
           <strong>{theirBranch}</strong>
-          {` into `}
+          {` 到 `}
           <strong>{ourBranch}</strong>
         </span>
       )
     }
     return (
       <span>
-        {`Resolve conflicts before merging into `}
+        {`在合併之前解決衝突 `}
         <strong>{ourBranch}</strong>
       </span>
     )
@@ -165,11 +165,11 @@ export class MergeConflictsDialog extends React.Component<
   private renderShellLink(openThisRepositoryInShell: () => void): JSX.Element {
     return (
       <div className="cli-link">
-        You can also{' '}
+         也可以{' '}
         <LinkButton onClick={openThisRepositoryInShell}>
-          open the command line
+          開啟命令行
         </LinkButton>{' '}
-        to resolve
+        來解決
       </div>
     )
   }
@@ -180,7 +180,7 @@ export class MergeConflictsDialog extends React.Component<
         <Octicon symbol={OcticonSymbol.fileCode} className="file-octicon" />
         <div className="column-left">
           <PathText path={path} availableWidth={200} />
-          <div className="file-conflicts-status">No conflicts remaining</div>
+          <div className="file-conflicts-status">沒有衝突</div>
         </div>
         <div className="green-circle">
           <Octicon symbol={OcticonSymbol.check} />
@@ -201,8 +201,8 @@ export class MergeConflictsDialog extends React.Component<
       )
       const message =
         humanReadableConflicts === 1
-          ? `1 conflict`
-          : `${humanReadableConflicts} conflicts`
+          ? `1 衝突`
+          : `${humanReadableConflicts} 衝突`
 
       const disabled = this.props.resolvedExternalEditor === null
 
@@ -228,7 +228,7 @@ export class MergeConflictsDialog extends React.Component<
         <div>
           <PathText path={path} availableWidth={400} />
           <div className="command-line-hint">
-            Use command line to resolve this file
+            使用命令行來解決這個檔案
           </div>
         </div>
       )
@@ -280,8 +280,8 @@ export class MergeConflictsDialog extends React.Component<
     // localization, it burns :vampire:
     const message =
       conflictedFilesCount === 1
-        ? `1 conflicted file`
-        : `${conflictedFilesCount} conflicted files`
+        ? `1 衝突的檔案`
+        : `${conflictedFilesCount} 衝突的檔案`
     return <h3 className="summary">{message}</h3>
   }
 
@@ -291,7 +291,7 @@ export class MergeConflictsDialog extends React.Component<
         <div className="green-circle">
           <Octicon symbol={OcticonSymbol.check} />
         </div>
-        <div className="message">All conflicts resolved</div>
+        <div className="message">解決全部衝突</div>
       </div>
     )
   }
@@ -324,7 +324,7 @@ export class MergeConflictsDialog extends React.Component<
     )
     const tooltipString =
       conflictedFilesCount > 0
-        ? 'Resolve all changes before merging'
+        ? '在合併之前解決全部變更'
         : undefined
 
     return (

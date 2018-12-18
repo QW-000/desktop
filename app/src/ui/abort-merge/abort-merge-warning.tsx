@@ -15,9 +15,9 @@ interface IAbortMergeWarningProps {
   readonly theirBranch?: string
 }
 
-const titleString = 'Confirm abort merge'
-const cancelButtonString = 'Cancel'
-const abortButtonString = 'Abort merge'
+const titleString = '確認中止合併'
+const cancelButtonString = '取消'
+const abortButtonString = '中止合併'
 
 /**
  * Modal to tell the user their merge encountered conflicts
@@ -53,16 +53,16 @@ export class AbortMergeWarning extends React.Component<
     if (theirBranch !== undefined) {
       firstParagraph = (
         <p>
-          {'Are you sure you want to abort merging '}
+          {'你確定要中止合併 '}
           <strong>{theirBranch}</strong>
-          {' into '}
+          {' 為 '}
           <strong>{ourBranch}</strong>?
         </p>
       )
     } else {
       firstParagraph = (
         <p>
-          {'Are you sure you want to abort merging into '}
+          {'你確定要中止合併為 '}
           <strong>{ourBranch}</strong>?
         </p>
       )
@@ -72,8 +72,7 @@ export class AbortMergeWarning extends React.Component<
       <div className="column-left">
         {firstParagraph}
         <p>
-          Aborting this merge will take you back to the pre-merge state and the
-          conflicts you've already resolved will still be present.
+          中止此合併將回到合併前狀態，並且您已解決的衝突仍將存在。
         </p>
       </div>
     )

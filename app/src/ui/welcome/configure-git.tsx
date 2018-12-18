@@ -17,7 +17,7 @@ export class ConfigureGit extends React.Component<IConfigureGitProps, {}> {
         <h1 className="welcome-title">設定 Git</h1>
         <p className="welcome-text">
           這用於識別您建立的提交(包含任何人)。
-          如果您發布提交可以觀看此訊息。
+          如果您發佈提交可以觀看此訊息。
         </p>
 
         <ConfigureGitUser
