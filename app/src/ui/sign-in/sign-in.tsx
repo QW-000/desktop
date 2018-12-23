@@ -179,7 +179,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       return (
         <DialogContent>
           <p>
-            您的 GitHub Enterprise 狀況需要使用瀏覽器登入。
+            您的 GitHub Enterprise 需要使用瀏覽器登入。
           </p>
         </DialogContent>
       )
@@ -191,7 +191,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       <DialogContent>
         <Row>
           <TextBox
-            label="用戶名或電子郵件地址"
+            label="用戶名稱或電子郵件地址"
             value={this.state.username}
             onValueChanged={this.onUsernameChanged}
           />

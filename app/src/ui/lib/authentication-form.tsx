@@ -80,14 +80,14 @@ export class AuthenticationForm extends React.Component<
     return (
       <div>
         <TextBox
-          label="Username or email address"
+          label="使用者名稱或電子郵件地址"
           disabled={disabled}
           autoFocus={true}
           onValueChanged={this.onUsernameChange}
         />
 
         <TextBox
-          label="Password"
+          label="密碼"
           type="password"
           disabled={disabled}
           onValueChanged={this.onPasswordChange}
@@ -110,7 +110,7 @@ export class AuthenticationForm extends React.Component<
       <div className="actions">
         {this.props.supportsBasicAuth ? (
           <Button type="submit" disabled={signInDisabled}>
-            {this.props.loading ? <Loading /> : null} Sign in
+            {this.props.loading ? <Loading /> : null} 登入
           </Button>
         ) : null}
 
@@ -121,7 +121,7 @@ export class AuthenticationForm extends React.Component<
             className="forgot-password-link"
             uri={this.props.forgotPasswordUrl}
           >
-            Forgot password?
+            忘記密碼?
           </LinkButton>
         ) : null}
       </div>
@@ -135,14 +135,14 @@ export class AuthenticationForm extends React.Component<
         className="welcome-link-button link-with-icon"
         onClick={this.signInWithBrowser}
       >
-        Sign in using your browser
+        使用您的瀏覽器登入
         <Octicon symbol={OcticonSymbol.linkExternal} />
       </LinkButton>
     )
 
     const browserSignInButton = (
       <Button type="submit" onClick={this.signInWithBrowser}>
-        Sign in using your browser
+        使用您的瀏覽器登入
       </Button>
     )
 
@@ -151,8 +151,7 @@ export class AuthenticationForm extends React.Component<
         {basicAuth ? <hr className="short-rule" /> : null}
         {basicAuth ? null : (
           <p>
-            Your GitHub Enterprise instance requires you to sign in with your
-            browser.
+            您的 GitHub Enterprise 需要使用瀏覽器登入。
           </p>
         )}
 

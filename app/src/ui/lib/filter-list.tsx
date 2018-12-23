@@ -227,7 +227,7 @@ export class FilterList<T extends IFilterListItem> extends React.Component<
         ref={this.onTextBoxRef}
         type="search"
         autoFocus={true}
-        placeholder="Filter"
+        placeholder="篩選"
         className="filter-list-filter-field"
         onValueChanged={this.onFilterValueChanged}
         onKeyDown={this.onKeyDown}
