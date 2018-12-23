@@ -265,7 +265,7 @@ export class ChangesList extends React.Component<
     const extension = Path.extname(path)
     const isSafeExtension = isSafeFileExtension(extension)
     const openInExternalEditor = this.props.externalEditorLabel
-      ? `Open in ${this.props.externalEditorLabel}`
+      ? `開啟 ${this.props.externalEditorLabel}`
       : DefaultEditorLabel
 
     const wd = this.props.workingDirectory

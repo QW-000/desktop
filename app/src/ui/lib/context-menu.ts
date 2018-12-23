@@ -1,10 +1,10 @@
 const RestrictedFileExtensions = ['.cmd', '.exe', '.bat', '.sh']
 export const CopyFilePathLabel = __DARWIN__
-  ? 'Copy File Path'
+  ? '複製檔案路徑'
   : '複製檔案路徑'
 
 export const DefaultEditorLabel = __DARWIN__
-  ? 'Open in External Editor'
+  ? '在外部編輯器中開啟'
   : '在外部編輯器中開啟'
 
 export const RevealInFileManagerLabel = __DARWIN__
@@ -16,8 +16,8 @@ export const RevealInFileManagerLabel = __DARWIN__
 export const TrashNameLabel = __DARWIN__ ? 'Trash' : 'Recycle Bin'
 
 export const OpenWithDefaultProgramLabel = __DARWIN__
-  ? 'Open with Default Program'
-  : '使用預設方案開啟'
+  ? '使用預設程式開啟'
+  : '使用預設程式開啟'
 
 export function isSafeFileExtension(extension: string): boolean {
   if (__WIN32__) {

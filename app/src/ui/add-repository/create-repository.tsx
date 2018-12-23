@@ -478,8 +478,7 @@ export class CreateRepository extends React.Component<
       <Row className="warning-helper-text">
         <Octicon symbol={OcticonSymbol.alert} />
         <p>
-          This directory contains a <Ref>README.md</Ref> file already. Checking
-          this box will result in the existing file being overwritten.
+          目錄已包含 <Ref>README.md</Ref> 檔案。 選中此框將導致覆蓋現有檔案。
         </p>
       </Row>
     )
