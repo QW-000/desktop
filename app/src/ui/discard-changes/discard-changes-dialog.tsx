@@ -66,8 +66,8 @@ export class DiscardChanges extends React.Component<
         id="discard-changes"
         title={
           discardingAllChanges
-            ? toPlatformCase('Confirm Discard All Changes')
-            : toPlatformCase('Confirm Discard Changes')
+            ? toPlatformCase('確認放棄全部變更')
+            : toPlatformCase('確認放棄變更')
         }
         onDismissed={this.props.onDismissed}
         type="warning"
@@ -75,19 +75,18 @@ export class DiscardChanges extends React.Component<
         <DialogContent>
           {this.renderFileList()}
           <p>
-            Changes can be restored by retrieving them from the {TrashNameLabel}
-            .
+            可以從 {TrashNameLabel} 檢索變更其恢復
           </p>
           {this.renderConfirmDiscardChanges()}
         </DialogContent>
 
         <DialogFooter>
           <ButtonGroup destructive={true}>
-            <Button type="submit">Cancel</Button>
+            <Button type="submit">取消</Button>
             <Button onClick={this.discard}>
               {discardingAllChanges
-                ? toPlatformCase('Discard All Changes')
-                : toPlatformCase('Discard Changes')}
+                ? toPlatformCase('放棄全部變更')
+                : toPlatformCase('放棄變更')}
             </Button>
           </ButtonGroup>
         </DialogFooter>
@@ -99,7 +98,7 @@ export class DiscardChanges extends React.Component<
     if (this.props.showDiscardChangesSetting) {
       return (
         <Checkbox
-          label="Do not show this message again"
+          label="不要再顯示此訊息"
           value={
             this.state.confirmDiscardChanges
               ? CheckboxValue.Off
@@ -120,14 +119,13 @@ export class DiscardChanges extends React.Component<
     if (this.props.files.length > MaxFilesToList) {
       return (
         <p>
-          Are you sure you want to discard all {this.props.files.length} changed
-          files?
+          您確定要丟棄全部 {this.props.files.length} 已變更的檔案嗎?
         </p>
       )
     } else {
       return (
         <div>
-          <p>Are you sure you want to discard all changes to:</p>
+          <p>您確定要放棄全部變更:</p>
           <ul>
             {this.props.files.map(p => (
               <li key={p.id}>

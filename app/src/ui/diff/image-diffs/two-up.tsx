@@ -48,7 +48,7 @@ export class TwoUp extends React.Component<ITwoUpProps, {}> {
       <div className="image-diff-container" ref={this.props.onContainerRef}>
         <div className="image-diff-two-up">
           <div className="image-diff-previous">
-            <div className="image-diff-header">Deleted</div>
+            <div className="image-diff-header">刪除</div>
             <ImageContainer
               image={this.props.previous}
               onElementLoad={this.props.onPreviousImageLoad}
@@ -64,7 +64,7 @@ export class TwoUp extends React.Component<ITwoUpProps, {}> {
           </div>
 
           <div className="image-diff-current">
-            <div className="image-diff-header">Added</div>
+            <div className="image-diff-header">增加</div>
             <ImageContainer
               image={this.props.current}
               onElementLoad={this.props.onCurrentImageLoad}

@@ -6,7 +6,7 @@ import { dasherizeOption, printTable } from '../util'
 
 const command: ICommandModule = {
   command: 'help [command]',
-  description: 'Show the help page for a command',
+  description: '顯示命令的說明頁面',
   handler({ _: [command] }) {
     if (command) {
       printCommandHelp(command, commands[command])
@@ -52,7 +52,7 @@ function printCommandHelp(name: string, command: ICommandModule) {
   }
   const { options, args } = command
   if (options) {
-    console.log(chalk.underline('\nOptions:'))
+    console.log(chalk.underline('\n選項:'))
     printTable(
       Object.keys(options)
         .map(k => [k, options[k]] as [string, IOption])
@@ -67,7 +67,7 @@ function printCommandHelp(name: string, command: ICommandModule) {
     )
   }
   if (args && args.length) {
-    console.log(chalk.underline('\nArguments:'))
+    console.log(chalk.underline('\n引數:'))
     printTable(
       args.map(arg => [
         (arg.required ? chalk.bold : chalk).blue(arg.name),

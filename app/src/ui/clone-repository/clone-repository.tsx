@@ -207,7 +207,7 @@ export class CloneRepository extends React.Component<
     return (
       <Dialog
         className="clone-repository"
-        title={__DARWIN__ ? 'Clone a Repository' : 'Clone a repository'}
+        title={__DARWIN__ ? 'Clone a Repository' : '克隆存儲庫'}
         onSubmit={this.clone}
         onDismissed={this.props.onDismissed}
         loading={this.state.loading}
@@ -218,7 +218,7 @@ export class CloneRepository extends React.Component<
         >
           <span>GitHub.com</span>
           <span>Enterprise</span>
-          <span>URL</span>
+          <span>網址</span>
         </TabBar>
 
         {error ? <DialogError>{error.message}</DialogError> : null}
@@ -251,9 +251,9 @@ export class CloneRepository extends React.Component<
       <DialogFooter>
         <ButtonGroup>
           <Button disabled={disabled} type="submit">
-            Clone
+            克隆
           </Button>
-          <Button onClick={this.props.onDismissed}>Cancel</Button>
+          <Button onClick={this.props.onDismissed}>取消</Button>
         </ButtonGroup>
       </DialogFooter>
     )
@@ -432,13 +432,13 @@ export class CloneRepository extends React.Component<
   }
 
   private renderSignIn(tab: CloneRepositoryTab) {
-    const signInTitle = __DARWIN__ ? 'Sign In' : 'Sign in'
+    const signInTitle = __DARWIN__ ? 'Sign In' : '登入'
     switch (tab) {
       case CloneRepositoryTab.DotCom:
         return (
           <CallToAction actionTitle={signInTitle} onAction={this.signInDotCom}>
             <div>
-              Sign in to your GitHub.com account to access your repositories.
+              登入到 GitHub.com 帳戶存取您的存儲庫。
             </div>
           </CallToAction>
         )
@@ -449,8 +449,7 @@ export class CloneRepository extends React.Component<
             onAction={this.signInEnterprise}
           >
             <div>
-              If you have a GitHub Enterprise account at work, sign in to it to
-              get access to your repositories.
+              如果您有 GitHub Enterprise 帳戶，請登入帳戶以存取您的存儲庫。
             </div>
           </CallToAction>
         )
@@ -565,7 +564,7 @@ export class CloneRepository extends React.Component<
         return null
       } else {
         return new Error(
-          'This folder contains files. Git can only clone to empty folders.'
+          '此資料夾包含檔案。 Git 只能克隆到空的資料夾。'
         )
       }
     } catch (error) {
@@ -578,7 +577,7 @@ export class CloneRepository extends React.Component<
         'CloneRepository: Path validation failed. Error: ' + error.message
       )
       return new Error(
-        'Unable to read path on disk. Please check the path and try again.'
+        '無法讀取磁碟上的路徑。 請檢查路徑，然後重試。'
       )
     }
   }
@@ -627,7 +626,7 @@ export class CloneRepository extends React.Component<
 
     if (!url) {
       const error = new Error(
-        `We couldn't find that repository. Check that you are logged in, the network is accessible, and the URL or repository alias are spelled correctly.`
+        `找不到此存儲庫。 檢查您是否已登入、網路是否可存取，以及網址與存儲庫別名是否拼寫正確。`
       )
       this.setState({ loading: false })
       this.setSelectedTabState({ error })

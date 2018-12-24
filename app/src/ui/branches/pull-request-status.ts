@@ -5,10 +5,10 @@ import { assertNever } from '../../lib/fatal-error'
 function formatState(state: APIRefState): string {
   switch (state) {
     case 'failure':
-      return 'Commit status: failed'
+      return '提交狀態: 失敗'
     case 'pending':
     case 'success':
-      return `Commit status: ${state}`
+      return `提交狀態: ${state}`
 
     default:
       return assertNever(state, `Unknown APIRefState value: ${state}`)

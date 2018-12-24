@@ -6,11 +6,11 @@ import { openDesktop } from '../open-desktop'
 const command: ICommandModule = {
   command: 'open <path>',
   aliases: ['<path>'],
-  description: 'Open a git repository in GitHub Desktop',
+  description: '在 GitHub Desktop 中開啟一個 git 存儲庫',
   args: [
     {
       name: 'path',
-      description: 'The path to the repository to open',
+      description: '要開啟的存儲庫路徑',
       type: 'string',
       required: false,
     },

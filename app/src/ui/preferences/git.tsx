@@ -17,7 +17,7 @@ export class Git extends React.Component<IGitProps, {}> {
       <DialogContent>
         <Row>
           <TextBox
-            label="Name"
+            label="名稱"
             value={this.props.name}
             onValueChanged={this.props.onNameChanged}
             autoFocus={true}
@@ -25,7 +25,7 @@ export class Git extends React.Component<IGitProps, {}> {
         </Row>
         <Row>
           <TextBox
-            label="Email"
+            label="電子郵件"
             value={this.props.email}
             onValueChanged={this.props.onEmailChanged}
           />

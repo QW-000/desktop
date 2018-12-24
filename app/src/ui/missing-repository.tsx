@@ -21,31 +21,31 @@ export class MissingRepository extends React.Component<
     const buttons = new Array<JSX.Element>()
     buttons.push(
       <Button key="locate" onClick={this.locate} type="submit">
-        Locate…
+        定位…
       </Button>
     )
 
     if (this.canCloneAgain()) {
       buttons.push(
         <Button key="clone-again" onClick={this.cloneAgain}>
-          Clone Again
+          再次克隆
         </Button>
       )
     }
 
     buttons.push(
       <Button key="remove" onClick={this.remove}>
-        Remove
+        清除
       </Button>
     )
 
     return (
       <UiView id="missing-repository-view">
         <div className="title-container">
-          <div className="title">Can't find "{this.props.repository.name}"</div>
+          <div className="title">找不到 "{this.props.repository.name}"</div>
           <div className="details">
-            It was last seen at{' '}
-            <span className="path">{this.props.repository.path}</span>
+            最後一次出現{' '}
+            <span className="路徑">{this.props.repository.path}</span>
           </div>
         </div>
 

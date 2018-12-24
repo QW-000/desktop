@@ -39,13 +39,13 @@ export class NoPullRequests extends React.Component<INoPullRequestsProps, {}> {
 
   private renderTitle() {
     if (this.props.isSearch) {
-      return <div className="title">Sorry, I can't find that pull request!</div>
+      return <div className="title">抱歉，無法找到拉取請求!</div>
     } else {
       return (
         <div>
-          <div className="title">You're all set!</div>
+          <div className="title">你已經準備好了!</div>
           <div className="no-prs">
-            No open pull requests in <Ref>{this.props.repositoryName}</Ref>
+            沒有開啟拉取請求 <Ref>{this.props.repositoryName}</Ref>
           </div>
         </div>
       )
@@ -56,21 +56,21 @@ export class NoPullRequests extends React.Component<INoPullRequestsProps, {}> {
     if (this.props.isOnDefaultBranch) {
       return (
         <div className="call-to-action">
-          Would you like to{' '}
+          你是否想要 {' '}
           <LinkButton onClick={this.props.onCreateBranch}>
-            create a new branch
+            建立新的分支
           </LinkButton>{' '}
-          and get going on your next project?
+          並開始你的下一個項目嗎?
         </div>
       )
     } else {
       return (
         <div className="call-to-action">
-          Would you like to{' '}
+          你是否想要 {' '}
           <LinkButton onClick={this.props.onCreatePullRequest}>
-            create a pull request
+            建立拉取請求
           </LinkButton>{' '}
-          from the current branch?
+          從當前分支?
         </div>
       )
     }

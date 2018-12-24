@@ -40,7 +40,7 @@ export class MergeCallToActionWithConflicts extends React.Component<
     return (
       <div className="merge-cta">
         <Button type="submit" disabled={disabled} onClick={this.onMergeClicked}>
-          Merge into <strong>{this.props.currentBranch.name}</strong>
+          合併到 <strong>{this.props.currentBranch.name}</strong>
         </Button>
 
         {mergeDetails}
@@ -99,7 +99,7 @@ export class MergeCallToActionWithConflicts extends React.Component<
   private renderLoadingMergeMessage() {
     return (
       <div className="merge-message merge-message-loading">
-        Checking for ability to merge automatically...
+        檢查自動合併的能力...
       </div>
     )
   }
@@ -113,11 +113,11 @@ export class MergeCallToActionWithConflicts extends React.Component<
       const pluralized = count === 1 ? 'commit' : 'commits'
       return (
         <div className="merge-message">
-          This will merge
+          這將合併
           <strong>{` ${count} ${pluralized}`}</strong>
-          {` from `}
+          {` 從 `}
           <strong>{branch.name}</strong>
-          {` into `}
+          {` 到 `}
           <strong>{currentBranch.name}</strong>
         </div>
       )
@@ -129,7 +129,7 @@ export class MergeCallToActionWithConflicts extends React.Component<
   private renderInvalidMergeMessage() {
     return (
       <div className="merge-message">
-        Unable to merge unrelated histories in this repository
+        無法在此存儲庫中合併不相關的歷史記錄
       </div>
     )
   }
@@ -139,14 +139,14 @@ export class MergeCallToActionWithConflicts extends React.Component<
     branch: Branch,
     count: number
   ) {
-    const pluralized = count === 1 ? 'file' : 'files'
+    const pluralized = count === 1 ? 'file' : '檔案'
     return (
       <div className="merge-message">
-        There will be
+        將由
         <strong>{` ${count} conflicted ${pluralized}`}</strong>
-        {` when merging `}
+        {` 合併於 `}
         <strong>{branch.name}</strong>
-        {` into `}
+        {` 到 `}
         <strong>{currentBranch.name}</strong>
       </div>
     )
