@@ -80,7 +80,7 @@ export class AuthenticationForm extends React.Component<
     return (
       <div>
         <TextBox
-          label="使用者名稱或電子郵件地址"
+          label="用戶名或電子郵件地址"
           disabled={disabled}
           autoFocus={true}
           onValueChanged={this.onUsernameChange}

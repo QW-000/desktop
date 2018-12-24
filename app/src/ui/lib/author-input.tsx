@@ -230,13 +230,13 @@ function renderUnknownUserAutocompleteItem(
   user.classList.add('user', 'unknown')
 
   const username = document.createElement('span')
-  username.className = '使用者名稱'
+  username.className = '用戶名'
   username.innerText = text
   user.appendChild(username)
 
   const description = document.createElement('span')
   description.className = '描述'
-  description.innerText = `搜尋使用者`
+  description.innerText = `搜尋用戶名`
   user.appendChild(description)
 
   elem.appendChild(user)
@@ -307,7 +307,7 @@ function renderUnknownHandleMarkReplacementElement(
 
   elem.classList.add('handle', isError ? 'error' : 'progress')
   elem.title = isError
-    ? `無法找到名為 ${username} 的使用者`
+    ? `無法找到名為 ${username} 的用戶`
     : `正在搜尋 @${username}`
 
   const symbol = isError ? OcticonSymbol.stop : OcticonSymbol.sync
