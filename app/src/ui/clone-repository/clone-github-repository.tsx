@@ -5,19 +5,8 @@ import { DialogContent } from '../dialog'
 import { TextBox } from '../lib/text-box'
 import { Row } from '../lib/row'
 import { Button } from '../lib/button'
-import { Loading } from '../lib/loading'
-import { Octicon, OcticonSymbol } from '../octicons'
-import { FilterList } from '../lib/filter-list'
 import { IAPIRepository } from '../../lib/api'
-import { IFilterListGroup } from '../lib/filter-list'
-import { IMatches } from '../../lib/fuzzy-find'
-import {
-  IClonableRepositoryListItem,
-  groupRepositories,
-  YourRepositoriesIdentifier,
-} from './group-repositories'
-import { HighlightText } from '../lib/highlight-text'
-import memoizeOne from 'memoize-one'
+import { CloneableRepositoryFilterList } from './cloneable-repository-filter-list'
 
 interface ICloneGithubRepositoryProps {
   /** The account to clone from. */
@@ -75,86 +64,31 @@ interface ICloneGithubRepositoryProps {
   readonly onRefreshRepositories: (account: Account) => void
 }
 
-const RowHeight = 31
-
-/**
- * Iterate over all groups until a list item is found that matches
- * the clone url of the provided repository.
- */
-function findMatchingListItem(
-  groups: ReadonlyArray<IFilterListGroup<IClonableRepositoryListItem>>,
-  selectedRepository: IAPIRepository | null
-) {
-  if (selectedRepository !== null) {
-    for (const group of groups) {
-      for (const item of group.items) {
-        if (item.url === selectedRepository.clone_url) {
-          return item
-        }
-      }
-    }
-  }
-
-  return null
-}
-
 export class CloneGithubRepository extends React.PureComponent<
   ICloneGithubRepositoryProps
 > {
-  /**
-   * A memoized function for grouping repositories for display
-   * in the FilterList. The group will not be recomputed as long
-   * as the provided list of repositories is equal to the last
-   * time the method was called (reference equality).
-   */
-  private getRepositoryGroups = memoizeOne(
-    (repositories: ReadonlyArray<IAPIRepository> | null) =>
-      this.props.repositories === null
-        ? []
-        : groupRepositories(this.props.repositories, this.props.account.login)
-  )
-
-  /**
-   * A memoized function for finding the selected list item based
-   * on a IAPIRepository instance. The selected item will not be
-   * recomputed as long as the provided list of repositories and
-   * the selected data object is equal to the last time the method
-   * was called (reference equality).
-   *
-   * See findMatchingListItem for more details.
-   */
-  private getSelectedListItem = memoizeOne(findMatchingListItem)
-
-  public componentDidMount() {
-    if (this.props.repositories === null) {
-      this.refreshRepositories()
-    }
-  }
-
-  public componentDidUpdate(prevProps: ICloneGithubRepositoryProps) {
-    if (
-      prevProps.repositories !== this.props.repositories &&
-      this.props.repositories === null
-    ) {
-      this.refreshRepositories()
-    }
-  }
-
-  private refreshRepositories = () => {
-    this.props.onRefreshRepositories(this.props.account)
-  }
-
   public render() {
     return (
       <DialogContent className="clone-github-repository-content">
-        <Row>{this.renderRepositoryList()}</Row>
+        <Row>
+          <CloneableRepositoryFilterList
+            account={this.props.account}
+            selectedItem={this.props.selectedItem}
+            onSelectionChanged={this.props.onSelectionChanged}
+            loading={this.props.loading}
+            repositories={this.props.repositories}
+            filterText={this.props.filterText}
+            onFilterTextChanged={this.props.onFilterTextChanged}
+            onRefreshRepositories={this.props.onRefreshRepositories}
+          />
+        </Row>
 
         <Row className="local-path-field">
           <TextBox
             value={this.props.path}
             label={__DARWIN__ ? 'Local Path' : '本機路徑'}
             placeholder="存儲庫路徑"
-            onValueChanged={this.onPathChanged}
+            onValueChanged={this.props.onPathChanged}
           />
           <Button onClick={this.props.onChooseDirectory}>選擇…</Button>
         </Row>
