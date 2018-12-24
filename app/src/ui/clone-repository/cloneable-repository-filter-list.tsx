@@ -210,7 +210,7 @@ export class CloneableRepositoryFilterList extends React.PureComponent<
   private renderGroupHeader = (identifier: string) => {
     let header = identifier
     if (identifier === YourRepositoriesIdentifier) {
-      header = __DARWIN__ ? 'Your Repositories' : 'Your repositories'
+      header = __DARWIN__ ? 'Your Repositories' : '你的存儲庫'
     }
     return (
       <div className="clone-repository-list-content clone-repository-list-group-header">
@@ -238,7 +238,7 @@ export class CloneableRepositoryFilterList extends React.PureComponent<
       <Button
         disabled={this.props.loading}
         onClick={this.refreshRepositories}
-        tooltip="Refresh the list of repositories"
+        tooltip="更新存儲庫清單"
       >
         <Octicon
           symbol={OcticonSymbol.sync}
@@ -252,14 +252,14 @@ export class CloneableRepositoryFilterList extends React.PureComponent<
     const { loading, repositories } = this.props
 
     if (loading && (repositories === null || repositories.length === 0)) {
-      return <div className="no-items loading">Loading repositories…</div>
+      return <div className="no-items loading">載入存儲庫…</div>
     }
 
     if (this.props.filterText.length !== 0) {
       return (
         <div className="no-items no-results-found">
           <div>
-            Sorry, I can't find any repository matching{' '}
+            抱歉，找不到任何匹配的存儲庫{' '}
             <Ref>{this.props.filterText}</Ref>
           </div>
         </div>
@@ -274,12 +274,12 @@ export class CloneableRepositoryFilterList extends React.PureComponent<
     return (
       <div className="no-items empty-repository-list">
         <div>
-          Couldn't find any repositories for the account{' '}
-          <Ref>{this.props.account.login}</Ref> on {endpointName}.
+          找不到帳戶 {' '} 的任何存儲庫
+          <Ref>{this.props.account.login}</Ref> 上的 {endpointName}.
           <LinkButton onClick={this.refreshRepositories}>
-            Refresh the list
+            更新清單
           </LinkButton>
-          if you've created a repository recently.
+          要是你最近建立了一項存儲庫。
         </div>
       </div>
     )

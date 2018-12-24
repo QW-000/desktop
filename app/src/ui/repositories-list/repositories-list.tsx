@@ -227,7 +227,7 @@ export class RepositoriesList extends React.Component<
         action: this.onCloneRepository,
       },
       {
-        label: __DARWIN__ ? 'Create New Repository…' : 'Create new repository…',
+        label: __DARWIN__ ? 'Create New Repository…' : '建立新存儲庫…',
         action: this.onCreateNewRepository,
       },
       {
@@ -235,10 +235,6 @@ export class RepositoriesList extends React.Component<
           ? 'Add Existing Repository…'
           : '增加現有存儲庫…',
         action: this.onAddExistingRepository,
-      },
-      {
-        label: __DARWIN__ ? 'Create New Repository…' : '建立新存儲庫…',
-        action: this.onCreateNewRepository,
       },
     ]
 
