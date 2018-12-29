@@ -10,7 +10,7 @@ import { IAheadBehind } from '../../models/branch'
 
 const defaultEditorLabel = __DARWIN__
   ? 'Open in External Editor'
-  : 'Open in external editor'
+  : '在外部編輯器中開啟'
 
 interface IRepositoryListItemProps {
   readonly repository: Repositoryish

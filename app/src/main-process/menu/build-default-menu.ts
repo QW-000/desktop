@@ -113,7 +113,7 @@ export function buildDefaultMenu({
         click: emit('show-preferences'),
       },
       separator,
-      { role: 'quit' }
+      { role: 'quit', label: '離開(&E)'}
     )
   }
 
@@ -342,11 +342,11 @@ export function buildDefaultMenu({
 
   if (__DARWIN__) {
     template.push({
-      role: '視窗',
+      role: 'window',
       submenu: [
-        { role: '最小化' },
-        { role: '放大' },
-        { role: '關閉' },
+        { role: 'minimize' },
+        { role: 'zoom' },
+        { role: 'close' },
         separator,
         { role: 'front' },
       ],

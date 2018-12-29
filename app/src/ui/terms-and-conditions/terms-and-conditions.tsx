@@ -259,7 +259,7 @@ export class TermsAndConditions extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" onButtonRef={this.onCloseButtonRef}>
-              Close
+              關閉
             </Button>
           </ButtonGroup>
         </DialogFooter>
