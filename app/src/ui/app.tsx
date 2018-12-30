@@ -1017,7 +1017,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     this.props.dispatcher.closePopup()
     showCertificateTrustDialog(
       certificate,
-      'Could not securely connect to the server, because its certificate is not trusted. Attackers might be trying to steal your information.\n\nTo connect unsafely, which may put your data at risk, you can “Always trust” the certificate and try again.'
+      '無法安全地連結到服務器，因為其證書不受信任。 攻擊者可能嘗試竊取您的訊息。\n\n如果連結不安全，可能會使您的資料面臨風險，您可以“始終信任”證書並重試。'
     )
   }
 
@@ -1663,10 +1663,10 @@ export class App extends React.Component<IAppProps, IAppState> {
       title = repository.name
     } else if (this.state.repositories.length > 0) {
       icon = OcticonSymbol.repo
-      title = __DARWIN__ ? 'Select a Repository' : 'Select a repository'
+      title = __DARWIN__ ? 'Select a Repository' : '選擇存儲庫'
     } else {
       icon = OcticonSymbol.repo
-      title = __DARWIN__ ? 'No Repositories' : 'No repositories'
+      title = __DARWIN__ ? 'No Repositories' : '沒有存儲庫'
     }
 
     const isOpen =
@@ -1689,7 +1689,7 @@ export class App extends React.Component<IAppProps, IAppState> {
       <ToolbarDropdown
         icon={icon}
         title={title}
-        description={__DARWIN__ ? 'Current Repository' : 'Current repository'}
+        description={__DARWIN__ ? 'Current Repository' : '當前存儲庫'}
         tooltip={tooltip}
         foldoutStyle={foldoutStyle}
         onDropdownStateChanged={this.onRepositoryDropdownStateChanged}
@@ -1974,7 +1974,7 @@ export class App extends React.Component<IAppProps, IAppState> {
         />
       )
     } else {
-      return assertNever(selectedState, `Unknown state: ${selectedState}`)
+      return assertNever(selectedState, `未知狀態: ${selectedState}`)
     }
   }
 
@@ -2051,5 +2051,5 @@ export class App extends React.Component<IAppProps, IAppState> {
 }
 
 function NoRepositorySelected() {
-  return <div className="panel blankslate">No repository selected</div>
+  return <div className="panel blankslate">沒有選擇存儲庫</div>
 }

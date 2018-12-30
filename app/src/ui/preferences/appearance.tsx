@@ -13,11 +13,11 @@ interface IAppearanceProps {
 }
 
 const themes: ReadonlyArray<ISegmentedItem> = [
-  { title: 'Light', description: 'The default theme of GitHub Desktop' },
+  { title: '明亮', description: 'GitHub Desktop 的預設主題' },
   {
-    title: 'Dark (beta)',
+    title: '黑暗 (測試版)',
     description:
-      'A beta version of our dark theme. Still under development. Please report any issues you may find to our issue tracker.',
+      '黑暗主題測試版仍在開發中，將可能遇到的任何問題報告給我們追蹤。',
   },
 ]
 
@@ -28,7 +28,7 @@ export class Appearance extends React.Component<IAppearanceProps, {}> {
     } else if (index === 1) {
       this.props.onSelectedThemeChanged(ApplicationTheme.Dark)
     } else {
-      fatalError(`Unknown theme index ${index}`)
+      fatalError(`未知的主題索引 ${index}`)
     }
   }
 

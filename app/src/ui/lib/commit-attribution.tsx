@@ -46,7 +46,7 @@ export class CommitAttribution extends React.Component<
       return (
         <span className="authors">
           {this.renderAuthorInline(authors[0])}
-          {' and '}
+          {' 與 '}
           {this.renderAuthorInline(authors[1])}
         </span>
       )
@@ -64,9 +64,9 @@ export class CommitAttribution extends React.Component<
   private renderCommitter(committer: CommitIdentity) {
     return (
       <span className="committer">
-        {' and '}
+        {' 與 '}
         {this.renderAuthorInline(committer)}
-        {' committed'}
+        {' 提交'}
       </span>
     )
   }
@@ -87,7 +87,7 @@ export class CommitAttribution extends React.Component<
     return (
       <span className="commit-attribution-component">
         {this.renderAuthors(authors, committerAttribution)}
-        {committerAttribution ? ' authored' : ' committed'}
+        {committerAttribution ? ' 作者' : ' 提交'}
         {committerAttribution ? this.renderCommitter(committer) : null}
       </span>
     )

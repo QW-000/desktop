@@ -34,41 +34,39 @@ export class UntrustedCertificate extends React.Component<
     const type = __DARWIN__ ? 'warning' : 'error'
     const buttonGroup = __DARWIN__ ? (
       <ButtonGroup destructive={true}>
-        <Button type="submit">Cancel</Button>
-        <Button onClick={this.onContinue}>View Certificate</Button>
+        <Button type="submit">取消</Button>
+        <Button onClick={this.onContinue}>檢視憑證</Button>
       </ButtonGroup>
     ) : (
       <ButtonGroup>
-        <Button type="submit">Close</Button>
-        <Button onClick={this.onContinue}>Add certificate</Button>
+        <Button type="submit">關閉</Button>
+        <Button onClick={this.onContinue}>增加憑證</Button>
       </ButtonGroup>
     )
     return (
       <Dialog
-        title={__DARWIN__ ? 'Untrusted Server' : 'Untrusted server'}
+        title={__DARWIN__ ? 'Untrusted Server' : '不受信賴的服務器'}
         onDismissed={this.props.onDismissed}
         onSubmit={this.props.onDismissed}
         type={type}
       >
         <DialogContent>
           <p>
-            GitHub Desktop cannot verify the identity of {host}. The certificate
-            ({this.props.certificate.subjectName}) is invalid or untrusted.{' '}
+            GitHub Desktop 無法驗證 {host} 的身份。 憑證
+            ({this.props.certificate.subjectName}) 無效或不受信賴。{' '}
             <strong>
-              This may indicate attackers are trying to steal your data.
+              有可能攻擊者正在嘗試竊取您的資料。
             </strong>
           </p>
-          <p>In some cases, this may be expected. For example:</p>
+          <p>在某些情況下，這可能是預期的。 例如:</p>
           <ul>
-            <li>If this is a GitHub Enterprise trial.</li>
+            <li>如果這是 GitHub Enterprise 試用版。</li>
             <li>
-              If your GitHub Enterprise instance is run on an unusual top-level
-              domain.
+              如果您的 GitHub Enterprise 狀況在不正常的頂層領域上執行。
             </li>
           </ul>
           <p>
-            If you are unsure of what to do, cancel and contact your system
-            administrator.
+            如果您不確定該怎麼做，請取消並聯絡您的系統管理員。
           </p>
         </DialogContent>
         <DialogFooter>{buttonGroup}</DialogFooter>

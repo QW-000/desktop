@@ -105,8 +105,7 @@ export class AddExistingRepository extends React.Component<
         <Row className="warning-helper-text">
           <Octicon symbol={OcticonSymbol.alert} />
           <p>
-            This directory appears to be a bare repository. Bare repositories
-            are not currently supported.
+            此目錄似乎是空的存儲庫，目前不支援空的存儲庫。
           </p>
         </Row>
       )
@@ -116,13 +115,13 @@ export class AddExistingRepository extends React.Component<
       <Row className="warning-helper-text">
         <Octicon symbol={OcticonSymbol.alert} />
         <p>
-          This directory does not appear to be a Git repository.
+          該目錄似乎不是 Git 存儲庫。
           <br />
-          Would you like to{' '}
+           是否想要 {' '}
           <LinkButton onClick={this.onCreateRepositoryClicked}>
-            create a repository
+            在這裡建立一個
           </LinkButton>{' '}
-          here instead?
+           存儲庫嗎?
         </p>
       </Row>
     )
@@ -137,7 +136,7 @@ export class AddExistingRepository extends React.Component<
     return (
       <Dialog
         id="add-existing-repository"
-        title={__DARWIN__ ? 'Add Local Repository' : 'Add local repository'}
+        title={__DARWIN__ ? 'Add Local Repository' : '增加本機存儲庫'}
         onSubmit={this.addRepository}
         onDismissed={this.props.onDismissed}
       >
@@ -145,12 +144,12 @@ export class AddExistingRepository extends React.Component<
           <Row>
             <TextBox
               value={this.state.path}
-              label={__DARWIN__ ? 'Local Path' : 'Local path'}
-              placeholder="repository path"
+              label={__DARWIN__ ? 'Local Path' : '本機路徑'}
+              placeholder="存儲庫路徑"
               onValueChanged={this.onPathChanged}
               autoFocus={true}
             />
-            <Button onClick={this.showFilePicker}>Choose…</Button>
+            <Button onClick={this.showFilePicker}>選擇…</Button>
           </Row>
           {this.renderWarning()}
         </DialogContent>
@@ -158,9 +157,9 @@ export class AddExistingRepository extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button disabled={disabled} type="submit">
-              {__DARWIN__ ? 'Add Repository' : 'Add repository'}
+              {__DARWIN__ ? 'Add Repository' : '增加存儲庫'}
             </Button>
-            <Button onClick={this.props.onDismissed}>Cancel</Button>
+            <Button onClick={this.props.onDismissed}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>

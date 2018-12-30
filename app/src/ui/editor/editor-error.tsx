@@ -51,17 +51,17 @@ export class EditorError extends React.Component<IEditorErrorProps, {}> {
   public render() {
     const title = __DARWIN__
       ? 'Unable to Open External Editor'
-      : 'Unable to open external editor'
+      : '無法開啟外部編輯器'
 
     let buttonGroup: JSX.Element | null = null
     if (this.props.viewPreferences) {
       buttonGroup = (
         <ButtonGroup>
           <Button type="submit" onClick={this.props.onDismissed}>
-            Close
+            關閉
           </Button>
           <Button onClick={this.onShowPreferencesDialog}>
-            {__DARWIN__ ? 'Open Preferences' : 'Open options'}
+            {__DARWIN__ ? '開啟首選項' : '開啟選項'}
           </Button>
         </ButtonGroup>
       )
@@ -69,9 +69,9 @@ export class EditorError extends React.Component<IEditorErrorProps, {}> {
       buttonGroup = (
         <ButtonGroup>
           <Button type="submit" onClick={this.props.onDismissed}>
-            Close
+            關閉
           </Button>
-          <Button onClick={this.onExternalLink}>Download Atom</Button>
+          <Button onClick={this.onExternalLink}>下載 Atom 文字編輯器</Button>
         </ButtonGroup>
       )
     }

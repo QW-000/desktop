@@ -125,21 +125,21 @@ export class PushPullButton extends React.Component<IPushPullButtonProps, {}> {
 
   private getTitle(): string {
     if (!this.props.remoteName) {
-      return 'Publish repository'
+      return '發佈存儲庫'
     }
     if (!this.props.aheadBehind) {
-      return 'Publish branch'
+      return '發佈分支'
     }
 
     const { ahead, behind } = this.props.aheadBehind
     const actionName = (function() {
       if (behind > 0) {
-        return 'Pull'
+        return '拉取'
       }
       if (ahead > 0) {
-        return 'Push'
+        return '推送'
       }
-      return 'Fetch'
+      return '提取'
     })()
 
     return `${actionName} ${this.props.remoteName}`
@@ -172,33 +172,33 @@ export class PushPullButton extends React.Component<IPushPullButtonProps, {}> {
 
   private getDescription(tipState: TipState): JSX.Element | string {
     if (!this.props.remoteName) {
-      return 'Publish this repository to GitHub'
+      return '將此存儲庫發佈到 GitHub'
     }
 
     if (tipState === TipState.Detached) {
-      return 'Cannot publish detached HEAD'
+      return '無法發佈分離的 HEAD'
     }
 
     if (tipState === TipState.Unborn) {
-      return 'Cannot publish unborn HEAD'
+      return '無法發佈原生的 HEAD'
     }
 
     if (!this.props.aheadBehind) {
       const isGitHub = !!this.props.repository.gitHubRepository
       return isGitHub
-        ? 'Publish this branch to GitHub'
-        : 'Publish this branch to the remote'
+        ? '將此分支發佈到 GitHub'
+        : '將此分支發佈到遠端'
     }
 
     const lastFetched = this.props.lastFetched
     if (lastFetched) {
       return (
         <span>
-          Last fetched <RelativeTime date={lastFetched} />
+          上次提取 <RelativeTime date={lastFetched} />
         </span>
       )
     } else {
-      return 'Never fetched'
+      return '從未取得'
     }
   }
 
