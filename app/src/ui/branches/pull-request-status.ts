@@ -44,5 +44,5 @@ export function getPRStatusSummary(prStatus: PullRequestStatus): string {
   const successCount = prStatus.statuses.filter(x => x.state === 'success')
     .length
 
-  return `${successCount}/${statusCount} checks OK`
+  return `${successCount}/${statusCount} 檢驗確定`
 }

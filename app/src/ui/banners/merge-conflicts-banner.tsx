@@ -36,7 +36,7 @@ export class MergeConflictsBanner extends React.Component<
             解決衝突並提交合併到{' '}
             <strong>{this.props.ourBranch}</strong>.
           </span>
-          <LinkButton onClick={this.openDialog}>View conflicts</LinkButton>
+          <LinkButton onClick={this.openDialog}>檢閱衝突</LinkButton>
         </div>
       </Banner>
     )

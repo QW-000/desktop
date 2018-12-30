@@ -345,7 +345,7 @@ export class BlankSlateView extends React.Component<
         <div className="drag-drop-info">
           <Octicon symbol={OcticonSymbol.lightBulb} />
           <div>
-            <strong>ProTip!</strong> 您可以拖曳 &amp; 現有的存儲庫資料夾在這裡將其增加到 Desktop
+            <strong>專家提示!</strong> 您可以拖曳現有的存儲庫資料夾在這裡將其增加到 Desktop
           </div>
         </div>
       </div>
