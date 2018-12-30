@@ -275,10 +275,10 @@ export class CloneableRepositoryFilterList extends React.PureComponent<
       <div className="no-items empty-repository-list">
         <div>
           找不到帳戶 {' '} 的任何存儲庫
-          <Ref>{this.props.account.login}</Ref> 上的 {endpointName}.
+          <Ref>{this.props.account.login}</Ref> 上的 {endpointName}.{' '}
           <LinkButton onClick={this.refreshRepositories}>
             更新清單
-          </LinkButton>
+          </LinkButton>{' '}
           要是你最近建立了一項存儲庫。
         </div>
       </div>
