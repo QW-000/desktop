@@ -76,9 +76,9 @@ export class RepositoryListItem extends React.Component<
       const aheadBehindTooltip =
         '當前簽出的分支是' +
         (behind ? ` ${commitGrammar(behind)} behind ` : '') +
-        (behind && ahead ? 'and' : '') +
-        (ahead ? ` ${commitGrammar(ahead)} ahead of ` : '') +
-        'its tracked branch.'
+        (behind && ahead ? '與' : '') +
+        (ahead ? ` ${commitGrammar(ahead)} 提前 ` : '') +
+        '其跟踪的分支。'
 
       return (
         <div className="ahead-behind" title={aheadBehindTooltip}>

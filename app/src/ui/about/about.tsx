@@ -233,6 +233,8 @@ export class About extends React.Component<IAboutProps, IAboutState> {
         <DialogError>
           無法確定上次執行更新檢查的時間。 
           您可能正在執行舊版本，請嘗試手動檢查更新，如果問題仍然存在，請聯絡 GitHub 支援
+          ________________________________________________________________________________
+          注意:此版本無法取得官方版本的更新，上方警示請勿理會。
         </DialogError>
       )
     }
@@ -244,7 +246,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
     const name = this.props.applicationName
     const version = this.props.applicationVersion
     const releaseNotesLink = (
-      <LinkButton uri={releaseNotesUri}>發佈說明</LinkButton>
+      <LinkButton uri={releaseNotesUri}>發行說明</LinkButton>
     )
 
     return (

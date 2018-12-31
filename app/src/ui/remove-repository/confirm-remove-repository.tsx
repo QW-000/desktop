@@ -62,9 +62,9 @@ export class ConfirmRemoveRepository extends React.Component<
       >
         <DialogContent>
           <p>
-            您確定要刪除存儲庫 "
+            您確定要刪除 "
             {this.props.repository.name}
-            "?
+            " 存儲庫?
           </p>
           <p className="description">
             存儲庫將從 GitHub Desktop 中刪除:
