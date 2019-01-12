@@ -415,6 +415,15 @@ export function buildDefaultMenu({
       {
         label: '崩潰的渲染器過程…',
         click: emit('boomtown'),
+      },
+      {
+        label: 'Show popup',
+        submenu: [
+          {
+            label: 'Release notes',
+            click: emit('show-release-notes-popup'),
+          },
+        ],
       }
     )
   }
