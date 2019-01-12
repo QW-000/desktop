@@ -149,9 +149,9 @@ export class RepositoriesList extends React.Component<
     } else if (identifier === 'enterprise') {
       return 'Enterprise'
     } else if (identifier === 'other') {
-      return 'Other'
+      return '其它'
     } else {
-      return assertNever(identifier, `Unknown identifier: ${identifier}`)
+      return assertNever(identifier, `未知標識符: ${identifier}`)
     }
   }
 
@@ -214,7 +214,7 @@ export class RepositoriesList extends React.Component<
         className="new-repository-button"
         onClick={this.onNewRepositoryButtonClick}
       >
-        Add
+        增加
         <Octicon symbol={OcticonSymbol.triangleDown} />
       </Button>
     )
@@ -273,17 +273,17 @@ export class RepositoriesList extends React.Component<
   private onNewRepositoryButtonClick = () => {
     const items: IMenuItem[] = [
       {
-        label: __DARWIN__ ? 'Clone Repository…' : 'Clone repository…',
+        label: __DARWIN__ ? 'Clone Repository…' : '克隆存儲庫…',
         action: this.onCloneRepository,
       },
       {
-        label: __DARWIN__ ? 'Create New Repository…' : 'Create new repository…',
+        label: __DARWIN__ ? 'Create New Repository…' : '建立新存儲庫…',
         action: this.onCreateNewRepository,
       },
       {
         label: __DARWIN__
           ? 'Add Existing Repository…'
-          : 'Add existing repository…',
+          : '增加現有存儲庫…',
         action: this.onAddExistingRepository,
       },
     ]

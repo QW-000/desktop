@@ -26,10 +26,10 @@ export class SignInDotCom extends React.Component<ISignInDotComProps, {}> {
 
     return (
       <div id="sign-in-dot-com">
-        <h1 className="welcome-title">Sign in to GitHub.com</h1>
+        <h1 className="welcome-title">登入 GitHub.com</h1>
 
         <SignIn signInState={state} dispatcher={this.props.dispatcher}>
-          <Button onClick={this.cancel}>Cancel</Button>
+          <Button onClick={this.cancel}>取消</Button>
         </SignIn>
       </div>
     )

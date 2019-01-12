@@ -92,7 +92,7 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
     return (
       <Dialog
         id="publish-repository"
-        title={__DARWIN__ ? 'Publish Repository' : 'Publish repository'}
+        title={__DARWIN__ ? 'Publish Repository' : '發佈存儲庫'}
         onDismissed={this.props.onDismissed}
         onSubmit={this.publishRepository}
         disabled={this.state.publishing}
@@ -158,18 +158,18 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
       case PublishTab.Enterprise:
         return accounts.find(a => a.endpoint !== getDotComAPIEndpoint()) || null
       default:
-        return assertNever(tab, `Unknown tab: ${tab}`)
+        return assertNever(tab, `未知標籤: ${tab}`)
     }
   }
 
   private renderSignInTab(tab: PublishTab) {
-    const signInTitle = __DARWIN__ ? 'Sign In' : 'Sign in'
+    const signInTitle = __DARWIN__ ? 'Sign In' : '登入'
     switch (tab) {
       case PublishTab.DotCom:
         return (
           <CallToAction actionTitle={signInTitle} onAction={this.signInDotCom}>
             <div>
-              Sign in to your GitHub.com account to access your repositories.
+              登入 GitHub.com 帳戶存取您的存儲庫。
             </div>
           </CallToAction>
         )
@@ -180,13 +180,12 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
             onAction={this.signInEnterprise}
           >
             <div>
-              If you have a GitHub Enterprise account at work, sign in to it to
-              get access to your repositories.
+              如果您有 GitHub Enterprise 帳戶，請登入帳戶存取存儲庫。
             </div>
           </CallToAction>
         )
       default:
-        return assertNever(tab, `Unknown tab: ${tab}`)
+        return assertNever(tab, `未知標籤: ${tab}`)
     }
   }
 
@@ -199,9 +198,9 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" disabled={disabled}>
-              {__DARWIN__ ? 'Publish Repository' : 'Publish repository'}
+              {__DARWIN__ ? 'Publish Repository' : '發佈存儲庫'}
             </Button>
-            <Button onClick={this.props.onDismissed}>Cancel</Button>
+            <Button onClick={this.props.onDismissed}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       )

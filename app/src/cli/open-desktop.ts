@@ -14,7 +14,7 @@ export function openDesktop(url: string = '') {
     return ChildProcess.spawn('cmd', ['/c', 'start', url], { env })
   } else {
     throw new Error(
-      `Desktop command line interface not currently supported on platform ${
+      `桌面命令行介面目前不支持的平台 ${
         process.platform
       }`
     )

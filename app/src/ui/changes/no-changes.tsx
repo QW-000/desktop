@@ -150,17 +150,17 @@ export class NoChanges extends React.Component<INoChangesProps, {}> {
     const opener = __DARWIN__
       ? 'Finder'
       : __WIN32__
-      ? 'Explorer'
-      : 'your File Manager'
+      ? '瀏覽器'
+      : '你的檔案管理器'
     return (
       <div className="panel blankslate" id="no-changes">
         <img src={BlankSlateImage} className="blankslate-image" />
-        <div>No local changes</div>
+        <div>本機無任何變更</div>
 
         <div>
-          Would you like to{' '}
-          <LinkButton onClick={this.open}>open this repository</LinkButton> in{' '}
-          {opener}?
+           是否想要在{' '}{opener}{' '}
+          <LinkButton onClick={this.open}>開啟這個存儲庫</LinkButton> 
+          ?
         </div>
       </div>
     )

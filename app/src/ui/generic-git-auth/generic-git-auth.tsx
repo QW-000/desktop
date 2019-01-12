@@ -48,20 +48,19 @@ export class GenericGitAuthentication extends React.Component<
     return (
       <Dialog
         id="generic-git-auth"
-        title={__DARWIN__ ? `Authentication Failed` : `Authentication failed`}
+        title={__DARWIN__ ? `Authentication Failed` : `驗證失敗`}
         onDismissed={this.props.onDismiss}
         onSubmit={this.save}
       >
         <DialogContent>
           <p>
-            We were unable to authenticate with{' '}
-            <Monospaced>{this.props.hostname}</Monospaced>. Please enter your
-            username and password to try again.
+             無法以{' '}的身分驗證
+            <Monospaced>{this.props.hostname}</Monospaced>。 請輸入您的用戶名和密碼再試一次。
           </p>
 
           <Row>
             <TextBox
-              label="Username"
+              label="用戶名"
               autoFocus={true}
               value={this.state.username}
               onValueChanged={this.onUsernameChange}
@@ -70,7 +69,7 @@ export class GenericGitAuthentication extends React.Component<
 
           <Row>
             <TextBox
-              label="Password"
+              label="密碼"
               type="password"
               value={this.state.password}
               onValueChanged={this.onPasswordChange}
@@ -81,9 +80,9 @@ export class GenericGitAuthentication extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" disabled={disabled}>
-              {__DARWIN__ ? 'Save and Retry' : 'Save and retry'}
+              {__DARWIN__ ? 'Save and Retry' : '儲存並重試'}
             </Button>
-            <Button onClick={this.props.onDismiss}>Cancel</Button>
+            <Button onClick={this.props.onDismiss}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>

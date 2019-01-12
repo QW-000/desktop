@@ -190,7 +190,7 @@ export class ChangesSidebar extends React.Component<IChangesSidebarProps, {}> {
     const file = workingDirectory.files.find(f => f.path === path)
     if (!file) {
       console.error(
-        'unable to find working directory file to apply included change: ' +
+        '無法找到工作目錄的檔案以套用包含的變更: ' +
           path
       )
       return

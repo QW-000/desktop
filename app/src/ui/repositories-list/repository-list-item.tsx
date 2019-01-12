@@ -10,7 +10,7 @@ import { IAheadBehind } from '../../models/branch'
 
 const defaultEditorLabel = __DARWIN__
   ? 'Open in External Editor'
-  : 'Open in external editor'
+  : '在外部編輯器中開啟'
 
 interface IRepositoryListItemProps {
   readonly repository: Repositoryish
@@ -74,11 +74,11 @@ export class RepositoryListItem extends React.Component<
       const commitGrammar = (commitNum: number) =>
         `${commitNum} commit${commitNum > 1 ? 's' : ''}` // english is hard
       const aheadBehindTooltip =
-        'The currently checked out branch is' +
+        '當前簽出的分支是' +
         (behind ? ` ${commitGrammar(behind)} behind ` : '') +
-        (behind && ahead ? 'and' : '') +
-        (ahead ? ` ${commitGrammar(ahead)} ahead of ` : '') +
-        'its tracked branch.'
+        (behind && ahead ? '與' : '') +
+        (ahead ? ` ${commitGrammar(ahead)} 提前 ` : '') +
+        '其跟踪的分支。'
 
       return (
         <div className="ahead-behind" title={aheadBehindTooltip}>
@@ -103,7 +103,7 @@ export class RepositoryListItem extends React.Component<
         <div
           className="change-indicator-wrapper"
           title={
-            hasChanges ? 'There are uncommitted changes in this repository' : ''
+            hasChanges ? '此存儲庫中存在未提交的變更' : ''
           }
         >
           {hasChanges ? (
@@ -147,18 +147,18 @@ export class RepositoryListItem extends React.Component<
     const repository = this.props.repository
     const missing = repository instanceof Repository && repository.missing
     const openInExternalEditor = this.props.externalEditorLabel
-      ? `Open in ${this.props.externalEditorLabel}`
+      ? `開啟 ${this.props.externalEditorLabel}`
       : defaultEditorLabel
 
     const showRepositoryLabel = __DARWIN__
-      ? 'Show in Finder'
+      ? '在 Finder 中顯示'
       : __WIN32__
-      ? 'Show in Explorer'
-      : 'Show in your File Manager'
+      ? '在資源管理器中顯示'
+      : '在檔案管理器中顯示'
 
     const items: ReadonlyArray<IMenuItem> = [
       {
-        label: `Open in ${this.props.shellLabel}`,
+        label: `開啟 ${this.props.shellLabel}`,
         action: this.openInShell,
         enabled: !missing,
       },
@@ -175,8 +175,8 @@ export class RepositoryListItem extends React.Component<
       { type: 'separator' },
       {
         label: this.props.askForConfirmationOnRemoveRepository
-          ? 'Remove…'
-          : 'Remove',
+          ? '清除…'
+          : '清除',
         action: this.removeRepository,
       },
     ]

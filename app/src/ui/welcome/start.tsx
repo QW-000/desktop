@@ -18,17 +18,16 @@ export class Start extends React.Component<IStartProps, {}> {
   public render() {
     return (
       <div id="start">
-        <h1 className="welcome-title">Welcome to GitHub&nbsp;Desktop</h1>
+        <h1 className="welcome-title">歡迎使用 GitHub&nbsp;Desktop</h1>
         <p className="welcome-text">
-          GitHub Desktop is a seamless way to contribute to projects on GitHub
-          and GitHub Enterprise. Sign in below to get started with your existing
-          projects.
+          GitHub Desktop 是一種在 GitHub 上為項目做貢獻的無縫方式
+             與 GitHub Enterprise。 在下方登入可以開始使用您的項目。
         </p>
 
         <p className="welcome-text">
-          New to GitHub?{' '}
+          新的 GitHub?{' '}
           <LinkButton uri={CreateAccountURL}>
-            Create your free account.
+            建立免費帳戶。
           </LinkButton>
         </p>
 
@@ -36,7 +35,7 @@ export class Start extends React.Component<IStartProps, {}> {
 
         <div>
           <LinkButton className="welcome-button" onClick={this.signInToDotCom}>
-            Sign in to GitHub.com
+            登入 GitHub.com
           </LinkButton>
         </div>
 
@@ -45,13 +44,13 @@ export class Start extends React.Component<IStartProps, {}> {
             className="welcome-button"
             onClick={this.signInToEnterprise}
           >
-            Sign in to GitHub Enterprise
+            登入 GitHub Enterprise
           </LinkButton>
         </div>
 
         <div className="skip-action-container">
           <LinkButton className="skip-button" onClick={this.skip}>
-            Skip this step
+            略過此步驟
           </LinkButton>
         </div>
       </div>

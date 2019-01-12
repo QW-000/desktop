@@ -199,7 +199,7 @@ export class PullRequestList extends React.Component<
 
 function getSubtitle(pr: PullRequest) {
   const timeAgo = moment(pr.created).fromNow()
-  return `#${pr.pullRequestNumber} opened ${timeAgo} by ${pr.author}`
+  return `#${pr.pullRequestNumber} 開啟 ${timeAgo} 由 ${pr.author}`
 }
 
 function createListItems(

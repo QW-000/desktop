@@ -94,7 +94,7 @@ export class FullScreenInfo extends React.Component<
 
     return (
       <div key="notification" className="toast-notification">
-        Press <kbd>{kbdShortcut}</kbd> to exit fullscreen
+        按下 <kbd>{kbdShortcut}</kbd> 結束全螢幕
       </div>
     )
   }

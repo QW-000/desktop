@@ -119,8 +119,8 @@ export class BlankSlateView extends React.Component<
     return (
       <UiView id="blank-slate">
         <header>
-          <h1>Let's get started!</h1>
-          <p>Add a repository to GitHub Desktop to start collaborating</p>
+          <h1>讓我們開始吧!</h1>
+      <p>將存儲庫增加到 GitHub Desktop 以開始合作</p>
         </header>
 
         <div className="content">
@@ -316,7 +316,7 @@ export class BlankSlateView extends React.Component<
               <div>
                 {__DARWIN__
                   ? 'Clone a Repository from the Internet…'
-                  : 'Clone a repository from the Internet…'}
+                  : '從網際網路上克隆一項存儲庫…'}
               </div>
             </Button>
           </li>
@@ -326,7 +326,7 @@ export class BlankSlateView extends React.Component<
               <div>
                 {__DARWIN__
                   ? 'Create a New Repository on Your Hard Drive…'
-                  : 'Create a New Repository on your hard drive…'}
+                  : '在硬碟上建立一項新的存儲庫…'}
               </div>
             </Button>
           </li>
@@ -336,7 +336,7 @@ export class BlankSlateView extends React.Component<
               <div>
                 {__DARWIN__
                   ? 'Add an Existing Repository from Your Hard Drive…'
-                  : 'Add an Existing Repository from your hard drive…'}
+                  : '從硬碟增加現有存儲庫…'}
               </div>
             </Button>
           </li>
@@ -345,8 +345,7 @@ export class BlankSlateView extends React.Component<
         <div className="drag-drop-info">
           <Octicon symbol={OcticonSymbol.lightBulb} />
           <div>
-            <strong>ProTip!</strong> You can drag &amp; drop an existing
-            repository folder here to add it to Desktop
+            <strong>專家提示!</strong> 您可以拖曳現有的存儲庫資料夾在這裡將其增加到 Desktop
           </div>
         </div>
       </div>

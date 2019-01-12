@@ -107,9 +107,9 @@ export class Acknowledgements extends React.Component<
       if (license.sourceText) {
         licenseText = license.sourceText
       } else if (license.license) {
-        licenseText = `License: ${license.license}`
+        licenseText = `許可證: ${license.license}`
       } else {
-        licenseText = 'Unknown license'
+        licenseText = '未知許可證'
       }
 
       const nameHeader = <h2 key={`${key}-header`}>{nameElement}</h2>
@@ -138,21 +138,20 @@ export class Acknowledgements extends React.Component<
     return (
       <Dialog
         id="acknowledgements"
-        title="License and Open Source Notices"
+        title="許可證和開源聲明"
         onSubmit={this.props.onDismissed}
         onDismissed={this.props.onDismissed}
       >
         <DialogContent>
           <p>
-            <LinkButton uri={WebsiteURL}>GitHub Desktop</LinkButton> is an open
-            source project published under the MIT License. You can view the
-            source code and contribute to this project on{' '}
-            <LinkButton uri={RepositoryURL}>GitHub</LinkButton>.
+            <LinkButton uri={WebsiteURL}>GitHub Desktop</LinkButton> 是根據 
+            MIT 許可證發佈的開源項目。 您可以檢閱源代碼並為此 {' '} 
+            <LinkButton uri={RepositoryURL}>GitHub</LinkButton> 項目做出貢獻。
           </p>
 
           {desktopLicense}
 
-          <p>GitHub Desktop also distributes these libraries:</p>
+          <p>GitHub Desktop 還發行這些庫:</p>
 
           {licenses ? this.renderLicenses(licenses) : <Loading />}
         </DialogContent>
@@ -160,7 +159,7 @@ export class Acknowledgements extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" onButtonRef={this.onCloseButtonRef}>
-              Close
+              關閉
             </Button>
           </ButtonGroup>
         </DialogFooter>

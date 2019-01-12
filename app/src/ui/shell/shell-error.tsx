@@ -33,7 +33,7 @@ export class ShellError extends React.Component<IShellErrorProps, {}> {
   }
 
   public render() {
-    const title = __DARWIN__ ? 'Unable to Open Shell' : 'Unable to open shell'
+    const title = __DARWIN__ ? 'Unable to Open Shell' : '無法開啟 shell'
     return (
       <Dialog
         id="shell-error"
@@ -48,10 +48,10 @@ export class ShellError extends React.Component<IShellErrorProps, {}> {
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" onClick={this.props.onDismissed}>
-              Close
+              關閉
             </Button>
             <Button onClick={this.onShowPreferencesDialog}>
-              {__DARWIN__ ? 'Open Preferences' : 'Open options'}
+              {__DARWIN__ ? 'Open Preferences' : '開啟選項'}
             </Button>
           </ButtonGroup>
         </DialogFooter>
