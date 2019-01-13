@@ -224,12 +224,10 @@ export class RepositoriesList extends React.Component<
     return (
       <div className="no-items no-results-found">
         <img src={BlankSlateImage} className="blankslate-image" />
-        <div className="title">Sorry, I can't find that repository</div>
+        <div className="title">抱歉，找不到此存儲庫</div>
 
         <div className="protip">
-          ProTip! Press {this.renderAddLocalShortcut()} to quickly add a local
-          repository, and {this.renderCloneRepositoryShortcut()} to clone from
-          anywhere within the app
+          專家提示! 按下 {this.renderAddLocalShortcut()} 快速增加本機存儲庫，並 {this.renderCloneRepositoryShortcut()} 從應用程式內的任何位置克隆
         </div>
       </div>
     )

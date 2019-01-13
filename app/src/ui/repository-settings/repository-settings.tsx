@@ -93,7 +93,7 @@ export class RepositorySettings extends React.Component<
           onTabClicked={this.onTabClicked}
           selectedIndex={this.state.selectedTab}
         >
-          <span>Remote</span>
+          <span>遠端</span>
           <span>{__DARWIN__ ? 'Ignored Files' : '忽略的檔案'}</span>
         </TabBar>
 
