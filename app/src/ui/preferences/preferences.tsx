@@ -126,7 +126,7 @@ export class Preferences extends React.Component<
     return (
       <Dialog
         id="preferences"
-        title={__DARWIN__ ? 'Preferences' : 'Options'}
+        title={__DARWIN__ ? '首選項' : '選項'}
         onDismissed={this.props.onDismissed}
         onSubmit={this.onSave}
       >
@@ -135,10 +135,10 @@ export class Preferences extends React.Component<
           onTabClicked={this.onTabClicked}
           selectedIndex={this.state.selectedIndex}
         >
-          <span>Accounts</span>
+          <span>帳戶</span>
           <span>Git</span>
-          <span>Appearance</span>
-          <span>Advanced</span>
+          <span>外觀</span>
+          <span>進階</span>
         </TabBar>
 
         {this.renderActiveTab()}
@@ -164,12 +164,12 @@ export class Preferences extends React.Component<
   private disallowedCharacterErrorMessage(name: string, email: string) {
     const disallowedNameCharacters = disallowedCharacters(name)
     if (disallowedNameCharacters != null) {
-      return `Git name field cannot be a disallowed character "${disallowedNameCharacters}"`
+      return `Git 名稱欄位不能是未允許的字元 "${disallowedNameCharacters}"`
     }
 
     const disallowedEmailCharacters = disallowedCharacters(email)
     if (disallowedEmailCharacters != null) {
-      return `Git email field cannot be a disallowed character "${disallowedEmailCharacters}"`
+      return `Git 電子郵件欄位不能是未允許的字元 "${disallowedEmailCharacters}"`
     }
 
     return null
@@ -238,7 +238,7 @@ export class Preferences extends React.Component<
         )
       }
       default:
-        return assertNever(index, `Unknown tab index: ${index}`)
+        return assertNever(index, `未知的標籤索引: ${index}`)
     }
   }
 
@@ -298,15 +298,15 @@ export class Preferences extends React.Component<
           <DialogFooter>
             <ButtonGroup>
               <Button type="submit" disabled={hasDisabledError}>
-                Save
+                儲存
               </Button>
-              <Button onClick={this.props.onDismissed}>Cancel</Button>
+              <Button onClick={this.props.onDismissed}>取消</Button>
             </ButtonGroup>
           </DialogFooter>
         )
       }
       default:
-        return assertNever(index, `Unknown tab index: ${index}`)
+        return assertNever(index, `未知的標籤索引: ${index}`)
     }
   }
 

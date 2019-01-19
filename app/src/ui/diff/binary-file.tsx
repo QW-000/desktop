@@ -23,10 +23,10 @@ export class BinaryFile extends React.Component<IBinaryFileProps, {}> {
   public render() {
     return (
       <div className="panel binary" id="diff">
-        <div className="image-header">This binary file has changed.</div>
+        <div className="image-header">此二進位檔案已更改。</div>
         <div className="image-header">
           <LinkButton onClick={this.open}>
-            Open file in external program.
+            在外部程式中開啟檔案。
           </LinkButton>
         </div>
       </div>

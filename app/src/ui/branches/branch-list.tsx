@@ -224,11 +224,11 @@ export class BranchList extends React.Component<
 
   private getGroupLabel(identifier: BranchGroupIdentifier) {
     if (identifier === 'default') {
-      return __DARWIN__ ? 'Default Branch' : 'Default branch'
+      return __DARWIN__ ? 'Default Branch' : '預設分支'
     } else if (identifier === 'recent') {
-      return __DARWIN__ ? 'Recent Branches' : 'Recent branches'
+      return __DARWIN__ ? 'Recent Branches' : '最近的分支'
     } else if (identifier === 'other') {
-      return __DARWIN__ ? 'Other Branches' : 'Other branches'
+      return __DARWIN__ ? 'Other Branches' : '其它分支'
     } else {
       return assertNever(identifier, `Unknown identifier: ${identifier}`)
     }
@@ -246,7 +246,7 @@ export class BranchList extends React.Component<
   private onRenderNewButton = () => {
     return this.props.canCreateNewBranch ? (
       <Button className="new-branch-button" onClick={this.onCreateNewBranch}>
-        {__DARWIN__ ? 'New Branch' : 'New branch'}
+        {__DARWIN__ ? 'New Branch' : '新的分支'}
       </Button>
     ) : null
   }

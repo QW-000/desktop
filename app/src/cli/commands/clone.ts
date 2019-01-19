@@ -11,12 +11,12 @@ interface ICloneArgs extends mriArgv {
 
 const command: ICommandModule = {
   command: 'clone <url|slug>',
-  description: 'Clone a repository',
+  description: '克隆存儲庫',
   args: [
     {
       name: 'url|slug',
       required: true,
-      description: 'The URL or the GitHub owner/name alias to clone',
+      description: '要克隆的網址或 GitHub 所有者/名稱別名',
       type: 'string',
     },
   ],
@@ -24,12 +24,12 @@ const command: ICommandModule = {
     branch: {
       type: 'string',
       aliases: ['b'],
-      description: 'The branch to checkout after cloning',
+      description: '克隆後簽出的分支',
     },
   },
   handler({ _: [cloneUrl], branch }: ICloneArgs) {
     if (!cloneUrl) {
-      throw new CommandError('Clone URL must be specified')
+      throw new CommandError('必須指定克隆網址')
     }
     try {
       const _ = new URL(cloneUrl)

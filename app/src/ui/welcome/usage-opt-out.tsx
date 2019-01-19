@@ -33,17 +33,17 @@ export class UsageOptOut extends React.Component<
   public render() {
     return (
       <div className="usage-opt-out">
-        <h1 className="welcome-title">Make GitHub Desktop&nbsp;better!</h1>
+        <h1 className="welcome-title">讓 GitHub Desktop&nbsp;更好!</h1>
 
         <p>
-          Would you like to help us improve GitHub Desktop by periodically
-          submitting <LinkButton uri={SamplesURL}>usage stats</LinkButton>?
+          您是否願意定期幫助我們改善 GitHub Desktop?
+          提交 <LinkButton uri={SamplesURL}>使用狀態</LinkButton>?
         </p>
 
         <Form onSubmit={this.finish}>
           <Row>
             <Checkbox
-              label="Yes, submit periodic usage stats"
+              label="是的，提交定期使用狀態"
               value={
                 this.state.newOptOutValue ? CheckboxValue.Off : CheckboxValue.On
               }
@@ -52,8 +52,8 @@ export class UsageOptOut extends React.Component<
           </Row>
 
           <Row className="actions">
-            <Button type="submit">Finish</Button>
-            <Button onClick={this.cancel}>Cancel</Button>
+            <Button type="submit">完成</Button>
+            <Button onClick={this.cancel}>取消</Button>
           </Row>
         </Form>
       </div>

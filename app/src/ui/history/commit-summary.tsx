@@ -290,8 +290,8 @@ export class CommitSummary extends React.Component<
 
   public render() {
     const fileCount = this.props.files.length
-    const filesPlural = fileCount === 1 ? 'file' : 'files'
-    const filesDescription = `${fileCount} changed ${filesPlural}`
+    const filesPlural = fileCount === 1 ? '檔案' : '檔案'
+    const filesDescription = `${fileCount} 變更${filesPlural}`
     const shortSHA = this.props.commit.sha.slice(0, 7)
 
     const className = classNames({
