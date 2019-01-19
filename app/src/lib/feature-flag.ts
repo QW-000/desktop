@@ -57,10 +57,13 @@ export function enableReadmeOverwriteWarning(): boolean {
 }
 
 /**
- * Whether or not to activate the new, improved, blank slate
- * shown when the user doesn't have any local changes in their
- * repository.
+ * Whether or not to activate the "Create PR" blankslate action.
+ *
+ * The state of the feature as of writing this is that the underlying
+ * data source required to power this feature is not reliable enough
+ * and needs looking at so we aren't ready to move this to production
+ * just yet.
  */
-export function enableNewNoChangesBlankslate(): boolean {
+export function enableNoChangesCreatePRBlankslateAction(): boolean {
   return enableBetaFeatures()
 }
