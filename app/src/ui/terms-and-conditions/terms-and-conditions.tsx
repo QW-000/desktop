@@ -49,7 +49,7 @@ export class TermsAndConditions extends React.Component<
     return (
       <Dialog
         id="terms-and-conditions"
-        title="GitHub Open Source Applications Terms and Conditions"
+        title="GitHub 開源應用程式條款與條件"
         onSubmit={this.props.onDismissed}
         onDismissed={this.props.onDismissed}
       >
@@ -67,7 +67,7 @@ export class TermsAndConditions extends React.Component<
             or copy the Software.
           </p>
 
-          <h2>Connecting to GitHub</h2>
+          <h2>連結到 GitHub</h2>
 
           <p>
             If you configure the Software to work with one or more accounts on
@@ -82,7 +82,7 @@ export class TermsAndConditions extends React.Component<
             will also be a violation of these Application Terms.
           </p>
 
-          <h2>Open Source Licenses and Notices</h2>
+          <h2>開源許可證和注意事項</h2>
 
           <p>
             The open source license for the Software is included in the "Open
@@ -110,7 +110,7 @@ export class TermsAndConditions extends React.Component<
             components of the Software.
           </p>
 
-          <h2>GitHub's Logos</h2>
+          <h2>GitHub 標誌</h2>
 
           <p>
             The license grant included with the Software is not for GitHub's
@@ -129,7 +129,7 @@ export class TermsAndConditions extends React.Component<
             <LinkButton uri={logos}>logos</LinkButton>.
           </p>
 
-          <h2>Privacy</h2>
+          <h2>隱私</h2>
 
           <p>
             The Software may collect personal information. You may control what
@@ -142,9 +142,9 @@ export class TermsAndConditions extends React.Component<
             .
           </p>
 
-          <h2>Additional Services</h2>
+          <h2>其它服務</h2>
 
-          <h3>Auto-Update Services</h3>
+          <h3>自動更新服務</h3>
 
           <p>
             The Software may include an auto-update service ("Service"). If you
@@ -153,7 +153,7 @@ export class TermsAndConditions extends React.Component<
             the Software when a new version is available.
           </p>
 
-          <h3>Disclaimers and Limitations of Liability</h3>
+          <h3>免責聲明和責任限制</h3>
 
           <p>
             THE SERVICE IS PROVIDED ON AN "AS IS" BASIS, AND NO WARRANTY, EITHER
@@ -193,7 +193,7 @@ export class TermsAndConditions extends React.Component<
             discontinuance of the Service.
           </p>
 
-          <h2>Miscellanea</h2>
+          <h2>雜記</h2>
 
           <ol>
             <li>
@@ -240,18 +240,17 @@ export class TermsAndConditions extends React.Component<
             </li>
 
             <li>
-              License to GitHub Policies. These Application Terms are licensed
-              under the{' '}
+              GitHub 政策的許可。 這些應用條款的許可
+              是根據{' '}
               <LinkButton uri={license}>
-                Creative Commons Attribution license
+                知識共享署名許可
               </LinkButton>
-              . You may use it freely under the terms of the Creative Commons
-              license.
+              。您可以根據知識共享許可條款自由使用它。
             </li>
 
             <li>
-              Contact Us. Please send any questions about these Application
-              Terms to <LinkButton uri={contact}>support@github.com</LinkButton>
+              聯絡我們。 請傳送有關這些申請的任何條款問題
+              <LinkButton uri={contact}>support@github.com</LinkButton>
               .
             </li>
           </ol>
@@ -260,7 +259,7 @@ export class TermsAndConditions extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" onButtonRef={this.onCloseButtonRef}>
-              Close
+              關閉
             </Button>
           </ButtonGroup>
         </DialogFooter>

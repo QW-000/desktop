@@ -86,7 +86,7 @@ export class ConfigureGitUser extends React.Component<
     const dummyCommit = new Commit(
       this.state.name,
       this.state.name.slice(0, 7),
-      'Fix all the things',
+      '修正全部項目',
       '',
       author,
       author,
@@ -98,27 +98,27 @@ export class ConfigureGitUser extends React.Component<
       <div id="configure-git-user">
         <Form className="sign-in-form" onSubmit={this.save}>
           <TextBox
-            label="Name"
-            placeholder="Your Name"
+            label="名稱"
+            placeholder="您的名稱"
             value={this.state.name}
             onValueChanged={this.onNameChange}
           />
 
           <TextBox
-            label="Email"
+            label="電子郵件"
             placeholder="your-email@example.com"
             value={this.state.email}
             onValueChanged={this.onEmailChange}
           />
 
           <Row>
-            <Button type="submit">{this.props.saveLabel || 'Save'}</Button>
+            <Button type="submit">{this.props.saveLabel || '儲存'}</Button>
             {this.props.children}
           </Row>
         </Form>
 
         <div id="commit-list" className="commit-list-example">
-          <div className="header">Example commit</div>
+          <div className="header">提交範例</div>
 
           <CommitListItem
             commit={dummyCommit}
