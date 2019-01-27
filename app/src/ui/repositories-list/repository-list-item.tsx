@@ -7,6 +7,7 @@ import { IMenuItem } from '../../lib/menu-item'
 import { HighlightText } from '../lib/highlight-text'
 import { IMatches } from '../../lib/fuzzy-find'
 import { IAheadBehind } from '../../models/branch'
+import { RevealInFileManagerLabel } from '../lib/context-menu'
 
 const defaultEditorLabel = __DARWIN__
   ? 'Open in External Editor'
@@ -150,12 +151,6 @@ export class RepositoryListItem extends React.Component<
       ? `開啟 ${this.props.externalEditorLabel}`
       : defaultEditorLabel
 
-    const showRepositoryLabel = __DARWIN__
-      ? '在 Finder 中顯示'
-      : __WIN32__
-      ? '在資源管理器中顯示'
-      : '在檔案管理器中顯示'
-
     const items: ReadonlyArray<IMenuItem> = [
       {
         label: `開啟 ${this.props.shellLabel}`,
@@ -163,7 +158,7 @@ export class RepositoryListItem extends React.Component<
         enabled: !missing,
       },
       {
-        label: showRepositoryLabel,
+        label: RevealInFileManagerLabel,
         action: this.showRepository,
         enabled: !missing,
       },

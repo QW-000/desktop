@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as Path from 'path'
 
 import { IGitHubUser } from '../../lib/databases'
-import { Dispatcher } from '../../lib/dispatcher'
+import { Dispatcher } from '../dispatcher'
 import { IMenuItem } from '../../lib/menu-item'
 import { revealInFileManager } from '../../lib/app-shell'
 import {
@@ -313,16 +313,19 @@ export class ChangesList extends React.Component<
       },
       { type: 'separator' },
     ]
-
     if (paths.length === 1) {
       items.push({
-        label: __DARWIN__ ? 'Ignore File' : '忽略檔案',
+        label: __DARWIN__
+          ? 'Ignore File (Add to .gitignore)'
+          : '忽略檔案 (增加到 .gitignore)',
         action: () => this.props.onIgnore(path),
         enabled: Path.basename(path) !== GitIgnoreFileName,
       })
     } else if (paths.length > 1) {
       items.push({
-        label: `忽略 ${paths.length} 選定的檔案`,
+        label: __DARWIN__
+          ? `Ignore ${paths.length} Selected Files (Add to .gitignore)`
+          : `忽略 ${paths.length} 選定的檔案 (增加到 .gitignore)`,
         action: () => {
           // Filter out any .gitignores that happens to be selected, ignoring
           // those doesn't make sense.
@@ -335,15 +338,14 @@ export class ChangesList extends React.Component<
         enabled: paths.some(path => Path.basename(path) !== GitIgnoreFileName),
       })
     }
-
     // Five menu items should be enough for everyone
     Array.from(extensions)
       .slice(0, 5)
       .forEach(extension => {
         items.push({
           label: __DARWIN__
-            ? `Ignore All ${extension} Files`
-            : `忽略全部 ${extension} 檔案`,
+            ? `Ignore All ${extension} Files (Add to .gitignore)`
+            : `忽略全部 ${extension} 檔案 (增加到 .gitignore)`,
           action: () => this.props.onIgnore(`*${extension}`),
         })
       })

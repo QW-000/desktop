@@ -230,7 +230,7 @@ export class NoChanges extends React.Component<
     )
   }
 
-  private renderShowInFinderAction() {
+  private renderShowInFileManager() {
     const fileManager = this.getPlatformFileManagerName()
 
     return this.renderMenuBackedAction(
@@ -555,7 +555,7 @@ export class NoChanges extends React.Component<
         </ReactCSSTransitionReplace>
         <div className="actions">
           {this.renderOpenInExternalEditor()}
-          {this.renderShowInFinderAction()}
+          {this.renderShowInFileManager()}
           {this.renderViewOnGitHub()}
         </div>
       </>

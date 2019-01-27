@@ -259,7 +259,11 @@ export function buildDefaultMenu({
         click: emit('open-in-shell'),
       },
       {
-        label: __DARWIN__ ? 'Show in Finder' : '在資源管理器上顯示(E&)',
+        label: __DARWIN__
+          ? '在 Finder 中顯示'
+          : __WIN32__
+          ? '在瀏覽器中顯示(&X)'
+          : '在檔案管理器中顯示',
         id: 'open-working-directory',
         accelerator: 'CmdOrCtrl+Shift+F',
         click: emit('open-working-directory'),

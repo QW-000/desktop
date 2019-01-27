@@ -85,6 +85,7 @@ export class ConfigureGitUser extends React.Component<
     )
     const dummyCommit = new Commit(
       this.state.name,
+      this.state.name.slice(0, 7),
       '修正全部項目',
       '',
       author,
