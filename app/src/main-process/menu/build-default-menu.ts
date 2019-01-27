@@ -262,7 +262,7 @@ export function buildDefaultMenu({
         label: __DARWIN__
           ? '在 Finder 中顯示'
           : __WIN32__
-          ? '在瀏覽器中顯示(&X)'
+          ? '在檔案管理器中顯示(&X)'
           : '在檔案管理器中顯示',
         id: 'open-working-directory',
         accelerator: 'CmdOrCtrl+Shift+F',
@@ -383,7 +383,7 @@ export function buildDefaultMenu({
   const showLogsLabel = __DARWIN__
     ? 'Show Logs in Finder'
     : __WIN32__
-    ? '顯示資源管理器中的日誌(&H)'
+    ? '顯示檔案管理器中的日誌(&H)'
     : '顯示檔案管理器中的日誌(&H)'
 
   const showLogsItem: Electron.MenuItemConstructorOptions = {
@@ -421,10 +421,10 @@ export function buildDefaultMenu({
         click: emit('boomtown'),
       },
       {
-        label: 'Show popup',
+        label: '顯示彈出',
         submenu: [
           {
-            label: 'Release notes',
+            label: '發行說明',
             click: emit('show-release-notes-popup'),
           },
         ],

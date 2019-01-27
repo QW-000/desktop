@@ -186,7 +186,7 @@ export class NoChanges extends React.Component<
     if (__DARWIN__) {
       return 'Finder'
     } else if (__WIN32__) {
-      return '瀏覽器'
+      return '檔案管理器'
     }
     return '您的檔案管理器'
   }
