@@ -73,7 +73,7 @@ export class RepositoryListItem extends React.Component<
         return null
       }
       const commitGrammar = (commitNum: number) =>
-        `${commitNum} commit${commitNum > 1 ? 's' : ''}` // english is hard
+        `${commitNum} 提交${commitNum > 1 ? 's' : ''}` // english is hard
       const aheadBehindTooltip =
         '當前簽出的分支是' +
         (behind ? ` ${commitGrammar(behind)} behind ` : '') +

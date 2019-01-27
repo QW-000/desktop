@@ -66,7 +66,7 @@ export class CommitConflictsWarning extends React.Component<
         dismissable={false}
         onDismissed={this.onCancel}
         onSubmit={this.onSubmit}
-        title={'確認提交衝突的檔案'}
+        title={'確定提交衝突的檔案'}
         type={'warning'}
       >
         <DialogContent>
@@ -78,7 +78,7 @@ export class CommitConflictsWarning extends React.Component<
         </DialogContent>
         <DialogFooter>
           <ButtonGroup>
-            <Button onClick={this.onCancel}>Cancel</Button>
+            <Button onClick={this.onCancel}>取消</Button>
             <Button type="submit">是的，提交檔案</Button>
           </ButtonGroup>
         </DialogFooter>

@@ -63,7 +63,7 @@ export class RenameBranch extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" disabled={disabled}>
-              Rename {this.props.branch.name}
+              重新命名 {this.props.branch.name}
             </Button>
             <Button onClick={this.cancel}>取消</Button>
           </ButtonGroup>

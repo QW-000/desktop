@@ -415,7 +415,7 @@ export class ChangesList extends React.Component<
   public render() {
     const fileList = this.props.workingDirectory.files
     const fileCount = fileList.length
-    const filesPlural = fileCount === 1 ? 'file' : '檔案'
+    const filesPlural = fileCount === 1 ? '檔案' : '檔案'
     const filesDescription = `${fileCount} 變更${filesPlural}`
     const anyFilesSelected =
       fileCount > 0 && this.includeAllValue !== CheckboxValue.Off

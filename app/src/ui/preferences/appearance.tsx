@@ -82,7 +82,7 @@ export class Appearance extends React.Component<IAppearanceProps, {}> {
     return (
       <Row>
         <Checkbox
-          label="Automatically switch theme to match system theme."
+          label="自動切換主題以符合系統主題。"
           value={
             this.props.automaticallySwitchTheme
               ? CheckboxValue.On

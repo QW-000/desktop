@@ -15,7 +15,7 @@ export function disallowedCharacters(values: string): string | null {
 
 function disallowedCharacter(value: string): boolean {
   if (value.length !== 1) {
-    return fatalError('`value` must be a single character')
+    return fatalError('`value` 必須是單一字元')
   }
 
   const disallowedCharacters = [

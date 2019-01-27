@@ -177,7 +177,7 @@ export class ReleaseNotes extends React.Component<IReleaseNotesProps, {}> {
         <DialogContent>{contents}</DialogContent>
         <DialogFooter>
           <LinkButton onClick={this.showAllReleaseNotes}>
-            View all release notes
+            檢視全部發行說明
           </LinkButton>
           <ButtonGroup destructive={true}>
             <Button type="submit">關閉</Button>
