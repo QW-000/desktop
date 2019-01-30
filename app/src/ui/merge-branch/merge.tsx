@@ -187,7 +187,7 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
       )
     }
 
-    const pluralized = commitCount === 1 ? 'commit' : '提交'
+    const pluralized = commitCount === 1 ? '提交' : '提交'
     return (
       <React.Fragment>
         這將合併
@@ -213,11 +213,11 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
     currentBranch: Branch,
     count: number
   ) {
-    const pluralized = count === 1 ? 'file' : '檔案'
+    const pluralized = count === 1 ? '檔案' : '檔案'
     return (
       <React.Fragment>
         將由
-        <strong>{` ${count} conflicted ${pluralized}`}</strong>
+        <strong>{` ${count} 衝突 ${pluralized}`}</strong>
         {` 合併於 `}
         <strong>{branch.name}</strong>
         {` 到 `}

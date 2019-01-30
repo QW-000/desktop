@@ -117,7 +117,7 @@ export class BranchesContainer extends React.Component<
         onTabClicked={this.onTabClicked}
         selectedIndex={this.props.selectedTab}
       >
-        <span>Branches</span>
+        <span>分支</span>
         <span className="pull-request-tab">
           {__DARWIN__ ? 'Pull Requests' : '拉取請求'}
 
