@@ -196,7 +196,7 @@ export class NoChanges extends React.Component<
 
     return (
       <>
-        功能表 {parentMenusText} 或 {' '}
+        功能表的 {parentMenusText} 或 {' '}
         {this.renderDiscoverabilityKeyboardShortcut(menuItem)}
       </>
     )
@@ -423,10 +423,10 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        當前分支 (<Ref>{tip.branch.name}</Ref>) 具備 {' '}
-        {aheadBehind.behind === 1 ? 'a commit' : '提交'} 於 {' '}
-        {isGitHub ? 'GitHub' : '遠端'} 其 {' '}
-        {aheadBehind.behind === 1 ? 'does not' : '沒有'} 存在於您的電腦上。
+        當前分支 (<Ref>{tip.branch.name}</Ref>) 已具備新 {' '}
+        {aheadBehind.behind === 1 ? '提交' : '提交'} 於 {' '}
+        {isGitHub ? 'GitHub' : '遠端'} 上，但{' '}
+        {aheadBehind.behind === 1 ? '尚未' : '尚未'}存取到您的電腦上。
       </>
     )
 
@@ -438,7 +438,7 @@ export class NoChanges extends React.Component<
     )
 
     const title = `拉取 ${aheadBehind.behind} ${
-      aheadBehind.behind === 1 ? 'commit' : '提交'
+      aheadBehind.behind === 1 ? '提交' : '提交'
     } 從 ${remote.name} 遠端`
 
     const buttonText = `拉取 ${remote.name}`
@@ -475,7 +475,7 @@ export class NoChanges extends React.Component<
     const description = (
       <>
         你有{' '}
-        {aheadBehind.ahead === 1 ? 'one local commit' : '本機提交'} 等待被推到 {isGitHub ? 'GitHub' : '遠端'}
+        {aheadBehind.ahead === 1 ? '一項本機提交' : '本機提交'} 等待被推到 {isGitHub ? 'GitHub' : '遠端'}
       </>
     )
 
@@ -486,7 +486,7 @@ export class NoChanges extends React.Component<
     )
 
     const title = `推送 ${aheadBehind.ahead} ${
-      aheadBehind.ahead === 1 ? 'commit' : '提交'
+      aheadBehind.ahead === 1 ? '提交' : '提交'
     } 到 ${remote.name} 遠端`
 
     const buttonText = `推送 ${remote.name}`
