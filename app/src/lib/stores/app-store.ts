@@ -183,7 +183,12 @@ import {
   updateChangedFiles,
   updateConflictState,
 } from './updates/changes-state'
-import { ManualConflictResolution } from '../../models/manual-conflict-resolution'
+import {
+  ManualConflictResolution,
+  ManualConflictResolutionKind,
+} from '../../models/manual-conflict-resolution'
+import { BranchPruner } from './helpers/branch-pruner'
+import { enableBranchPruning } from '../feature-flag'
 
 /**
  * As fast-forwarding local branches is proportional to the number of local
@@ -233,6 +238,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
   /** The ahead/behind updater or the currently selected repository */
   private currentAheadBehindUpdater: AheadBehindUpdater | null = null
+
+  private currentBranchPruner: BranchPruner | null = null
 
   private showWelcomeFlow = false
   private focusCommitMessage = false
@@ -471,7 +478,11 @@ export class AppStore extends TypedBaseStore<IAppState> {
         return null
       }
 
-      return { type: SelectionType.CloningRepository, repository, progress }
+      return {
+        type: SelectionType.CloningRepository,
+        repository,
+        progress,
+      }
     }
 
     if (repository.missing) {
@@ -860,7 +871,9 @@ export class AppStore extends TypedBaseStore<IAppState> {
       this.currentAheadBehindUpdater.insert(from, to, aheadBehind)
     }
 
-    const loadingMerge: MergeResultStatus = { kind: MergeResultKind.Loading }
+    const loadingMerge: MergeResultStatus = {
+      kind: MergeResultKind.Loading,
+    }
 
     this.repositoryStateCache.updateCompareState(repository, () => ({
       mergeStatus: loadingMerge,
@@ -1112,6 +1125,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.stopBackgroundFetching()
     this.stopPullRequestUpdater()
     this._setMergeConflictsBannerState(null)
+    this.stopBackgroundPruner()
 
     if (repository == null) {
       return Promise.resolve(null)
@@ -1148,7 +1162,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
     const gitHubRepository = repository.gitHubRepository
 
-    if (gitHubRepository != null) {
+    if (gitHubRepository !== null) {
       this._refreshIssues(gitHubRepository)
       this.loadPullRequests(repository, async () => {
         const promiseForPRs = this.pullRequestStore.fetchPullRequestsFromCache(
@@ -1187,16 +1201,51 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.stopBackgroundFetching()
     this.stopPullRequestUpdater()
     this.stopAheadBehindUpdate()
+    this.stopBackgroundPruner()
 
     this.startBackgroundFetching(repository, !previouslySelectedRepository)
     this.startPullRequestUpdater(repository)
 
     this.startAheadBehindUpdater(repository)
     this.refreshMentionables(repository)
+    this.startBackgroundPruner(repository)
 
     this.addUpstreamRemoteIfNeeded(repository)
 
     return this.repositoryWithRefreshedGitHubRepository(repository)
+  }
+
+  private stopBackgroundPruner() {
+    const pruner = this.currentBranchPruner
+
+    if (pruner !== null) {
+      pruner.stop()
+      this.currentBranchPruner = null
+    }
+  }
+
+  private startBackgroundPruner(repository: Repository) {
+    if (this.currentBranchPruner !== null) {
+      fatalError(
+        `A branch pruner is already active and cannot start updating on ${
+          repository.name
+        }`
+      )
+
+      return
+    }
+
+    if (enableBranchPruning()) {
+      const pruner = new BranchPruner(
+        repository,
+        this.gitStoreCache,
+        this.repositoriesStore,
+        this.repositoryStateCache,
+        repository => this._refreshRepository(repository)
+      )
+      this.currentBranchPruner = pruner
+      this.currentBranchPruner.start()
+    }
   }
 
   public async _refreshIssues(repository: GitHubRepository) {
@@ -1890,22 +1939,17 @@ export class AppStore extends TypedBaseStore<IAppState> {
   private async recoverMissingRepository(
     repository: Repository
   ): Promise<Repository> {
-    /*
-        if the repository is marked missing, check to see if the file path exists,
-        and if so then see if git recognizes the path as a valid repository,
-        and if so, reset the missing status as its been restored
-      */
-    if (
-      repository.missing
-        ? (await pathExists(repository.path))
-          ? await isGitRepository(repository.path)
-          : false
-        : false
-    ) {
-      return this._updateRepositoryMissing(repository, false)
-    } else {
+    if (!repository.missing) {
       return repository
     }
+
+    let foundRepository = await pathExists(repository.path)
+
+    if (foundRepository) {
+      foundRepository = await isGitRepository(repository.path)
+    }
+
+    return this._updateRepositoryMissing(repository, foundRepository)
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
@@ -2051,7 +2095,10 @@ export class AppStore extends TypedBaseStore<IAppState> {
    */
   private async refreshChangesSection(
     repository: Repository,
-    options: { includingStatus: boolean; clearPartialState: boolean }
+    options: {
+      includingStatus: boolean
+      clearPartialState: boolean
+    }
   ): Promise<void> {
     if (options.includingStatus) {
       await this._loadStatus(repository, options.clearPartialState)
@@ -2665,7 +2712,11 @@ export class AppStore extends TypedBaseStore<IAppState> {
             tip.branch.upstream
           )
 
-          gitContext = { kind: 'pull', tip, theirBranch: tip.branch.upstream }
+          gitContext = {
+            kind: 'pull',
+            tip,
+            theirBranch: tip.branch.upstream,
+          }
         }
 
         const title = `Pulling ${remote.name}`
@@ -2867,7 +2918,10 @@ export class AppStore extends TypedBaseStore<IAppState> {
     url: string,
     path: string,
     options?: { branch?: string }
-  ): { promise: Promise<boolean>; repository: CloningRepository } {
+  ): {
+    promise: Promise<boolean>
+    repository: CloningRepository
+  } {
     const account = this.getAccountForRemoteURL(url)
     const promise = this.cloningRepositoriesStore.clone(url, path, {
       ...options,
@@ -3181,7 +3235,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
   /** This shouldn't be called directly. See `Dispatcher`. */
   public async _finishConflictedMerge(
     repository: Repository,
-    workingDirectory: WorkingDirectoryStatus
+    workingDirectory: WorkingDirectoryStatus,
+    manualResolutions: Map<string, ManualConflictResolutionKind>
   ): Promise<string | undefined> {
     // filter out untracked files so we don't commit them
     const trackedFiles = workingDirectory.files.filter(f => {
@@ -3189,7 +3244,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     })
     const gitStore = this.gitStoreCache.get(repository)
     return await gitStore.performFailableOperation(() =>
-      createMergeCommit(repository, trackedFiles)
+      createMergeCommit(repository, trackedFiles, manualResolutions)
     )
   }
 
