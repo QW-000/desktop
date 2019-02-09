@@ -110,7 +110,7 @@ export class MergeCallToActionWithConflicts extends React.Component<
     count: number
   ) {
     if (count > 0) {
-      const pluralized = count === 1 ? 'commit' : 'commits'
+      const pluralized = count === 1 ? '提交' : '提交'
       return (
         <div className="merge-message">
           這將合併
@@ -139,11 +139,11 @@ export class MergeCallToActionWithConflicts extends React.Component<
     branch: Branch,
     count: number
   ) {
-    const pluralized = count === 1 ? 'file' : '檔案'
+    const pluralized = count === 1 ? '檔案' : '檔案'
     return (
       <div className="merge-message">
         將由
-        <strong>{` ${count} conflicted ${pluralized}`}</strong>
+        <strong>{` ${count} 衝突 ${pluralized}`}</strong>
         {` 合併於 `}
         <strong>{branch.name}</strong>
         {` 到 `}

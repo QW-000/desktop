@@ -48,7 +48,7 @@ export class MergeCallToAction extends React.Component<
     const count = formState.aheadBehind.behind
 
     if (count > 0) {
-      const pluralized = count === 1 ? 'commit' : 'commits'
+      const pluralized = count === 1 ? '提交' : '提交'
       return (
         <div className="merge-message merge-message-legacy">
           這將合併

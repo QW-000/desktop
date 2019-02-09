@@ -128,14 +128,14 @@ export function buildDefaultMenu({
   template.push({
     label: __DARWIN__ ? 'Edit' : '編輯(&E)',
     submenu: [
-      { role: 'undo', label: __DARWIN__ ? 'Undo' : '取消(&U)' },
-      { role: 'redo', label: __DARWIN__ ? 'Redo' : '重做(&R)' },
+      { role: 'undo', label: __DARWIN__ ? '取消' : '取消(&U)' },
+      { role: 'redo', label: __DARWIN__ ? '重做' : '重做(&R)' },
       separator,
-      { role: 'cut', label: __DARWIN__ ? 'Cut' : '剪下(&T)' },
-      { role: 'copy', label: __DARWIN__ ? 'Copy' : '複製(&C)' },
-      { role: 'paste', label: __DARWIN__ ? 'Paste' : '貼上(&P)' },
+      { role: 'cut', label: __DARWIN__ ? '剪下' : '剪下(&T)' },
+      { role: 'copy', label: __DARWIN__ ? '複製' : '複製(&C)' },
+      { role: 'paste', label: __DARWIN__ ? '貼上' : '貼上(&P)' },
       {
-        label: __DARWIN__ ? 'Select All' : '全選(&A)',
+        label: __DARWIN__ ? '全選' : '全選(&A)',
         accelerator: 'CmdOrCtrl+A',
         click: emit('select-all'),
       },

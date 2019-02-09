@@ -316,7 +316,7 @@ function calculateConflicts(conflictMarkers: number) {
 
 function editorButtonString(editorName: string | null): string {
   const defaultEditorString = 'editor'
-  return `Open in ${editorName || defaultEditorString}`
+  return `開啟 ${editorName || defaultEditorString}`
 }
 
 function editorButtonTooltip(editorName: string | null): string | undefined {

@@ -55,7 +55,7 @@ export class NewCommitsBanner extends React.Component<
               我們注意到你的分支是{' '}
               <strong>
                 {this.props.commitsBehindBaseBranch} 提交
-                {pluralize ? 's' : ''}
+                {pluralize ? '' : ''}
               </strong>{' '}
               落後 <Ref>{this.props.baseBranch.name}</Ref>.
             </p>
