@@ -10,7 +10,7 @@ export const DefaultEditorLabel = __DARWIN__
 export const RevealInFileManagerLabel = __DARWIN__
   ? '在 Finder 中顯示'
   : __WIN32__
-  ? '在瀏覽器中顯示'
+  ? '在檔案管理器中顯示'
   : '在你的檔案管理器中顯示'
 
 export const TrashNameLabel = __DARWIN__ ? '垃圾桶' : '回收筒'
