@@ -73,12 +73,12 @@ export class RepositoryListItem extends React.Component<
         return null
       }
       const commitGrammar = (commitNum: number) =>
-        `${commitNum} 提交${commitNum > 1 ? 's' : ''}` // english is hard
+        `${commitNum} 提交${commitNum > 1 ? '，' : ''}` // english is hard
       const aheadBehindTooltip =
         '當前簽出的分支是' +
-        (behind ? ` ${commitGrammar(behind)} behind ` : '') +
+        (behind ? ` ${commitGrammar(behind)} 落後` : '') +
         (behind && ahead ? '與' : '') +
-        (ahead ? ` ${commitGrammar(ahead)} 提前 ` : '') +
+        (ahead ? ` ${commitGrammar(ahead)} 提前` : '') +
         '其跟踪的分支。'
 
       return (

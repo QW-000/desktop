@@ -148,9 +148,9 @@ export class CreateBranch extends React.Component<
         )
         return (
           <p>
-            您的新分支將基於當前簽出的分支 (
+            您的新分支將基於當前 (
             <Ref>{currentBranch.name}</Ref>
-            ). <Ref>{currentBranch.name}</Ref> 是您的 {defaultBranchLink} 存儲庫。
+            ) 分支簽出。 <Ref>{currentBranch.name}</Ref> 是您的 {defaultBranchLink} 存儲庫。
           </p>
         )
       } else {

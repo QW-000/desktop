@@ -31,7 +31,7 @@ export class UndoCommit extends React.Component<IUndoCommitProps, {}> {
     return (
       <div id="undo-commit" role="group" aria-label="還原提交">
         <div className="commit-info">
-          <div className="ago">
+          <div className="前">
             提交 <RelativeTime date={authorDate} />
           </div>
           <RichText
