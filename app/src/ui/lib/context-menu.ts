@@ -13,7 +13,7 @@ export const RevealInFileManagerLabel = __DARWIN__
   ? '在瀏覽器中顯示'
   : '在你的檔案管理器中顯示'
 
-export const TrashNameLabel = __DARWIN__ ? 'Trash' : 'Recycle Bin'
+export const TrashNameLabel = __DARWIN__ ? '垃圾桶' : '回收筒'
 
 export const OpenWithDefaultProgramLabel = __DARWIN__
   ? '使用預設程式開啟'
