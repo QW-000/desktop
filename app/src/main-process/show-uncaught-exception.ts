@@ -30,7 +30,7 @@ export function showUncaughtException(isLaunchError: boolean, error: Error) {
     dialog.showMessageBox(
       {
         type: 'error',
-        title: __DARWIN__ ? `Unrecoverable Error` : 'Unrecoverable error',
+        title: __DARWIN__ ? `Unrecoverable Error` : '無法復原之錯誤',
         message:
           `GitHub Desktop has encountered an unrecoverable error and will need to restart.\n\n` +
           `This has been reported to the team, but if you encounter this repeatedly please report ` +

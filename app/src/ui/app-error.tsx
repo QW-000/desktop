@@ -92,10 +92,10 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
         return (
           <ButtonGroup>
             <Button type="submit" onClick={this.onCloseButtonClick}>
-              Close
+              關閉
             </Button>
             <Button onClick={this.showPreferencesDialog}>
-              {__DARWIN__ ? 'Open Preferences' : 'Open options'}
+              {__DARWIN__ ? 'Open Preferences' : '開啟選項'}
             </Button>
           </ButtonGroup>
         )
@@ -104,7 +104,7 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
         return (
           <ButtonGroup>
             <Button type="submit" onClick={this.onCloseButtonClick}>
-              Close
+              關閉
             </Button>
           </ButtonGroup>
         )
@@ -167,7 +167,7 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
     return (
       <ButtonGroup>
         <Button type="submit" onClick={this.onCloseButtonClick}>
-          Close
+          關閉
         </Button>
       </ButtonGroup>
     )

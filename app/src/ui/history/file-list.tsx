@@ -119,7 +119,7 @@ export class FileList extends React.Component<IFileListProps, {}> {
         {
           label: __DARWIN__
             ? 'File Does Not Exist on Disk'
-            : 'File does not exist on disk',
+            : '磁碟上沒有檔案',
           enabled: false,
         },
       ])
@@ -130,7 +130,7 @@ export class FileList extends React.Component<IFileListProps, {}> {
 
     const isSafeExtension = isSafeFileExtension(extension)
     const openInExternalEditor = this.props.externalEditorLabel
-      ? `Open in ${this.props.externalEditorLabel}`
+      ? `開啟 ${this.props.externalEditorLabel}`
       : DefaultEditorLabel
 
     const items = [

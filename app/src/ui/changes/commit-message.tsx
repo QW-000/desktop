@@ -232,7 +232,7 @@ export class CommitMessage extends React.Component<
   private renderAvatar() {
     const commitAuthor = this.props.commitAuthor
     const avatarTitle = commitAuthor
-      ? `Committing as ${commitAuthor.name} <${commitAuthor.email}>`
+      ? `提交 ${commitAuthor.name} <${commitAuthor.email}>`
       : undefined
     let avatarUser = undefined
 
@@ -295,10 +295,10 @@ export class CommitMessage extends React.Component<
     return this.props.showCoAuthoredBy
       ? __DARWIN__
         ? 'Remove Co-Authors'
-        : 'Remove co-authors'
+        : '刪除合作者'
       : __DARWIN__
       ? 'Add Co-Authors'
-      : 'Add co-authors'
+      : '增加合作者'
   }
 
   private getAddRemoveCoAuthorsMenuItem(): IMenuItem {
@@ -443,7 +443,7 @@ export class CommitMessage extends React.Component<
       <div
         id="commit-message"
         role="group"
-        aria-label="Create commit"
+        aria-label="建立提交"
         className={className}
         onContextMenu={this.onContextMenu}
         onKeyDown={this.onKeyDown}
@@ -470,7 +470,7 @@ export class CommitMessage extends React.Component<
         >
           <AutocompletingTextArea
             className={descriptionClassName}
-            placeholder="Description"
+            placeholder="描述"
             value={this.state.description || ''}
             onValueChanged={this.onDescriptionChanged}
             autocompletionProviders={this.props.autocompletionProviders}
@@ -491,8 +491,8 @@ export class CommitMessage extends React.Component<
           disabled={!buttonEnabled}
         >
           {loading}
-          <span title={`Commit to ${branchName}`}>
-            {loading ? 'Committing' : 'Commit'} to <strong>{branchName}</strong>
+          <span title={`提交到 ${branchName}`}>
+            {loading ? 'Committing' : '提交'}到 <strong>{branchName}</strong>
           </span>
         </Button>
       </div>

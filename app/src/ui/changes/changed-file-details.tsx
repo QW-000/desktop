@@ -44,7 +44,7 @@ export class ChangedFileDetails extends React.Component<
     if (status.kind === AppFileStatusKind.Conflicted && enableMergeTool()) {
       return (
         <Button className="open-merge-tool" onClick={this.onOpenMergeTool}>
-          {__DARWIN__ ? 'Open Merge Tool' : 'Open merge tool'}
+          {__DARWIN__ ? 'Open Merge Tool' : '開啟合併工具'}
         </Button>
       )
     } else if (diff.kind === DiffType.Text && diff.lineEndingsChange) {
