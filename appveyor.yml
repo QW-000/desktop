@@ -8,15 +8,12 @@ environment:
 
 cache:
   - .eslintcache
-  - node_modules -> package.json
   - '%USERPROFILE%\.electron'
-  - '%LOCALAPPDATA%\Yarn'
+  - '%LOCALAPPDATA%\Yarn\Cache\v4'
 
 branches:
   only:
     - development
-    # investigating integration test failures
-    - more-tabs-more-state
     - /^__release-.*/
 
 skip_tags: true
@@ -38,10 +35,10 @@ build_script:
 test_script:
   - yarn test:setup
   - ./script/test-appveyor.bat
-  - yarn test:report
 
 on_success:
   - yarn run publish
 
 on_finish:
   - yarn test:review
+  - yarn test:report
