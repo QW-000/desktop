@@ -37,8 +37,8 @@ interface IMergeConflictsDialogProps {
   readonly manualResolutions: Map<string, ManualConflictResolution>
 }
 
-const submitButtonString = 'Commit merge'
-const cancelButtonString = 'Abort merge'
+const submitButtonString = '提交合併'
+const cancelButtonString = '中止合併'
 
 /**
  * Modal to tell the user their merge encountered conflicts
@@ -124,16 +124,16 @@ export class MergeConflictsDialog extends React.Component<
     if (theirBranch !== undefined) {
       return (
         <span>
-          {`Resolve conflicts before merging `}
+          {`在合併之前解決衝突 `}
           <strong>{theirBranch}</strong>
-          {` into `}
+          {` 到 `}
           <strong>{ourBranch}</strong>
         </span>
       )
     }
     return (
       <span>
-        {`Resolve conflicts before merging into `}
+        {`在合併之前解決衝突 `}
         <strong>{ourBranch}</strong>
       </span>
     )
@@ -146,9 +146,9 @@ export class MergeConflictsDialog extends React.Component<
     return (
       <div>
         <LinkButton onClick={openThisRepositoryInShell}>
-          Open in command line,
+          開啟命令行
         </LinkButton>{' '}
-        your tool of choice, or close to resolve manually.
+        您選擇的工具或手動解決。
       </div>
     )
   }
@@ -181,8 +181,8 @@ export class MergeConflictsDialog extends React.Component<
     // localization, it burns :vampire:
     const message =
       conflictedFilesCount === 1
-        ? `1 conflicted file`
-        : `${conflictedFilesCount} conflicted files`
+        ? `1 衝突的檔案`
+        : `${conflictedFilesCount} 衝突的檔案`
     return <h3 className="summary">{message}</h3>
   }
 
@@ -192,7 +192,7 @@ export class MergeConflictsDialog extends React.Component<
         <div className="green-circle">
           <Octicon symbol={OcticonSymbol.check} />
         </div>
-        <div className="message">All conflicts resolved</div>
+        <div className="message">解決全部衝突</div>
       </div>
     )
   }
@@ -227,7 +227,7 @@ export class MergeConflictsDialog extends React.Component<
     )
     const tooltipString =
       conflictedFilesCount > 0
-        ? 'Resolve all changes before merging'
+        ? '在合併之前解決全部變更'
         : undefined
 
     return (

@@ -35,7 +35,7 @@ export class UsageStatsChange extends React.Component<
       <Dialog
         id="usage-reporting"
         title={
-          __DARWIN__ ? 'Usage Reporting Changes' : 'Usage reporting changes'
+          __DARWIN__ ? 'Usage Reporting Changes' : '使用變化報告'
         }
         dismissable={false}
         onDismissed={this.onDismissed}
@@ -44,33 +44,29 @@ export class UsageStatsChange extends React.Component<
       >
         <DialogContent>
           <Row>
-            GitHub Desktop has introduced a change around how it reports usage
-            stats, to help us better understand how our GitHub users get value
-            from Desktop:
+            GitHub Desktop 採取有關如何報告使用情況的狀態變化，幫助我們更好地了解 GitHub 用戶如何從 Desktop 獲取值:
           </Row>
           <Row>
             <ul>
               <li>
                 <span>
-                  <strong>If you are signed into a GitHub account</strong>, your
-                  GitHub.com account ID will be included in the periodic usage
-                  stats.
+                  <strong>如果您已登入 GitHub 帳戶</strong>, 您的
+                  GitHub.com 帳戶 ID 將包含在定期使用狀態中。
                 </span>
               </li>
               <li>
                 <span>
                   <strong>
-                    If you are only signed into a GitHub Enterprise account, or
-                    only using Desktop with non-GitHub remotes
+                    如果只是登入到 GitHub Enterprise 帳戶，或者只使用帶有非 GitHub 遠端控制台的 Desktop
                   </strong>
-                  , nothing is going to change.
+                  什麼都不會改變。
                 </span>
               </li>
             </ul>
           </Row>
           <Row className="selection">
             <Checkbox
-              label="Help GitHub Desktop improve by submitting usage stats"
+              label="由提交使用狀態來幫助改善 GitHub Desktop"
               value={
                 this.state.optOutOfUsageTracking
                   ? CheckboxValue.Off
@@ -82,10 +78,10 @@ export class UsageStatsChange extends React.Component<
         </DialogContent>
         <DialogFooter>
           <ButtonGroup>
-            <Button type="submit">Continue</Button>
+            <Button type="submit">繼續</Button>
             <Button onClick={this.viewMoreInfo}>
               {' '}
-              {__DARWIN__ ? 'More Info' : 'More info'}
+              {__DARWIN__ ? 'More Info' : '更多資訊'}
             </Button>
           </ButtonGroup>
         </DialogFooter>

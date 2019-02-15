@@ -177,12 +177,12 @@ export class ReleaseNotes extends React.Component<IReleaseNotesProps, {}> {
         <DialogContent>{contents}</DialogContent>
         <DialogFooter>
           <LinkButton onClick={this.showAllReleaseNotes}>
-            View all release notes
+            檢視全部發行說明
           </LinkButton>
           <ButtonGroup destructive={true}>
-            <Button type="submit">Close</Button>
+            <Button type="submit">關閉</Button>
             <Button onClick={this.updateNow}>
-              {__DARWIN__ ? 'Install and Restart' : 'Install and restart'}
+              {__DARWIN__ ? 'Install and Restart' : '安裝並重新啟動'}
             </Button>
           </ButtonGroup>
         </DialogFooter>

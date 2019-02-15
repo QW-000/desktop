@@ -15,7 +15,7 @@ export class RevertProgress extends React.Component<IRevertProgressProps, {}> {
     const title = progress.title || 'Hang on…'
     return (
       <ToolbarButton
-        title="Reverting…"
+        title="還原…"
         description={title}
         progressValue={progress.value}
         className="revert-progress"

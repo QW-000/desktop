@@ -36,7 +36,7 @@ export class InitializeLFS extends React.Component<IInitializeLFSProps, {}> {
     return (
       <Dialog
         id="initialize-lfs"
-        title="Initialize Git LFS"
+        title="初始化 Git LFS"
         onDismissed={this.props.onDismissed}
         onSubmit={this.onInitialize}
       >
@@ -44,9 +44,9 @@ export class InitializeLFS extends React.Component<IInitializeLFSProps, {}> {
 
         <DialogFooter>
           <ButtonGroup>
-            <Button type="submit">Initialize Git LFS</Button>
+            <Button type="submit">初始化 Git LFS</Button>
             <Button onClick={this.props.onDismissed}>
-              {__DARWIN__ ? 'Not Now' : 'Not now'}
+              {__DARWIN__ ? 'Not Now' : '現在不要'}
             </Button>
           </ButtonGroup>
         </DialogFooter>
@@ -62,24 +62,22 @@ export class InitializeLFS extends React.Component<IInitializeLFSProps, {}> {
     if (this.props.repositories.length > MaxRepositoriesToList) {
       return (
         <p>
-          {this.props.repositories.length} repositories use{' '}
-          <LinkButton uri={LFSURL}>Git LFS</LinkButton>. To contribute to them,
-          Git LFS must first be initialized. Would you like to do so now?
+          {this.props.repositories.length} 存儲庫使用{' '}
+          <LinkButton uri={LFSURL}>Git LFS</LinkButton>。 為他們做貢獻，首先必須初始化 Git LFS。 你想現在這樣做嗎?
         </p>
       )
     } else {
       const plural = this.props.repositories.length !== 1
       const pluralizedRepositories = plural
         ? 'The repositories use'
-        : 'This repository uses'
+        : '此存儲庫使用'
       const pluralizedUse = plural ? 'them' : 'it'
       return (
         <div>
           <p>
             {pluralizedRepositories}{' '}
-            <LinkButton uri={LFSURL}>Git LFS</LinkButton>. To contribute to{' '}
-            {pluralizedUse}, Git LFS must first be initialized. Would you like
-            to do so now?
+            <LinkButton uri={LFSURL}>Git LFS</LinkButton>. 貢獻給{' '}
+            {pluralizedUse}，首先必須初始化 Git LFS。 你想現在這樣做嗎?
           </p>
           <ul>
             {this.props.repositories.map(r => (

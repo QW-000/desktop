@@ -121,7 +121,7 @@ export abstract class AutocompletingTextInput<
     }
 
     const item = state.items[row]
-    const selected = item === state.selectedItem ? 'selected' : ''
+    const selected = item === state.selectedItem ? '選擇' : ''
     return (
       <div className={`autocompletion-item ${selected}`}>
         {state.provider.renderItem(item)}

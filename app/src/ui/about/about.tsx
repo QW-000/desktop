@@ -114,7 +114,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
         return (
           <Row>
             <Button onClick={this.onQuitAndInstall}>
-              Quit and Install Update
+              結束並安裝更新
             </Button>
           </Row>
         )
@@ -126,7 +126,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
         return (
           <Row>
             <Button disabled={disabled} onClick={this.props.onCheckForUpdates}>
-              Check for Updates
+              檢查更新
             </Button>
           </Row>
         )
@@ -142,7 +142,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
     return (
       <Row className="update-status">
         <Loading />
-        <span>Checking for updates…</span>
+        <span>檢查更新…</span>
       </Row>
     )
   }
@@ -151,7 +151,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
     return (
       <Row className="update-status">
         <Loading />
-        <span>Downloading update…</span>
+        <span>下載更新…</span>
       </Row>
     )
   }
@@ -166,7 +166,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
 
     return (
       <p className="update-status">
-        You have the latest version (last checked{' '}
+        您有最新版本 (last checked{' '}
         <RelativeTime date={lastCheckedDate} />)
       </p>
     )
@@ -175,7 +175,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
   private renderUpdateReady() {
     return (
       <p className="update-status">
-        An update has been downloaded and is ready to be installed.
+        已下載更新並準備安裝。
       </p>
     )
   }
@@ -191,8 +191,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
     ) {
       return (
         <p>
-          The application is currently running in development or test mode and
-          will not receive any updates.
+          此應用程式目前正在開發或測試模式下執行，並不會收到任何更新。
         </p>
       )
     }
@@ -231,9 +230,10 @@ export class About extends React.Component<IAboutProps, IAboutState> {
     if (!this.state.updateState.lastSuccessfulCheck) {
       return (
         <DialogError>
-          Couldn't determine the last time an update check was performed. You
-          may be running an old version. Please try manually checking for
-          updates and contact GitHub Support if the problem persists
+          無法確定上次執行更新檢查的時間。 
+          您可能正在執行舊版本，請嘗試手動檢查更新，如果問題仍然存在，請聯絡 GitHub 支援
+          ________________________________________________________________________________
+          注意:此版本無法取得官方版本的更新，上方警示請勿理會。
         </DialogError>
       )
     }
@@ -245,7 +245,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
     const name = this.props.applicationName
     const version = this.props.applicationVersion
     const releaseNotesLink = (
-      <LinkButton uri={ReleaseNotesUri}>release notes</LinkButton>
+      <LinkButton uri={ReleaseNotesUri}>發行說明</LinkButton>
     )
 
     const versionText = __DEV__ ? `Build ${version}` : `Version ${version}`
@@ -264,7 +264,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
           <h2>{name}</h2>
           <p className="no-padding">
             <LinkButton
-              title="Click to copy"
+              title="點擊複製"
               className="version-text"
               onClick={this.onClickVersion}
             >
@@ -274,12 +274,12 @@ export class About extends React.Component<IAboutProps, IAboutState> {
           </p>
           <p className="no-padding">
             <LinkButton onClick={this.props.onShowTermsAndConditions}>
-              Terms and Conditions
+              條款和條件
             </LinkButton>
           </p>
           <p>
             <LinkButton onClick={this.props.onShowAcknowledgements}>
-              License and Open Source Notices
+              許可證和開源聲明
             </LinkButton>
           </p>
           {this.renderUpdateDetails()}
@@ -292,7 +292,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
               ref={this.onCloseButtonRef}
               onClick={this.props.onDismissed}
             >
-              Close
+              關閉
             </Button>
           </ButtonGroup>
         </DialogFooter>

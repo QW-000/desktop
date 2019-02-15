@@ -78,7 +78,7 @@ export class RelativeTime extends React.Component<
     if (diff > 0 && duration > MINUTE) {
       this.updateAndSchedule(absoluteText, then.format('lll'), duration)
     } else if (duration < MINUTE) {
-      this.updateAndSchedule(absoluteText, 'just now', MINUTE - duration)
+      this.updateAndSchedule(absoluteText, '剛剛', MINUTE - duration)
     } else if (duration < HOUR) {
       this.updateAndSchedule(absoluteText, then.from(now), MINUTE)
     } else if (duration < DAY) {
