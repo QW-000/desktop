@@ -11,6 +11,7 @@ import {
   ICompareFormUpdate,
   MergeResultStatus,
   RepositorySectionTab,
+  isRebaseConflictState,
 } from '../../lib/app-state'
 import { ExternalEditor } from '../../lib/editors'
 import { assertNever, fatalError } from '../../lib/fatal-error'
@@ -18,7 +19,7 @@ import {
   setGenericPassword,
   setGenericUsername,
 } from '../../lib/generic-git-auth'
-import { isGitRepository } from '../../lib/git'
+import { isGitRepository, ContinueRebaseResult } from '../../lib/git'
 import { isGitOnPath } from '../../lib/is-git-on-path'
 import {
   rejectOAuthRequest,
@@ -39,6 +40,7 @@ import { ILaunchStats, StatsStore } from '../../lib/stats'
 import { AppStore } from '../../lib/stores/app-store'
 import { validatedRepositoryPath } from '../../lib/stores/helpers/validated-repository-path'
 import { RepositoryStateCache } from '../../lib/stores/repository-state-cache'
+import { getTipSha } from '../../lib/tip'
 
 import { Account } from '../../models/account'
 import { AppMenu, ExecutableMenuItem } from '../../models/app-menu'
@@ -63,11 +65,11 @@ import {
   WorkingDirectoryStatus,
 } from '../../models/status'
 import { TipState } from '../../models/tip'
+import { Banner, BannerType } from '../../models/banner'
 
 import { ApplicationTheme } from '../lib/application-theme'
 import { installCLI } from '../lib/install-cli'
 import { executeMenuItem } from '../main-process-proxy'
-import { Banner } from '../../models/banner'
 
 /**
  * An error handler function.
@@ -619,6 +621,54 @@ export class Dispatcher {
     mergeStatus: MergeResultStatus | null
   ): Promise<void> {
     return this.appStore._mergeBranch(repository, branch, mergeStatus)
+  }
+
+  /** aborts the current rebase and refreshes the repository's status */
+  public async abortRebase(repository: Repository) {
+    await this.appStore._abortRebase(repository)
+    await this.appStore._loadStatus(repository)
+  }
+
+  public async continueRebase(
+    repository: Repository,
+    workingDirectory: WorkingDirectoryStatus
+  ) {
+    const stateBefore = this.repositoryStateManager.get(repository)
+
+    const beforeSha = getTipSha(stateBefore.branchesState.tip)
+
+    log.info(`[continueRebase] continuing rebase for ${beforeSha}`)
+
+    const result = await this.appStore._continueRebase(
+      repository,
+      workingDirectory
+    )
+    await this.appStore._loadStatus(repository)
+
+    const stateAfter = this.repositoryStateManager.get(repository)
+    const { tip } = stateAfter.branchesState
+    const afterSha = getTipSha(tip)
+
+    log.info(
+      `[continueRebase] completed rebase - got ${result} and on tip ${afterSha} - kind ${
+        tip.kind
+      }`
+    )
+
+    const { conflictState } = stateBefore.changesState
+
+    if (
+      result === ContinueRebaseResult.CompletedWithoutError &&
+      conflictState !== null &&
+      isRebaseConflictState(conflictState)
+    ) {
+      this.setBanner({
+        type: BannerType.SuccessfulRebase,
+        targetBranch: conflictState.targetBranch,
+      })
+    }
+
+    return result
   }
 
   /** aborts an in-flight merge and refreshes the repository's status */
@@ -1480,5 +1530,21 @@ export class Dispatcher {
    */
   public recordUnguidedConflictedMergeCompletion() {
     this.statsStore.recordUnguidedConflictedMergeCompletion()
+  }
+
+  // TODO: more rebase-related actions
+
+  /**
+   * Increments the `rebaseConflictsDialogDismissalCount` metric
+   */
+  public recordRebaseConflictsDialogDismissal() {
+    this.statsStore.recordRebaseConflictsDialogDismissal()
+  }
+
+  /**
+   * Increments the `rebaseConflictsDialogReopenedCount` metric
+   */
+  public recordRebaseConflictsDialogReopened() {
+    this.statsStore.recordRebaseConflictsDialogReopened()
   }
 }

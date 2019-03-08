@@ -8,6 +8,7 @@ import { IAheadBehind } from '../../models/branch'
 import { TipState } from '../../models/tip'
 import { RelativeTime } from '../relative-time'
 import { FetchType } from '../../models/fetch'
+import { enablePullWithRebase } from '../../lib/feature-flag'
 
 interface IPushPullButtonProps {
   /**
@@ -40,6 +41,28 @@ interface IPushPullButtonProps {
    * Used for setting the enabled/disabled and the description text.
    */
   readonly tipState: TipState
+
+  /** Has the user configured pull.rebase to anything? */
+  readonly pullWithRebase?: boolean
+
+  /** Is the detached HEAD state related to a rebase or not? */
+  readonly rebaseInProgress: boolean
+}
+
+function getActionLabel(
+  { ahead, behind }: IAheadBehind,
+  remoteName: string,
+  pullWithRebase?: boolean
+) {
+  if (behind > 0) {
+    return pullWithRebase && enablePullWithRebase()
+      ? `拉取 ${remoteName} 與變基`
+      : `拉取 ${remoteName}`
+  }
+  if (ahead > 0) {
+    return `推送 ${remoteName}`
+  }
+  return `提取 ${remoteName}`
 }
 
 /**
@@ -131,18 +154,11 @@ export class PushPullButton extends React.Component<IPushPullButtonProps, {}> {
       return '發佈分支'
     }
 
-    const { ahead, behind } = this.props.aheadBehind
-    const actionName = (function() {
-      if (behind > 0) {
-        return '拉取'
-      }
-      if (ahead > 0) {
-        return '推送'
-      }
-      return '提取'
-    })()
-
-    return `${actionName} ${this.props.remoteName}`
+    return getActionLabel(
+      this.props.aheadBehind,
+      this.props.remoteName,
+      this.props.pullWithRebase
+    )
   }
 
   private getIcon(): OcticonSymbol {
@@ -176,7 +192,9 @@ export class PushPullButton extends React.Component<IPushPullButtonProps, {}> {
     }
 
     if (tipState === TipState.Detached) {
-      return '無法發佈分離的 HEAD'
+      return this.props.rebaseInProgress
+        ? '變基正在進行中'
+        : '無法發佈分離的 HEAD'
     }
 
     if (tipState === TipState.Unborn) {
