@@ -92,7 +92,7 @@ export class BranchesContainer extends React.Component<
           <Button className="merge-button" onClick={this.onMergeClick}>
             <Octicon className="icon" symbol={OcticonSymbol.gitMerge} />
             <span title={`將分支合併到 ${branchName}`}>
-              選擇要合併的分支 <strong>{branchName}</strong>
+              選擇要合併到 <strong>{branchName}</strong> 的分支
             </span>
           </Button>
         </Row>
