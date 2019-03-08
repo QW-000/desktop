@@ -40,14 +40,14 @@ export class RenameBranch extends React.Component<
     return (
       <Dialog
         id="rename-branch"
-        title={__DARWIN__ ? 'Rename Branch' : 'Rename branch'}
+        title={__DARWIN__ ? 'Rename Branch' : '重新命名分支'}
         onDismissed={this.cancel}
         onSubmit={this.renameBranch}
       >
         <DialogContent>
           <Row>
             <TextBox
-              label="Name"
+              label="名稱"
               autoFocus={true}
               value={this.state.newName}
               onValueChanged={this.onNameChange}
@@ -63,9 +63,9 @@ export class RenameBranch extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" disabled={disabled}>
-              Rename {this.props.branch.name}
+              重新命名 {this.props.branch.name}
             </Button>
-            <Button onClick={this.cancel}>Cancel</Button>
+            <Button onClick={this.cancel}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>

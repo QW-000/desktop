@@ -56,13 +56,13 @@ function getActionLabel(
 ) {
   if (behind > 0) {
     return pullWithRebase && enablePullWithRebase()
-      ? `Pull ${remoteName} with rebase`
-      : `Pull ${remoteName}`
+      ? `拉取 ${remoteName} 與變基`
+      : `拉取 ${remoteName}`
   }
   if (ahead > 0) {
-    return `Push ${remoteName}`
+    return `推送 ${remoteName}`
   }
-  return `Fetch ${remoteName}`
+  return `提取 ${remoteName}`
 }
 
 /**
@@ -148,10 +148,10 @@ export class PushPullButton extends React.Component<IPushPullButtonProps, {}> {
 
   private getTitle(): string {
     if (!this.props.remoteName) {
-      return 'Publish repository'
+      return '發佈存儲庫'
     }
     if (!this.props.aheadBehind) {
-      return 'Publish branch'
+      return '發佈分支'
     }
 
     return getActionLabel(
@@ -188,35 +188,35 @@ export class PushPullButton extends React.Component<IPushPullButtonProps, {}> {
 
   private getDescription(tipState: TipState): JSX.Element | string {
     if (!this.props.remoteName) {
-      return 'Publish this repository to GitHub'
+      return '將此存儲庫發佈到 GitHub'
     }
 
     if (tipState === TipState.Detached) {
       return this.props.rebaseInProgress
-        ? 'Rebase in progress'
-        : 'Cannot publish detached HEAD'
+        ? '變基正在進行中'
+        : '無法發佈分離的 HEAD'
     }
 
     if (tipState === TipState.Unborn) {
-      return 'Cannot publish unborn HEAD'
+      return '無法發佈原生的 HEAD'
     }
 
     if (!this.props.aheadBehind) {
       const isGitHub = !!this.props.repository.gitHubRepository
       return isGitHub
-        ? 'Publish this branch to GitHub'
-        : 'Publish this branch to the remote'
+        ? '將此分支發佈到 GitHub'
+        : '將此分支發佈到遠端'
     }
 
     const lastFetched = this.props.lastFetched
     if (lastFetched) {
       return (
         <span>
-          Last fetched <RelativeTime date={lastFetched} />
+          上次提取 <RelativeTime date={lastFetched} />
         </span>
       )
     } else {
-      return 'Never fetched'
+      return '從未取得'
     }
   }
 

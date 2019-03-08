@@ -93,7 +93,7 @@ export class BranchDropdown extends React.Component<IBranchDropdownProps> {
     let icon = OcticonSymbol.gitBranch
     let iconClassName: string | undefined = undefined
     let title: string
-    let description = __DARWIN__ ? 'Current Branch' : 'Current branch'
+    let description = __DARWIN__ ? 'Current Branch' : '當前分支'
     let canOpen = true
     let disabled = false
     let tooltip: string
@@ -107,25 +107,25 @@ export class BranchDropdown extends React.Component<IBranchDropdownProps> {
       return null
     } else if (tip.kind === TipState.Unborn) {
       title = tip.ref
-      tooltip = `Current branch is ${tip.ref}`
+      tooltip = `現在的分支是 ${tip.ref}`
       canOpen = branchesState.allBranches.length > 0
     } else if (tip.kind === TipState.Detached) {
       title = `On ${tip.currentSha.substr(0, 7)}`
-      tooltip = 'Currently on a detached HEAD'
+      tooltip = '當前在分離的 HEAD'
       icon = OcticonSymbol.gitCommit
       description = 'Detached HEAD'
     } else if (tip.kind === TipState.Valid) {
       title = tip.branch.name
-      tooltip = `Current branch is ${title}`
+      tooltip = `現在的分支是 ${title}`
     } else {
-      return assertNever(tip, `Unknown tip state: ${tipKind}`)
+      return assertNever(tip, `未知的提示狀態: ${tipKind}`)
     }
 
     let progressValue: number | undefined = undefined
 
     if (checkoutProgress) {
       title = checkoutProgress.targetBranch
-      description = __DARWIN__ ? 'Switching to Branch' : 'Switching to branch'
+      description = __DARWIN__ ? 'Switching to Branch' : '切換到分支'
 
       if (checkoutProgress.value > 0) {
         const friendlyProgress = Math.round(checkoutProgress.value * 100)

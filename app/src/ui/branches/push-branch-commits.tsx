@@ -110,25 +110,24 @@ export class PushBranchCommits extends React.Component<
     if (renderPublishView(this.props.unPushedCommits)) {
       return (
         <DialogContent>
-          <p>Your branch must be published before opening a pull request.</p>
+          <p>在開啟拉取請求之前必須發佈您的分支。</p>
           <p>
-            Would you like to publish <Ref>{this.props.branch.name}</Ref> now
-            and open a pull request?
+            您想現在發佈 <Ref>{this.props.branch.name}</Ref> 並開啟拉取請求嗎?
           </p>
         </DialogContent>
       )
     }
 
-    const localCommits = pluralize(this.props.unPushedCommits, 'local commit')
+    const localCommits = pluralize(this.props.unPushedCommits, '本機提交')
 
     return (
       <DialogContent>
         <p>
-          You have {localCommits} that haven't been pushed to the remote yet.
+          你有 {localCommits} 尚未推送到遠端。
         </p>
         <p>
-          Would you like to push your changes to{' '}
-          <Ref>{this.props.branch.name}</Ref> before creating your pull request?
+          在創建拉取請求之前，您是否要將變更推送到 {' '}
+          <Ref>{this.props.branch.name}</Ref> ?
         </p>
       </DialogContent>
     )
@@ -136,10 +135,10 @@ export class PushBranchCommits extends React.Component<
 
   private renderDialogTitle() {
     if (renderPublishView(this.props.unPushedCommits)) {
-      return __DARWIN__ ? 'Publish Branch?' : 'Publish branch?'
+      return __DARWIN__ ? 'Publish Branch?' : '發佈分支?'
     }
 
-    return __DARWIN__ ? `Push Local Changes?` : `Push local changes?`
+    return __DARWIN__ ? `Push Local Changes?` : `推送本機變更?`
   }
 
   private renderButtonGroup() {
@@ -151,9 +150,9 @@ export class PushBranchCommits extends React.Component<
             onClick={this.onPushOrPublishButtonClick}
             onButtonRef={this.onDialogOpenRef}
           >
-            {__DARWIN__ ? 'Publish Branch' : 'Publish branch'}
+            {__DARWIN__ ? 'Publish Branch' : '發佈分支'}
           </Button>
-          <Button onClick={this.cancel}>Cancel</Button>
+          <Button onClick={this.cancel}>取消</Button>
         </ButtonGroup>
       )
     }
@@ -161,10 +160,10 @@ export class PushBranchCommits extends React.Component<
     return (
       <ButtonGroup>
         <Button type="submit" onClick={this.onPushOrPublishButtonClick}>
-          {__DARWIN__ ? 'Push Commits' : 'Push commits'}
+          {__DARWIN__ ? 'Push Commits' : '推送提交'}
         </Button>
         <Button onClick={this.onCreateWithoutPushButtonClick}>
-          {__DARWIN__ ? 'Create Without Pushing' : 'Create without pushing'}
+          {__DARWIN__ ? 'Create Without Pushing' : '建立不推送'}
         </Button>
       </ButtonGroup>
     )
