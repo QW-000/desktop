@@ -222,7 +222,7 @@ export class BranchesContainer extends React.Component<
       <Button
         disabled={this.props.isLoadingPullRequests}
         onClick={this.onRefreshPullRequests}
-        tooltip="Refresh the list of pull requests"
+        tooltip="更新拉取請求清單"
       >
         <Octicon
           symbol={OcticonSymbol.sync}

@@ -236,7 +236,7 @@ export class BlankSlateView extends React.Component<
         className="clone-selected-repository"
         onClick={this.onCloneSelectedRepository}
       >
-        Clone{' '}
+        克隆{' '}
         <strong>
           {selectedItem.owner.login}/{selectedItem.name}
         </strong>
@@ -345,7 +345,7 @@ export class BlankSlateView extends React.Component<
         <div className="drag-drop-info">
           <Octicon symbol={OcticonSymbol.lightBulb} />
           <div>
-            <strong>專家提示!</strong> 您可以拖曳現有的存儲庫資料夾在這裡將其增加到 Desktop
+            <strong>專家提示!</strong> 您可以拖曳現有的存儲庫資料夾到 Desktop 上增加。
           </div>
         </div>
       </div>
