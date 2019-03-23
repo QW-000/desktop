@@ -280,10 +280,10 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        在 {' '} 中設置要使用的編輯器
+        在 {' '}
         <LinkButton onClick={this.openPreferences}>
           {__DARWIN__ ? '喜好' : '選項'}
-        </LinkButton>
+        </LinkButton> 中設置要使用的編輯器
       </>
     )
 
@@ -353,7 +353,7 @@ export class NoChanges extends React.Component<
       <MenuBackedBlankslateAction
         key="publish-repository-action"
         title="將您的存儲庫發佈到 GitHub"
-        description="此存儲庫目前僅在本機電腦上可用，經由發佈在 GitHub 上，你可以分享，並與其他作者合作。"
+        description="此存儲庫目前僅在本機電腦上可用，經由發佈在 GitHub 上，你可以分享並與其他作者合作。"
         discoverabilityContent={discoverabilityContent}
         buttonText="發佈存儲庫"
         menuItemId={itemId}
