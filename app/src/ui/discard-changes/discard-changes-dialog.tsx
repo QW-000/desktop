@@ -60,6 +60,7 @@ export class DiscardChanges extends React.Component<
 
   public render() {
     const discardingAllChanges = this.props.discardingAllChanges
+    const isDiscardingChanges = this.state.isDiscardingChanges
 
     return (
       <Dialog
@@ -70,6 +71,8 @@ export class DiscardChanges extends React.Component<
             : toPlatformCase('確認放棄變更')
         }
         onDismissed={this.props.onDismissed}
+        dismissable={isDiscardingChanges ? false : true}
+        loading={isDiscardingChanges}
         type="warning"
       >
         <DialogContent>
@@ -82,8 +85,10 @@ export class DiscardChanges extends React.Component<
 
         <DialogFooter>
           <ButtonGroup destructive={true}>
-            <Button type="submit">取消</Button>
-            <Button onClick={this.discard}>
+            <Button disabled={isDiscardingChanges} type="submit">
+              取消
+            </Button>
+            <Button onClick={this.discard} disabled={isDiscardingChanges}>
               {discardingAllChanges
                 ? toPlatformCase('放棄全部變更')
                 : toPlatformCase('放棄變更')}
