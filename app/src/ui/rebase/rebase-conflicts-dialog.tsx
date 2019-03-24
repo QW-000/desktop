@@ -75,16 +75,16 @@ export class RebaseConflictsDialog extends React.Component<
     if (baseBranch !== undefined) {
       return (
         <span>
-          {`Resolve conflicts before rebasing `}
+          {`在變基之前解決衝突 `}
           <strong>{targetBranch}</strong>
-          {` on `}
+          {` 在 `}
           <strong>{baseBranch}</strong>
         </span>
       )
     }
     return (
       <span>
-        {`Resolve conflicts before rebasing `}
+        {`在變基之前解決衝突 `}
         <strong>{targetBranch}</strong>
       </span>
     )
@@ -148,7 +148,7 @@ export class RebaseConflictsDialog extends React.Component<
 
     const tooltipString =
       conflictedFilesCount > 0
-        ? 'Resolve all conflicts before continuing'
+        ? '在繼續之前解決所有衝突'
         : undefined
 
     return (
@@ -170,9 +170,9 @@ export class RebaseConflictsDialog extends React.Component<
               disabled={conflictedFilesCount > 0}
               tooltip={tooltipString}
             >
-              Continue rebase
+              繼續變基
             </Button>
-            <Button onClick={this.onCancel}>Abort rebase</Button>
+            <Button onClick={this.onCancel}>中止變基</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>

@@ -13,7 +13,7 @@ const defaultEditorLabel = __DARWIN__
   ? 'Open in External Editor'
   : '開啟外部編輯器'
 const defaultShellLabel = __DARWIN__
-  ? 'Open in Terminal'
+  ? '開啟終端機'
   : '開啟命令提示字元'
 const defaultPullRequestLabel = __DARWIN__
   ? 'Create Pull Request'

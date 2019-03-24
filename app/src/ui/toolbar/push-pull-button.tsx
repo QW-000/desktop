@@ -69,7 +69,7 @@ function getActionLabel(
   pullWithRebase?: boolean
 ) {
   if (isBranchRebased(branchWasRebased, aheadBehind)) {
-    return `Force push ${remoteName}`
+    return `強制推送 ${remoteName}`
   }
 
   const { ahead, behind } = aheadBehind

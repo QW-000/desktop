@@ -142,7 +142,7 @@ export class BranchDropdown extends React.Component<IBranchDropdownProps> {
       enablePullWithRebase()
     ) {
       title = conflictState.targetBranch
-      description = 'Rebasing branch'
+      description = '變基分支'
       icon = OcticonSymbol.gitBranch
       canOpen = false
       disabled = true

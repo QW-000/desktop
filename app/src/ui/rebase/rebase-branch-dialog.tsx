@@ -124,7 +124,7 @@ export class RebaseBranchDialog extends React.Component<
         dismissable={true}
         title={
           <>
-            Rebase <strong>{truncatedCurrentBranchName}</strong> onto…
+            變基 <strong>{truncatedCurrentBranchName}</strong> 到…
           </>
         }
       >
@@ -145,7 +145,7 @@ export class RebaseBranchDialog extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit">
-              Rebase <strong>{currentBranchName}</strong> onto{' '}
+              變基 <strong>{currentBranchName}</strong> 到 {' '}
               <strong>{selectedBranch ? selectedBranch.name : ''}</strong>
             </Button>
           </ButtonGroup>
