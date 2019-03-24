@@ -250,7 +250,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
       <LinkButton uri={ReleaseNotesUri}>發行說明</LinkButton>
     )
 
-    const versionText = __DEV__ ? `Build ${version}` : `Version ${version}`
+    const versionText = __DEV__ ? `建置 ${version}` : `版本 ${version}`
 
     return (
       <Dialog

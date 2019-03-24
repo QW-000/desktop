@@ -14,14 +14,14 @@ export function SuccessfulRebase({
   const message =
     baseBranch !== undefined ? (
       <span>
-        {'成功重定基底 '}
+        {'成功變基 '}
         <strong>{targetBranch}</strong>
         {' 到 '}
         <strong>{baseBranch}</strong>
       </span>
     ) : (
       <span>
-        {'成功重定基底 '}
+        {'成功變基 '}
         <strong>{targetBranch}</strong>
       </span>
     )

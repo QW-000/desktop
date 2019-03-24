@@ -252,7 +252,7 @@ export class Advanced extends React.Component<
         </Row>
         <Row>
           <Checkbox
-            label="刪除存儲庫之前顯示確認對話框"
+            label="刪除存儲庫之前顯示確定對話框"
             value={
               this.state.confirmRepositoryRemoval
                 ? CheckboxValue.On
@@ -263,7 +263,7 @@ export class Advanced extends React.Component<
         </Row>
         <Row>
           <Checkbox
-            label="在放棄變更之前顯示確認對話框"
+            label="在放棄變更之前顯示確定對話框"
             value={
               this.state.confirmDiscardChanges
                 ? CheckboxValue.On
@@ -274,7 +274,7 @@ export class Advanced extends React.Component<
         </Row>
         <Row>
           <Checkbox
-            label="Show confirmation dialog before force pushing"
+            label="推送前顯示確定對話框"
             value={
               this.state.confirmForcePush ? CheckboxValue.On : CheckboxValue.Off
             }

@@ -338,7 +338,7 @@ export function buildDefaultMenu({
       {
         label: __DARWIN__
           ? 'Rebase Current Branch…'
-          : 'R&ebase current branch…',
+          : '變基當前分支(&R)…',
         id: 'rebase-branch',
         accelerator: 'CmdOrCtrl+Shift+E',
         click: emit('rebase-branch'),
