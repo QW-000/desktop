@@ -28,7 +28,7 @@ export function renderShellLink(openThisRepositoryInShell: () => void) {
       <LinkButton onClick={openThisRepositoryInShell}>
         在命令行中開啟
       </LinkButton>{' '}
-      您選擇的工具，或關閉來手動解決。
+      您選擇的工具，或關閉以手動解決。
     </div>
   )
 }
