@@ -280,10 +280,10 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        Select your editor in{' '}
+        在{' '}
         <LinkButton onClick={this.openPreferences}>
           {__DARWIN__ ? '喜好' : '選項'}
-        </LinkButton>
+        </LinkButton>中選擇您的編輯器
       </>
     )
 
