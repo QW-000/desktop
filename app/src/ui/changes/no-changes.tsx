@@ -280,10 +280,10 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        在 {' '}
+        Select your editor in{' '}
         <LinkButton onClick={this.openPreferences}>
           {__DARWIN__ ? '喜好' : '選項'}
-        </LinkButton> 中設置要使用的編輯器
+        </LinkButton>
       </>
     )
 
@@ -380,7 +380,7 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        當前分支 (<Ref>{tip.branch.name}</Ref>) 尚未發佈到遠端。 
+        當前分支 (<Ref>{tip.branch.name}</Ref>) 尚未發佈到遠端。
         經由 {isGitHub ? '發佈到 GitHub' : ''} 你可以分享它 {isGitHub ? '開啟拉取請求 ' : ''} 並與其他作者合作。
       </>
     )

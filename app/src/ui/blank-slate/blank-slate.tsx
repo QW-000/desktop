@@ -325,7 +325,7 @@ export class BlankSlateView extends React.Component<
               <Octicon symbol={OcticonSymbol.plus} />
               <div>
                 {__DARWIN__
-                  ? 'Create a New Repository on Your Hard Drive…'
+                  ? 'Create a New Repository on your Hard Drive…'
                   : '在硬碟上建立一項新的存儲庫…'}
               </div>
             </Button>
@@ -335,7 +335,7 @@ export class BlankSlateView extends React.Component<
               <Octicon symbol={OcticonSymbol.fileDirectory} />
               <div>
                 {__DARWIN__
-                  ? 'Add an Existing Repository from Your Hard Drive…'
+                  ? 'Add an Existing Repository from your Hard Drive…'
                   : '從硬碟增加現有存儲庫…'}
               </div>
             </Button>

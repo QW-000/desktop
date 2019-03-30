@@ -1,15 +1,14 @@
 import { remote } from 'electron'
-import { Disposable } from 'event-kit'
+import { Disposable, IDisposable } from 'event-kit'
 import * as Path from 'path'
 
-import { IAPIOrganization } from '../../lib/api'
+import { IAPIOrganization, IAPIRefStatus } from '../../lib/api'
 import { shell } from '../../lib/app-shell'
 import {
   CompareAction,
   Foldout,
   FoldoutType,
   ICompareFormUpdate,
-  MergeResultStatus,
   RepositorySectionTab,
   isRebaseConflictState,
 } from '../../lib/app-state'
@@ -71,6 +70,11 @@ import { Banner, BannerType } from '../../models/banner'
 import { ApplicationTheme } from '../lib/application-theme'
 import { installCLI } from '../lib/install-cli'
 import { executeMenuItem } from '../main-process-proxy'
+import {
+  CommitStatusStore,
+  StatusCallBack,
+} from '../../lib/stores/commit-status-store'
+import { MergeResult } from '../../models/merge'
 
 /**
  * An error handler function.
@@ -93,7 +97,8 @@ export class Dispatcher {
   public constructor(
     private readonly appStore: AppStore,
     private readonly repositoryStateManager: RepositoryStateCache,
-    private readonly statsStore: StatsStore
+    private readonly statsStore: StatsStore,
+    private readonly commitStatusStore: CommitStatusStore
   ) {}
 
   /** Load the initial state for the app. */
@@ -202,11 +207,6 @@ export class Dispatcher {
     repository: Repository | CloningRepository
   ): Promise<Repository | null> {
     return this.appStore._selectRepository(repository)
-  }
-
-  /** Load the working directory status. */
-  public loadStatus(repository: Repository): Promise<boolean> {
-    return this.appStore._loadStatus(repository)
   }
 
   /** Change the selected section in the repository. */
@@ -623,7 +623,7 @@ export class Dispatcher {
   public mergeBranch(
     repository: Repository,
     branch: string,
-    mergeStatus: MergeResultStatus | null
+    mergeStatus: MergeResult | null
   ): Promise<void> {
     return this.appStore._mergeBranch(repository, branch, mergeStatus)
   }
@@ -679,7 +679,7 @@ export class Dispatcher {
     baseBranch: string,
     targetBranch: string,
     progress?: RebaseProgressOptions
-  ) {
+  ): Promise<RebaseResult> {
     const stateBefore = this.repositoryStateManager.get(repository)
 
     const beforeSha = getTipSha(stateBefore.branchesState.tip)
@@ -720,6 +720,8 @@ export class Dispatcher {
         baseBranch: baseBranch,
       })
     }
+
+    return result
   }
 
   /** aborts the current rebase and refreshes the repository's status */
@@ -732,7 +734,7 @@ export class Dispatcher {
     repository: Repository,
     workingDirectory: WorkingDirectoryStatus,
     manualResolutions: ReadonlyMap<string, ManualConflictResolution>
-  ) {
+  ): Promise<RebaseResult> {
     const stateBefore = this.repositoryStateManager.get(repository)
 
     const beforeSha = getTipSha(stateBefore.branchesState.tip)
@@ -776,6 +778,8 @@ export class Dispatcher {
         }
       }
     }
+
+    return result
   }
 
   /** aborts an in-flight merge and refreshes the repository's status */
@@ -1046,6 +1050,12 @@ export class Dispatcher {
 
   public async setAppFocusState(isFocused: boolean): Promise<void> {
     await this.appStore._setAppFocusState(isFocused)
+
+    if (isFocused) {
+      this.commitStatusStore.startBackgroundRefresh()
+    } else {
+      this.commitStatusStore.stopBackgroundRefresh()
+    }
   }
 
   public async dispatchURLAction(action: URLActionType): Promise<void> {
@@ -1511,7 +1521,7 @@ export class Dispatcher {
       forceWithLease: true,
     })
 
-    await this.loadStatus(repository)
+    await this.appStore._loadStatus(repository)
   }
 
   public setConfirmForcePushSetting(value: boolean) {
@@ -1589,27 +1599,6 @@ export class Dispatcher {
    */
   public recordDivergingBranchBannerDismissal() {
     return this.statsStore.recordDivergingBranchBannerDismissal()
-  }
-
-  /**
-   * Increments the `dotcomPushCount` metric
-   */
-  public recordPushToGitHub() {
-    return this.statsStore.recordPushToGitHub()
-  }
-
-  /**
-   * Increments the `enterprisePushCount` metric
-   */
-  public recordPushToGitHubEnterprise() {
-    return this.statsStore.recordPushToGitHubEnterprise()
-  }
-
-  /**
-   * Increments the `externalPushCount` metric
-   */
-  public recordPushToGenericRemote() {
-    return this.statsStore.recordPushToGenericRemote()
   }
 
   /**
@@ -1708,5 +1697,36 @@ export class Dispatcher {
    */
   public refreshPullRequests(repository: Repository): Promise<void> {
     return this.appStore._refreshPullRequests(repository)
+  }
+
+  /**
+   * Attempt to retrieve a commit status for a particular
+   * ref. If the ref doesn't exist in the cache this function returns null.
+   *
+   * Useful for component who wish to have a value for the initial render
+   * instead of waiting for the subscription to produce an event.
+   */
+  public tryGetCommitStatus(
+    repository: GitHubRepository,
+    ref: string
+  ): IAPIRefStatus | null {
+    return this.commitStatusStore.tryGetStatus(repository, ref)
+  }
+
+  /**
+   * Subscribe to commit status updates for a particular ref.
+   *
+   * @param repository The GitHub repository to use when looking up commit status.
+   * @param ref        The commit ref (can be a SHA or a Git ref) for which to
+   *                   fetch status.
+   * @param callback   A callback which will be invoked whenever the
+   *                   store updates a commit status for the given ref.
+   */
+  public subscribeToCommitStatus(
+    repository: GitHubRepository,
+    ref: string,
+    callback: StatusCallBack
+  ): IDisposable {
+    return this.commitStatusStore.subscribe(repository, ref, callback)
   }
 }
