@@ -17,17 +17,17 @@ const squirrelTimeoutRegex = /A connection attempt failed because the connected 
 export function parseError(error: Error): Error | null {
   if (squirrelMissingRegex.test(error.message)) {
     return new Error(
-      'The application is missing a dependency it needs to check and install updates. This is very, very bad.'
+      '應用程式缺少安裝更新檢查時所需的依賴項。 這非常非常糟糕。'
     )
   }
   if (squirrelDNSRegex.test(error.message)) {
     return new Error(
-      'GitHub Desktop was not able to contact the update server. Ensure you have internet connectivity and try again.'
+      'GitHub Desktop 無法取得更新服務器。 確定已連線網際網路，然後重試。'
     )
   }
   if (squirrelTimeoutRegex.test(error.message)) {
     return new Error(
-      'GitHub Desktop was not able to check for updates due to a timeout. Ensure you have internet connectivity and try again.'
+      '由於超時，GitHub Desktop 無法檢查更新。 確定已連線網際網路，然後重試。'
     )
   }
 

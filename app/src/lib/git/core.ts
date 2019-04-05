@@ -201,7 +201,7 @@ function getDescriptionForError(error: DugiteError): string {
     case DugiteError.DefaultBranchDeletionFailed:
       return `The branch is the repository's default branch and cannot be deleted.`
     case DugiteError.RevertConflicts:
-      return 'To finish reverting, please merge and commit the changes.'
+      return '要完成還原，請合併並提交變更。'
     case DugiteError.EmptyRebasePatch:
       return 'There aren’t any changes left to apply.'
     case DugiteError.NoMatchingRemoteBranch:

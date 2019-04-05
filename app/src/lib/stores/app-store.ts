@@ -1590,13 +1590,13 @@ export class AppStore extends TypedBaseStore<IAppState> {
    */
   private updateMenuItemLabels(repository?: Repository) {
     const editorLabel = this.selectedExternalEditor
-      ? `Open in ${this.selectedExternalEditor}`
+      ? `開啟 ${this.selectedExternalEditor}`
       : undefined
 
     updatePreferredAppMenuItemLabels({
       editorLabel: editorLabel,
       pullRequestLabel: this.getPullRequestLabel(repository),
-      shellLabel: `Open in ${this.selectedShell}`,
+      shellLabel: `開啟 ${this.selectedShell}`,
       defaultBranchName: this.getDefaultBranchName(repository),
     })
   }
@@ -1620,7 +1620,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       return undefined
     }
 
-    return __DARWIN__ ? 'Show Pull Request' : 'Show &pull request'
+    return __DARWIN__ ? '顯示拉取請求' : '顯示拉取請求(&P)'
   }
 
   private getDefaultBranchName(repository?: Repository) {
@@ -2475,7 +2475,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     try {
       this.updateCheckoutProgress(repository, {
         kind,
-        title: __DARWIN__ ? 'Refreshing Repository' : 'Refreshing repository',
+        title: __DARWIN__ ? '更新存儲庫' : '更新存儲庫',
         value: 1,
         targetBranch: foundBranch.name,
       })
@@ -2636,7 +2636,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
       if (defaultBranch == null) {
         throw new Error(
-          `A default branch cannot be found for this repository, so the app is unable to identify which branch to switch to before removing the current branch.`
+          `無法找到此存儲庫的預設分支，因此在刪除當前分支之前，應用程式無法辨識將切換的分支。`
         )
       }
 
@@ -2695,11 +2695,11 @@ export class AppStore extends TypedBaseStore<IAppState> {
       const { tip } = state.branchesState
 
       if (tip.kind === TipState.Unborn) {
-        throw new Error('The current branch is unborn.')
+        throw new Error('當前的分支是原生的。')
       }
 
       if (tip.kind === TipState.Detached) {
-        throw new Error('The current repository is in a detached HEAD state.')
+        throw new Error('當前存儲庫處於分離的 HEAD 狀態。')
       }
 
       if (tip.kind === TipState.Valid) {
@@ -2707,7 +2707,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
         const remoteName = branch.remote || remote.name
 
-        const pushTitle = `Pushing to ${remoteName}`
+        const pushTitle = `推送到 ${remoteName}`
 
         // Emit an initial progress even before our push begins
         // since we're doing some work to get remotes up front.
@@ -2770,8 +2770,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
             )
 
             const refreshTitle = __DARWIN__
-              ? 'Refreshing Repository'
-              : 'Refreshing repository'
+              ? '更新存儲庫'
+              : '更新存儲庫'
             const refreshStartProgress = pushWeight + fetchWeight
 
             this.updatePushPullFetchProgress(repository, {
@@ -2874,18 +2874,18 @@ export class AppStore extends TypedBaseStore<IAppState> {
       const remote = gitStore.currentRemote
 
       if (!remote) {
-        throw new Error('The repository has no remotes.')
+        throw new Error('此存儲庫未有遠端。')
       }
 
       const state = this.repositoryStateCache.get(repository)
       const tip = state.branchesState.tip
 
       if (tip.kind === TipState.Unborn) {
-        throw new Error('The current branch is unborn.')
+        throw new Error('當前的分支是原生的。')
       }
 
       if (tip.kind === TipState.Detached) {
-        throw new Error('The current repository is in a detached HEAD state.')
+        throw new Error('當前存儲庫處於分離的 HEAD 狀態。')
       }
 
       if (tip.kind === TipState.Valid) {
@@ -2906,7 +2906,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
           }
         }
 
-        const title = `Pulling ${remote.name}`
+        const title = `拉取 ${remote.name}`
         const kind = 'pull'
         this.updatePushPullFetchProgress(repository, {
           kind,
@@ -2957,8 +2957,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
           const refreshStartProgress = pullWeight + fetchWeight
           const refreshTitle = __DARWIN__
-            ? 'Refreshing Repository'
-            : 'Refreshing repository'
+            ? '更新存儲庫'
+            : '更新存儲庫'
 
           this.updatePushPullFetchProgress(repository, {
             kind: 'generic',
@@ -3259,8 +3259,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
         }
 
         const refreshTitle = __DARWIN__
-          ? 'Refreshing Repository'
-          : 'Refreshing repository'
+          ? '更新存儲庫'
+          : '更新存儲庫'
 
         this.updatePushPullFetchProgress(repository, {
           kind: 'generic',
@@ -3533,7 +3533,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       if (match === null) {
         this.emitError(
           new ExternalEditorError(
-            'No suitable editors installed for GitHub Desktop to launch. Install Atom for your platform and restart GitHub Desktop to try again.',
+            'GitHub Desktop 未安裝適合的編輯器。 為您的平台安裝 Atom 並重新啟動 GitHub Desktop 重試。',
             { suggestAtom: true }
           )
         )
@@ -3853,7 +3853,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
           lfsRepositories.push(refreshedRepo)
         }
       } else {
-        const error = new Error(`${path} isn't a git repository.`)
+        const error = new Error(`${path} 不是 GIT 存儲庫。`)
         this.emitError(error)
       }
     }
@@ -4299,7 +4299,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     pullRequest: PullRequest
   ): Promise<void> {
     const gitHubRepository = forceUnwrap(
-      `Cannot checkout a PR if the repository doesn't have a GitHub repository`,
+      `如存儲庫未有 GitHub 的庫，則無法簽出 PR`,
       repository.gitHubRepository
     )
     const head = pullRequest.head
