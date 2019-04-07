@@ -151,7 +151,7 @@ function detachedHeadButton(rebaseInProgress: boolean) {
   return (
     <ToolbarButton
       {...defaultProps}
-      title="Publish branch"
+      title="發佈分支"
       description={description}
       icon={OcticonSymbol.cloudUpload}
       disabled={true}

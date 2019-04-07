@@ -1,5 +1,9 @@
 import * as React from 'react'
 import * as moment from 'moment'
+import 'moment/locale/zh-TW'
+
+console.log(moment.locale());
+moment.locale('zh-TW');
 
 interface IRelativeTimeProps {
   /**
