@@ -3324,7 +3324,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         this.updatePushPullFetchProgress(repository, {
           kind: 'generic',
           title: refreshTitle,
-          description: 'Fast-forwarding branches',
+          description: '快進分支',
           value: fetchWeight + refreshWeight * 0.5,
         })
 
