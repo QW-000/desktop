@@ -107,7 +107,7 @@ function progressButton(progress: Progress, networkActionInProgress: boolean) {
     <ToolbarButton
       {...defaultProps}
       title={progress.title}
-      description={progress.description || 'Hang on…'}
+      description={progress.description || '請稍候…'}
       progressValue={progress.value}
       icon={OcticonSymbol.sync}
       iconClassName={networkActionInProgress ? 'spin' : ''}
