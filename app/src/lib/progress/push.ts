@@ -5,9 +5,9 @@ import { GitProgressParser } from './git'
  * of the individual progress reporting steps in a push operation
  */
 const steps = [
-  { title: 'Compressing objects', weight: 0.2 },
-  { title: 'Writing objects', weight: 0.7 },
-  { title: 'remote: Resolving deltas', weight: 0.1 },
+  { title: '壓縮項目', weight: 0.2 },
+  { title: '寫入項目', weight: 0.7 },
+  { title: '遠端: 分析增量', weight: 0.1 },
 ]
 
 /**

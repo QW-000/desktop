@@ -3,7 +3,7 @@ import { IRemote } from '../../../models/remote'
 import { repositoryMatchesRemote } from '../../repository-matching'
 
 /** The name for a fork's upstream remote. */
-export const UpstreamRemoteName = 'upstream'
+export const UpstreamRemoteName = '上游'
 
 /**
  * Find the upstream remote based on the parent repository and the list of
