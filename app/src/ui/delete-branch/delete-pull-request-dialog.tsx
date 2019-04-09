@@ -31,7 +31,7 @@ export class DeletePullRequest extends React.Component<IDeleteBranchProps, {}> {
         <DialogContent>
           <p>此分支具有與之關聯的開放拉取請求。</p>
           <p>
-            If{' '}
+            要是{' '}
             <LinkButton onClick={this.openPullRequest}>
               #{this.props.pullRequest.pullRequestNumber}
             </LinkButton>{' '}
