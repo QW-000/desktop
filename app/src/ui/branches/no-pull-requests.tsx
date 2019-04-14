@@ -50,7 +50,7 @@ export class NoPullRequests extends React.Component<INoPullRequestsProps, {}> {
         <div>
           <div className="title">你已經準備好了!</div>
           <div className="no-prs">
-            沒有開啟拉取請求 <Ref>{this.props.repositoryName}</Ref>
+            沒有開啟 <Ref>{this.props.repositoryName}</Ref> 的拉取請求
           </div>
         </div>
       )
@@ -61,7 +61,7 @@ export class NoPullRequests extends React.Component<INoPullRequestsProps, {}> {
     if (this.props.isLoadingPullRequests) {
       return (
         <div className="call-to-action">
-          Loading pull requests as fast as I can!
+          盡可能加快載入拉取請求!
         </div>
       )
     }
