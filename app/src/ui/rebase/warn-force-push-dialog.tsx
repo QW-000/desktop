@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { Repository } from '../../models/repository'
+import { WarnForcePushStep } from '../../models/rebase-flow-step'
 
 import { Button } from '../lib/button'
 import { ButtonGroup } from '../lib/button-group'
@@ -10,50 +11,59 @@ import { Dispatcher } from '../dispatcher'
 import { DialogFooter, DialogContent, Dialog } from '../dialog'
 import { Ref } from '../lib/ref'
 
-interface IConfirmForcePushProps {
+interface IWarnForcePushProps {
   readonly dispatcher: Dispatcher
   readonly repository: Repository
-  readonly upstreamBranch: string
+  readonly step: WarnForcePushStep
   readonly askForConfirmationOnForcePush: boolean
   readonly onDismissed: () => void
 }
 
-interface IConfirmForcePushState {
-  readonly isLoading: boolean
+interface IWarnForcePushState {
   readonly askForConfirmationOnForcePush: boolean
 }
 
-export class ConfirmForcePush extends React.Component<
-  IConfirmForcePushProps,
-  IConfirmForcePushState
+export class WarnForcePushDialog extends React.Component<
+  IWarnForcePushProps,
+  IWarnForcePushState
 > {
-  public constructor(props: IConfirmForcePushProps) {
+  public constructor(props: IWarnForcePushProps) {
     super(props)
 
     this.state = {
-      isLoading: false,
       askForConfirmationOnForcePush: props.askForConfirmationOnForcePush,
     }
   }
 
   public render() {
+    const { baseBranch, targetBranch } = this.props.step
+
+    const title = __DARWIN__
+      ? 'Rebase Will Require Force Push'
+      : 'Rebase will require force push'
+
     return (
       <Dialog
-        title="你確定要強制推送嗎?"
-        dismissable={!this.state.isLoading}
+        title={title}
         onDismissed={this.props.onDismissed}
-        onSubmit={this.onForcePush}
+        onSubmit={this.onBeginRebase}
+        disableClickDismissalAlways={true}
         type="warning"
       >
         <DialogContent>
           <p>
-            強制推送將在 {' '}
-            <Ref>{this.props.upstreamBranch}</Ref> 上重寫歷史記錄。
-            在此分支上工作的任一位合作者都需要重設自己的本機分支以相符遠端歷史記錄。
+            Are you sure you want to rebase <Ref>{targetBranch.name}</Ref> onto{' '}
+            <Ref>{baseBranch.name}</Ref>?
+          </p>
+          <p>
+            At the end of the rebase flow, GitHub Desktop will enable you to
+            force push the branch to update the upstream branch. Force pushing
+            will alter the history on the remote and potentially cause problems
+            for others collaborating on this branch.
           </p>
           <div>
             <Checkbox
-              label="不再顯示此訊息"
+              label="Do not show this message again"
               value={
                 this.state.askForConfirmationOnForcePush
                   ? CheckboxValue.Off
@@ -65,8 +75,8 @@ export class ConfirmForcePush extends React.Component<
         </DialogContent>
         <DialogFooter>
           <ButtonGroup>
-            <Button type="submit">我確定</Button>
-            <Button onClick={this.props.onDismissed}>取消</Button>
+            <Button type="submit">Begin rebase</Button>
+            <Button onClick={this.props.onDismissed}>Cancel</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>
@@ -81,12 +91,19 @@ export class ConfirmForcePush extends React.Component<
     this.setState({ askForConfirmationOnForcePush: value })
   }
 
-  private onForcePush = async () => {
+  private onBeginRebase = async () => {
     this.props.dispatcher.setConfirmForcePushSetting(
       this.state.askForConfirmationOnForcePush
     )
-    this.props.onDismissed()
 
-    await this.props.dispatcher.performForcePush(this.props.repository)
+    const { baseBranch, targetBranch, commits } = this.props.step
+
+    await this.props.dispatcher.startRebase(
+      this.props.repository,
+      baseBranch,
+      targetBranch,
+      commits,
+      { continueWithForcePush: true }
+    )
   }
 }
