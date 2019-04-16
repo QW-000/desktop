@@ -24,6 +24,7 @@ import {
   renderBranchNameExistsOnRemoteWarning,
 } from '../lib/branch-name-warnings'
 import { getStartPoint } from '../../lib/create-branch'
+import { UncommittedChangesStrategy } from '../../models/uncommitted-changes-strategy'
 
 interface ICreateBranchProps {
   readonly repository: Repository
@@ -272,7 +273,7 @@ export class CreateBranch extends React.Component<
   private createBranch = async () => {
     const name = this.state.sanitizedName
 
-    let startPoint = undefined
+    let startPoint: string | null = null
 
     if (this.state.startPoint === StartPoint.DefaultBranch) {
       // This really shouldn't happen, we take all kinds of precautions
@@ -292,9 +293,9 @@ export class CreateBranch extends React.Component<
       await this.props.dispatcher.createBranch(
         this.props.repository,
         name,
-        startPoint
+        startPoint,
+        UncommittedChangesStrategy.askForConfirmation
       )
-      this.props.onDismissed()
     }
   }
 }

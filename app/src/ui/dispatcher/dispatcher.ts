@@ -82,7 +82,9 @@ import {
   StatusCallBack,
 } from '../../lib/stores/commit-status-store'
 import { MergeResult } from '../../models/merge'
+import { UncommittedChangesStrategy } from '../../models/uncommitted-changes-strategy'
 import { RebaseFlowStep, RebaseStep } from '../../models/rebase-flow-step'
+import { IStashEntry } from '../../models/stash-entry'
 
 /**
  * An error handler function.
@@ -225,12 +227,34 @@ export class Dispatcher {
     return this.appStore._changeRepositorySection(repository, section)
   }
 
-  /** Change the currently selected file in Changes. */
-  public changeChangesSelection(
+  /**
+   * Changes the selection in the changes view to the working directory and
+   * optionally selects one or more files from the working directory.
+   *
+   *  @param files An array of files to select when showing the working directory.
+   *               If undefined this method will preserve the previously selected
+   *               files or pick the first changed file if no selection exists.
+   */
+  public selectWorkingDirectoryFiles(
     repository: Repository,
-    selectedFiles: WorkingDirectoryFileChange[]
+    selectedFiles?: WorkingDirectoryFileChange[]
   ): Promise<void> {
-    return this.appStore._changeChangesSelection(repository, selectedFiles)
+    return this.appStore._selectWorkingDirectoryFiles(repository, selectedFiles)
+  }
+
+  /**
+   * Changes the selection in the changes view to the stash entry view and
+   * optionally selects a particular file from the current stash entry.
+   *
+   *  @param file  A file to select when showing the stash entry.
+   *               If undefined this method will preserve the previously selected
+   *               file or pick the first changed file if no selection exists.
+   */
+  public selectStashedFile(
+    repository: Repository,
+    file?: CommittedFileChange | null
+  ): Promise<void> {
+    return this.appStore._selectStashedFile(repository, file)
   }
 
   /**
@@ -382,7 +406,10 @@ export class Dispatcher {
       return
     }
 
-    const updatedConflictState = { ...conflictState, targetBranch }
+    const updatedConflictState = {
+      ...conflictState,
+      targetBranch,
+    }
 
     this.repositoryStateManager.updateChangesState(repository, () => ({
       conflictState: updatedConflictState,
@@ -411,17 +438,28 @@ export class Dispatcher {
   public createBranch(
     repository: Repository,
     name: string,
-    startPoint?: string
+    startPoint: string | null,
+    uncommittedChangesStrategy: UncommittedChangesStrategy = UncommittedChangesStrategy.askForConfirmation
   ): Promise<Repository> {
-    return this.appStore._createBranch(repository, name, startPoint)
+    return this.appStore._createBranch(
+      repository,
+      name,
+      startPoint,
+      uncommittedChangesStrategy
+    )
   }
 
   /** Check out the given branch. */
   public checkoutBranch(
     repository: Repository,
-    branch: Branch | string
+    branch: Branch | string,
+    uncommittedChangesStrategy?: UncommittedChangesStrategy
   ): Promise<Repository> {
-    return this.appStore._checkoutBranch(repository, branch)
+    return this.appStore._checkoutBranch(
+      repository,
+      branch,
+      uncommittedChangesStrategy
+    )
   }
 
   /** Push the current branch. */
@@ -1967,5 +2005,40 @@ export class Dispatcher {
     callback: StatusCallBack
   ): IDisposable {
     return this.commitStatusStore.subscribe(repository, ref, callback)
+  }
+
+  /**
+   * Stashes all changes, including those in untracked files, in the working directory
+   *
+   * @param branch the branch the stash should be associated with
+   */
+  public createStash(repository: Repository, branch: Branch): Promise<void> {
+    return this.appStore._createStash(repository, branch.name)
+  }
+
+  /** Drops the given stash in the given repository */
+  public dropStash(repository: Repository, stashEntry: IStashEntry) {
+    return this.appStore._dropStashEntry(repository, stashEntry)
+  }
+
+  /** Pop the given stash in the given repository */
+  public popStash(repository: Repository, stashEntry: IStashEntry) {
+    return this.appStore._popStashEntry(repository, stashEntry)
+  }
+
+  /**
+   * Set the width of the commit summary column in the
+   * history view to the given value.
+   */
+  public setStashedFilesWidth = (width: number): Promise<void> => {
+    return this.appStore._setStashedFilesWidth(width)
+  }
+
+  /**
+   * Reset the width of the commit summary column in the
+   * history view to its default value.
+   */
+  public resetStashedFilesWidth = (): Promise<void> => {
+    return this.appStore._resetStashedFilesWidth()
   }
 }
