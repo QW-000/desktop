@@ -236,7 +236,7 @@ export class SelectedCommit extends React.Component<
         {
           label: __DARWIN__
             ? 'File Does Not Exist on Disk'
-            : 'File does not exist on disk',
+            : '磁碟上沒有檔案',
           enabled: false,
         },
       ])
@@ -247,7 +247,7 @@ export class SelectedCommit extends React.Component<
 
     const isSafeExtension = isSafeFileExtension(extension)
     const openInExternalEditor = this.props.externalEditorLabel
-      ? `Open in ${this.props.externalEditorLabel}`
+      ? `開啟 ${this.props.externalEditorLabel}`
       : DefaultEditorLabel
 
     const items = [
