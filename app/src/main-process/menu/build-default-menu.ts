@@ -242,7 +242,7 @@ export function buildDefaultMenu({
     askForConfirmationOnForcePush
   )
 
-  const pushEventType = isForcePushForCurrentRepository ? '強制推送' : '推送'
+  const pushEventType = isForcePushForCurrentRepository ? 'force-push' : 'push'
 
   template.push({
     label: __DARWIN__ ? 'Repository' : '存儲庫(&R)',
