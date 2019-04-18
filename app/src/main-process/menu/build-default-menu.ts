@@ -21,6 +21,7 @@ const defaultPullRequestLabel = __DARWIN__
 const defaultBranchNameDefaultValue = __DARWIN__
   ? 'Default Branch'
   : '預設分支'
+const defaultRepositoryRemovalLabel = __DARWIN__ ? '清除' : '清除(&R)'
 
 enum ZoomDirection {
   Reset,
@@ -33,6 +34,9 @@ export type MenuLabels = {
   shellLabel?: string
   pullRequestLabel?: string
   defaultBranchName?: string
+  removeRepoLabel?: string
+  isForcePushForCurrentRepository?: boolean
+  askForConfirmationOnForcePush?: boolean
 }
 
 export function buildDefaultMenu({
@@ -40,6 +44,9 @@ export function buildDefaultMenu({
   shellLabel = defaultShellLabel,
   pullRequestLabel = defaultPullRequestLabel,
   defaultBranchName = defaultBranchNameDefaultValue,
+  removeRepoLabel = defaultRepositoryRemovalLabel,
+  isForcePushForCurrentRepository = false,
+  askForConfirmationOnForcePush = false,
 }: MenuLabels): Electron.Menu {
   defaultBranchName = truncateWithEllipsis(defaultBranchName, 25)
 
@@ -230,15 +237,22 @@ export function buildDefaultMenu({
     ],
   })
 
+  const pushLabel = getPushLabel(
+    isForcePushForCurrentRepository,
+    askForConfirmationOnForcePush
+  )
+
+  const pushEventType = isForcePushForCurrentRepository ? '強制推送' : '推送'
+
   template.push({
     label: __DARWIN__ ? 'Repository' : '存儲庫(&R)',
     id: 'repository',
     submenu: [
       {
         id: 'push',
-        label: __DARWIN__ ? 'Push' : '推送(&U)',
+        label: pushLabel,
         accelerator: 'CmdOrCtrl+P',
-        click: emit('push'),
+        click: emit(pushEventType),
       },
       {
         id: 'pull',
@@ -247,7 +261,7 @@ export function buildDefaultMenu({
         click: emit('pull'),
       },
       {
-        label: __DARWIN__ ? 'Remove' : '清除(&R)',
+        label: removeRepoLabel,
         id: 'remove-repository',
         accelerator: 'CmdOrCtrl+Delete',
         click: emit('remove-repository'),
@@ -396,6 +410,15 @@ export function buildDefaultMenu({
     },
   }
 
+  const showKeyboardShortcuts: Electron.MenuItemConstructorOptions = {
+    label: __DARWIN__ ? 'Show Keyboard Shortcuts' : '顯示鍵盤捷徑鍵',
+    click() {
+      shell.openExternal(
+        'https://help.github.com/en/desktop/getting-started-with-github-desktop/keyboard-shortcuts-in-github-desktop'
+      )
+    },
+  }
+
   const showLogsLabel = __DARWIN__
     ? 'Show Logs in Finder'
     : __WIN32__
@@ -420,6 +443,7 @@ export function buildDefaultMenu({
     submitIssueItem,
     contactSupportItem,
     showUserGuides,
+    showKeyboardShortcuts,
     showLogsItem,
   ]
 
@@ -471,6 +495,21 @@ export function buildDefaultMenu({
   ensureItemIds(template)
 
   return Menu.buildFromTemplate(template)
+}
+
+function getPushLabel(
+  isForcePushForCurrentRepository: boolean,
+  askForConfirmationOnForcePush: boolean
+): string {
+  if (!isForcePushForCurrentRepository) {
+    return __DARWIN__ ? '推送' : '推送(&P)'
+  }
+
+  if (askForConfirmationOnForcePush) {
+    return __DARWIN__ ? '強制推送…' : '強制推送(&P)…'
+  }
+
+  return __DARWIN__ ? '強制推送' : '強制推送(&P)'
 }
 
 type ClickHandler = (
