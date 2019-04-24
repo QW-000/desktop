@@ -180,8 +180,7 @@ export class ChooseBranchDialog extends React.Component<
           {this.renderRebaseStatus()}
           <ButtonGroup>
             <Button type="submit" disabled={disabled} tooltip={tooltip}>
-              變基 <strong>{currentBranchName}</strong> 到 {' '}
-              <strong>{selectedBranch ? selectedBranch.name : ''}</strong>
+              開始變基
             </Button>
           </ButtonGroup>
         </DialogFooter>
@@ -255,8 +254,8 @@ export class ChooseBranchDialog extends React.Component<
     if (commitsToRebase <= 0) {
       return (
         <>
-          這個{` `}
-          <strong>{currentBranch.name}</strong>分支是最新的
+          這個 {` `}
+          <strong>{currentBranch.name}</strong> 分支是最新的
         </>
       )
     }
@@ -264,11 +263,10 @@ export class ChooseBranchDialog extends React.Component<
     const pluralized = commitsToRebase === 1 ? '提交' : '提交'
     return (
       <>
-        這將變基
+        這將更新 <strong>{currentBranch.name}</strong>
+        {` 經由套用 `}
         <strong>{` ${commitsToRebase} ${pluralized}`}</strong>
-        {` 從 `}
-        <strong>{currentBranch.name}</strong>
-        {` 到 `}
+        {` 在之上 `}
         <strong>{baseBranch.name}</strong>
       </>
     )
