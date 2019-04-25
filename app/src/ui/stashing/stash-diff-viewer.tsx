@@ -125,13 +125,13 @@ const Header: React.SFC<{
 
   const restoreMessage = isWorkingTreeClean ? (
     <span className="text">
-      <strong>Restore</strong> will move your stashed files to the Changes list.
+      <strong>復原</strong> 將您的藏匿檔案移動到變更清單。
     </span>
   ) : (
     <>
       <Octicon symbol={OcticonSymbol.alert} />
       <span className="text">
-        Unable to restore stash when changes are present on your branch.
+        當分支上存在變更時，無法復原藏匿。
       </span>
     </>
   )
@@ -143,13 +143,13 @@ const Header: React.SFC<{
   // the correct button ordering
   return (
     <div className="header">
-      <h3>Stashed changes</h3>
+      <h3>藏匿變更</h3>
       <div className="row">
         <ButtonGroup destructive={false}>
           <Button onClick={onRestoreClick} type="submit">
-            Restore
+            復原
           </Button>
-          <Button onClick={onDiscardClick}>Discard</Button>
+          <Button onClick={onDiscardClick}>丟棄</Button>
         </ButtonGroup>
         <div className="explanatory-text">{restoreMessage}</div>
       </div>
