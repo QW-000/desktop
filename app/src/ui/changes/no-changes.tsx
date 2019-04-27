@@ -422,10 +422,10 @@ export class NoChanges extends React.Component<
     return (
       <MenuBackedBlankslateAction
         key="publish-repository-action"
-        title="將您的存儲庫發佈到 GitHub"
-        description="此存儲庫目前僅在本機電腦上可用，經由發佈在 GitHub 上，你可以分享並與其他作者合作。"
+        title="將您的存儲庫發布到 GitHub"
+        description="此存儲庫目前僅在本機電腦上可用，經由發布在 GitHub 上，你可以分享並與其他作者合作。"
         discoverabilityContent={discoverabilityContent}
-        buttonText="發佈存儲庫"
+        buttonText="發布存儲庫"
         menuItemId={itemId}
         type="primary"
         disabled={!menuItem.enabled}
@@ -450,8 +450,8 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        當前分支 (<Ref>{tip.branch.name}</Ref>) 尚未發佈到遠端。
-        經由 {isGitHub ? '發佈到 GitHub' : ''} 你可以分享它 {isGitHub ? '開啟拉取請求 ' : ''} 並與其他作者合作。
+        當前分支 (<Ref>{tip.branch.name}</Ref>) 尚未發布到遠端。
+        經由 {isGitHub ? '發布到 GitHub' : ''} 你可以分享它 {isGitHub ? '開啟拉取請求 ' : ''} 並與其他作者合作。
       </>
     )
 
@@ -465,11 +465,11 @@ export class NoChanges extends React.Component<
     return (
       <MenuBackedBlankslateAction
         key="publish-branch-action"
-        title="發佈您的分支"
+        title="發布您的分支"
         menuItemId={itemId}
         description={description}
         discoverabilityContent={discoverabilityContent}
-        buttonText="發佈分支"
+        buttonText="發布分支"
         type="primary"
         disabled={!menuItem.enabled}
       />
@@ -586,7 +586,7 @@ export class NoChanges extends React.Component<
 
     const description = (
       <>
-        當前分支 (<Ref>{tip.branch.name}</Ref>) 已發佈到 GitHub。 建立拉取請求以建議與其他作者合作您的變更。
+        當前分支 (<Ref>{tip.branch.name}</Ref>) 已發布到 GitHub。 建立拉取請求以建議與其他作者合作您的變更。
       </>
     )
 

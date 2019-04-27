@@ -130,7 +130,7 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
     return (
       <Dialog
         id="publish-repository"
-        title={__DARWIN__ ? 'Publish Repository' : '發佈存儲庫'}
+        title={__DARWIN__ ? 'Publish Repository' : '發布存儲庫'}
         onDismissed={this.props.onDismissed}
         onSubmit={this.publishRepository}
         disabled={this.state.publishing}
@@ -255,7 +255,7 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" disabled={disabled}>
-              {__DARWIN__ ? 'Publish Repository' : '發佈存儲庫'}
+              {__DARWIN__ ? 'Publish Repository' : '發布存儲庫'}
             </Button>
             <Button onClick={this.props.onDismissed}>取消</Button>
           </ButtonGroup>

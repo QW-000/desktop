@@ -121,8 +121,8 @@ function publishRepositoryButton(onClick: () => void) {
   return (
     <ToolbarButton
       {...defaultProps}
-      title="發佈存儲庫"
-      description="將此存儲庫發佈到 GitHub"
+      title="發布存儲庫"
+      description="將此存儲庫發布到 GitHub"
       className="push-pull-button"
       icon={OcticonSymbol.cloudUpload}
       style={ToolbarButtonStyle.Subtitle}
@@ -135,8 +135,8 @@ function unbornRepositoryButton() {
   return (
     <ToolbarButton
       {...defaultProps}
-      title="發佈分支"
-      description="無法發佈原生的 HEAD"
+      title="發布分支"
+      description="無法發布原生的 HEAD"
       icon={OcticonSymbol.cloudUpload}
       disabled={true}
     />
@@ -146,12 +146,12 @@ function unbornRepositoryButton() {
 function detachedHeadButton(rebaseInProgress: boolean) {
   const description = rebaseInProgress
     ? '變基正在進行中'
-    : '無法發佈分離的 HEAD'
+    : '無法發布分離的 HEAD'
 
   return (
     <ToolbarButton
       {...defaultProps}
-      title="發佈分支"
+      title="發布分支"
       description={description}
       icon={OcticonSymbol.cloudUpload}
       disabled={true}
@@ -161,13 +161,13 @@ function detachedHeadButton(rebaseInProgress: boolean) {
 
 function publishBranchButton(isGitHub: boolean, onClick: () => void) {
   const description = isGitHub
-    ? '將此分支發佈到'
-    : '將此分支發佈到遠端'
+    ? '將此分支發布到'
+    : '將此分支發布到遠端'
 
   return (
     <ToolbarButton
       {...defaultProps}
-      title="發佈分支"
+      title="發布分支"
       description={description}
       icon={OcticonSymbol.cloudUpload}
       onClick={onClick}

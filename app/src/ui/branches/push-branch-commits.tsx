@@ -110,9 +110,9 @@ export class PushBranchCommits extends React.Component<
     if (renderPublishView(this.props.unPushedCommits)) {
       return (
         <DialogContent>
-          <p>在開啟拉取請求之前必須發佈您的分支。</p>
+          <p>在開啟拉取請求之前必須發布您的分支。</p>
           <p>
-            您想現在發佈 <Ref>{this.props.branch.name}</Ref> 並開啟拉取請求嗎?
+            您想現在發布 <Ref>{this.props.branch.name}</Ref> 並開啟拉取請求嗎?
           </p>
         </DialogContent>
       )
@@ -135,7 +135,7 @@ export class PushBranchCommits extends React.Component<
 
   private renderDialogTitle() {
     if (renderPublishView(this.props.unPushedCommits)) {
-      return __DARWIN__ ? 'Publish Branch?' : '發佈分支?'
+      return __DARWIN__ ? 'Publish Branch?' : '發布分支?'
     }
 
     return __DARWIN__ ? `Push Local Changes?` : `推送本機變更?`
@@ -150,7 +150,7 @@ export class PushBranchCommits extends React.Component<
             onClick={this.onPushOrPublishButtonClick}
             onButtonRef={this.onDialogOpenRef}
           >
-            {__DARWIN__ ? 'Publish Branch' : '發佈分支'}
+            {__DARWIN__ ? 'Publish Branch' : '發布分支'}
           </Button>
           <Button onClick={this.cancel}>取消</Button>
         </ButtonGroup>
