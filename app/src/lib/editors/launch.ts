@@ -15,11 +15,11 @@ export async function launchExternalEditor(
   const editorPath = editor.path
   const exists = await pathExists(editorPath)
   if (!exists) {
-    const label = __DARWIN__ ? 'Preferences' : 'Options'
+    const label = __DARWIN__ ? '喜好' : '選項'
     throw new ExternalEditorError(
-      `Could not find executable for '${editor.editor}' at path '${
+      `無法在 '${editor.editor}' 路徑 '${
         editor.path
-      }'.  Please open ${label} and select an available editor.`,
+      }' 找到執行檔。  請開啟 ${label} 並選擇一個可用的編輯器。`,
       { openPreferences: true }
     )
   }

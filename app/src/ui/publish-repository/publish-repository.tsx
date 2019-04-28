@@ -108,7 +108,7 @@ export class PublishRepository extends React.Component<
     const options = new Array<JSX.Element>()
     options.push(
       <option value={-1} key={-1}>
-        None
+        空
       </option>
     )
 
@@ -129,7 +129,7 @@ export class PublishRepository extends React.Component<
 
     return (
       <Select
-        label="Organization"
+        label="組織"
         value={selectedIndex.toString()}
         onChange={this.onOrgChange}
       >
@@ -143,7 +143,7 @@ export class PublishRepository extends React.Component<
       <DialogContent>
         <Row>
           <TextBox
-            label="Name"
+            label="名稱"
             value={this.name}
             autoFocus={true}
             onValueChanged={this.onNameChange}
@@ -154,7 +154,7 @@ export class PublishRepository extends React.Component<
 
         <Row>
           <TextBox
-            label="Description"
+            label="描述"
             value={this.props.settings.description}
             onValueChanged={this.onDescriptionChange}
           />
@@ -185,7 +185,7 @@ export class PublishRepository extends React.Component<
     return (
       <Row className="warning-helper-text">
         <Octicon symbol={OcticonSymbol.alert} />
-        Will be created as {sanitizedName}
+       將被建立為 {sanitizedName}
       </Row>
     )
   }

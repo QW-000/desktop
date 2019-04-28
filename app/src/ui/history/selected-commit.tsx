@@ -108,7 +108,7 @@ export class SelectedCommit extends React.Component<
     if (file == null || diff == null) {
       // don't show both 'empty' messages
       const message =
-        this.props.changedFiles.length === 0 ? '' : 'No file selected'
+        this.props.changedFiles.length === 0 ? '' : '沒有選擇檔案'
 
       return (
         <div className="panel blankslate" id="diff">
@@ -169,7 +169,7 @@ export class SelectedCommit extends React.Component<
   private renderFileList() {
     const files = this.props.changedFiles
     if (files.length === 0) {
-      return <div className="fill-window">No files in commit</div>
+      return <div className="fill-window">提交中沒有檔案</div>
     }
 
     // -1 for right hand side border
@@ -236,7 +236,7 @@ export class SelectedCommit extends React.Component<
         {
           label: __DARWIN__
             ? 'File Does Not Exist on Disk'
-            : 'File does not exist on disk',
+            : '磁碟上沒有檔案',
           enabled: false,
         },
       ])
@@ -247,7 +247,7 @@ export class SelectedCommit extends React.Component<
 
     const isSafeExtension = isSafeFileExtension(extension)
     const openInExternalEditor = this.props.externalEditorLabel
-      ? `Open in ${this.props.externalEditorLabel}`
+      ? `開啟 ${this.props.externalEditorLabel}`
       : DefaultEditorLabel
 
     const items = [
@@ -284,7 +284,7 @@ function NoCommitSelected() {
   return (
     <div className="panel blankslate">
       <img src={BlankSlateImage} className="blankslate-image" />
-      No commit selected
+      沒有選擇提交
     </div>
   )
 }

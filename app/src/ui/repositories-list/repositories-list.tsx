@@ -152,7 +152,7 @@ export class RepositoriesList extends React.Component<
     if (identifier === KnownRepositoryGroup.Enterprise) {
       return 'Enterprise'
     } else if (identifier === KnownRepositoryGroup.NonGitHub) {
-      return 'Other'
+      return '其它'
     } else {
       return identifier
     }
@@ -230,7 +230,7 @@ export class RepositoriesList extends React.Component<
         className="new-repository-button"
         onClick={this.onNewRepositoryButtonClick}
       >
-        Add
+        增加
         <Octicon symbol={OcticonSymbol.triangleDown} />
       </Button>
     )
@@ -240,12 +240,10 @@ export class RepositoriesList extends React.Component<
     return (
       <div className="no-items no-results-found">
         <img src={BlankSlateImage} className="blankslate-image" />
-        <div className="title">Sorry, I can't find that repository</div>
+        <div className="title">抱歉，找不到此存儲庫</div>
 
         <div className="protip">
-          ProTip! Press {this.renderAddLocalShortcut()} to quickly add a local
-          repository, and {this.renderCloneRepositoryShortcut()} to clone from
-          anywhere within the app
+          專家提示! 按下 {this.renderAddLocalShortcut()} 快速增加本機存儲庫，並 {this.renderCloneRepositoryShortcut()} 從應用程式內的任何位置克隆
         </div>
       </div>
     )
@@ -289,17 +287,17 @@ export class RepositoriesList extends React.Component<
   private onNewRepositoryButtonClick = () => {
     const items: IMenuItem[] = [
       {
-        label: __DARWIN__ ? 'Clone Repository…' : 'Clone repository…',
+        label: __DARWIN__ ? 'Clone Repository…' : '克隆存儲庫…',
         action: this.onCloneRepository,
       },
       {
-        label: __DARWIN__ ? 'Create New Repository…' : 'Create new repository…',
+        label: __DARWIN__ ? 'Create New Repository…' : '建立新存儲庫…',
         action: this.onCreateNewRepository,
       },
       {
         label: __DARWIN__
           ? 'Add Existing Repository…'
-          : 'Add existing repository…',
+          : '增加現有存儲庫…',
         action: this.onAddExistingRepository,
       },
     ]

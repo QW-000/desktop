@@ -49,7 +49,7 @@ export class PullRequestListItem extends React.Component<
     }
 
     const timeAgo = moment(this.props.created).fromNow()
-    return `#${this.props.number} opened ${timeAgo} by ${this.props.author}`
+    return `#${this.props.number} 開啟 ${timeAgo} 由 ${this.props.author}`
   }
 
   public render() {

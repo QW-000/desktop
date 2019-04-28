@@ -170,7 +170,7 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
   private renderLoadingMergeMessage() {
     return (
       <React.Fragment>
-        Checking for ability to merge automatically...
+        檢查自動合併的能力...
       </React.Fragment>
     )
   }
@@ -183,20 +183,20 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
     if (commitCount === 0) {
       return (
         <React.Fragment>
-          {`This branch is up to date with `}
+          {`這個分支是最新的 `}
           <strong>{branch.name}</strong>
         </React.Fragment>
       )
     }
 
-    const pluralized = commitCount === 1 ? 'commit' : 'commits'
+    const pluralized = commitCount === 1 ? '提交' : '提交'
     return (
       <React.Fragment>
-        This will merge
+        這將合併
         <strong>{` ${commitCount} ${pluralized}`}</strong>
-        {` from `}
+        {` 從 `}
         <strong>{branch.name}</strong>
-        {` into `}
+        {` 到 `}
         <strong>{currentBranch.name}</strong>
       </React.Fragment>
     )
@@ -205,7 +205,7 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
   private renderInvalidMergeMessage() {
     return (
       <React.Fragment>
-        Unable to merge unrelated histories in this repository
+        無法在此存儲庫中合併不相關的歷史記錄
       </React.Fragment>
     )
   }
@@ -215,14 +215,14 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
     currentBranch: Branch,
     count: number
   ) {
-    const pluralized = count === 1 ? 'file' : 'files'
+    const pluralized = count === 1 ? '檔案' : '檔案'
     return (
       <React.Fragment>
-        There will be
-        <strong>{` ${count} conflicted ${pluralized}`}</strong>
-        {` when merging `}
+        將由
+        <strong>{` ${count} 衝突 ${pluralized}`}</strong>
+        {` 合併於 `}
         <strong>{branch.name}</strong>
-        {` into `}
+        {` 到 `}
         <strong>{currentBranch.name}</strong>
       </React.Fragment>
     )
@@ -262,7 +262,7 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
         onSubmit={this.merge}
         title={
           <>
-            Merge into <strong>{currentBranchName}</strong>
+            合併到 <strong>{currentBranchName}</strong>
           </>
         }
       >
@@ -284,8 +284,8 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
           {this.renderMergeInfo()}
           <ButtonGroup>
             <Button type="submit" disabled={disabled}>
-              Merge <strong>{selectedBranch ? selectedBranch.name : ''}</strong>{' '}
-              into <strong>{currentBranch ? currentBranch.name : ''}</strong>
+              合併 <strong>{selectedBranch ? selectedBranch.name : ''}</strong>{' '}
+              到 <strong>{currentBranch ? currentBranch.name : ''}</strong>
             </Button>
           </ButtonGroup>
         </DialogFooter>

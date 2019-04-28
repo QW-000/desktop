@@ -137,9 +137,9 @@ export class ChooseBranchDialog extends React.Component<
     const disabled = selectedBranchIsNotCurrentBranch || noCommitsToRebase
 
     const tooltip = selectedBranchIsNotCurrentBranch
-      ? 'You are not able to rebase this branch onto itself'
+      ? '您無法將此分支變基到自身'
       : noCommitsToRebase
-      ? 'There are no commits on the current branch to rebase'
+      ? '當前分支上沒有提交到變基的提交'
       : undefined
 
     const currentBranchName = currentBranch.name
@@ -158,7 +158,7 @@ export class ChooseBranchDialog extends React.Component<
         dismissable={true}
         title={
           <>
-            Rebase <strong>{truncatedCurrentBranchName}</strong>…
+            變基 <strong>{truncatedCurrentBranchName}</strong> 到…
           </>
         }
       >
@@ -180,7 +180,7 @@ export class ChooseBranchDialog extends React.Component<
           {this.renderRebaseStatus()}
           <ButtonGroup>
             <Button type="submit" disabled={disabled} tooltip={tooltip}>
-              Start rebase
+              開始變基
             </Button>
           </ButtonGroup>
         </DialogFooter>
@@ -243,7 +243,7 @@ export class ChooseBranchDialog extends React.Component<
   }
 
   private renderLoadingRebaseMessage() {
-    return <>Checking for ability to rebase automatically...</>
+    return <>檢查自動變基的能力...</>
   }
 
   private renderCleanRebaseMessage(
@@ -254,19 +254,19 @@ export class ChooseBranchDialog extends React.Component<
     if (commitsToRebase <= 0) {
       return (
         <>
-          This branch is up to date with{` `}
-          <strong>{currentBranch.name}</strong>
+          這個 {` `}
+          <strong>{currentBranch.name}</strong> 分支是最新的
         </>
       )
     }
 
-    const pluralized = commitsToRebase === 1 ? 'commit' : 'commits'
+    const pluralized = commitsToRebase === 1 ? '提交' : '提交'
     return (
       <>
-        This will update <strong>{currentBranch.name}</strong>
-        {` by applying its `}
+        這將更新 <strong>{currentBranch.name}</strong>
+        {` 經由套用 `}
         <strong>{` ${commitsToRebase} ${pluralized}`}</strong>
-        {` on top of `}
+        {` 在之上 `}
         <strong>{baseBranch.name}</strong>
       </>
     )

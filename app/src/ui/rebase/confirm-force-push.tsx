@@ -39,7 +39,7 @@ export class ConfirmForcePush extends React.Component<
   public render() {
     return (
       <Dialog
-        title="Are you sure you want to force push?"
+        title="你確定要強制推送嗎?"
         dismissable={!this.state.isLoading}
         onDismissed={this.props.onDismissed}
         onSubmit={this.onForcePush}
@@ -47,14 +47,13 @@ export class ConfirmForcePush extends React.Component<
       >
         <DialogContent>
           <p>
-            A force push will rewrite history on{' '}
-            <Ref>{this.props.upstreamBranch}</Ref>. Any collaborators working on
-            this branch will need to reset their own local branch to match the
-            history of the remote.
+            強制推送將在 {' '}
+            <Ref>{this.props.upstreamBranch}</Ref> 上重寫歷史記錄。
+            在此分支上工作的任一位合作者都需要重設自己的本機分支以相符遠端歷史記錄。
           </p>
           <div>
             <Checkbox
-              label="Do not show this message again"
+              label="不再顯示此訊息"
               value={
                 this.state.askForConfirmationOnForcePush
                   ? CheckboxValue.Off
@@ -66,8 +65,8 @@ export class ConfirmForcePush extends React.Component<
         </DialogContent>
         <DialogFooter>
           <ButtonGroup>
-            <Button type="submit">I'm sure</Button>
-            <Button onClick={this.props.onDismissed}>Cancel</Button>
+            <Button type="submit">我確定</Button>
+            <Button onClick={this.props.onDismissed}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>

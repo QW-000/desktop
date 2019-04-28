@@ -43,30 +43,29 @@ export class LocalChangesOverwrittenWarning extends React.Component<
     return (
       <Dialog
         id="overwritten-files"
-        title={__DARWIN__ ? 'Files Overwritten' : 'Files overwritten'}
+        title={__DARWIN__ ? '檔案覆蓋' : '檔案覆蓋'}
         onDismissed={this.props.onDismissed}
         type="warning"
       >
         <DialogContent>
           <p>
-            The following files would be overwritten when checking out the
-            branch.
+            簽出分支時，將覆蓋以下檔案。
           </p>
           {this.renderFileList()}
           <p className="recommendation">
-            We recommend you manually commit these files or discard them.
+            我們建議您手動提交這些檔案或將其丟棄。
           </p>
         </DialogContent>
 
         <DialogFooter>
           <ButtonGroup destructive={true}>
             <Button type="submit" ref={this.onCloseButtonRef}>
-              Cancel
+              取消
             </Button>
             <Button onClick={this.discardChangesAndRetry}>
               {__DARWIN__
-                ? 'Discard Changes And Checkout'
-                : 'Discard changes and checkout'}
+                ? '放棄變更與簽出'
+                : '放棄變更與簽出'}
             </Button>
           </ButtonGroup>
         </DialogFooter>

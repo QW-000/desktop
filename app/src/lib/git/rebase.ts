@@ -269,9 +269,9 @@ class GitRebaseParser {
 
     return {
       kind: 'rebase',
-      title: `Rebasing commit ${this.rebasedCommitCount} of ${
+      title: `變基提交 ${this.rebasedCommitCount} 於 ${
         this.totalCommitCount
-      } commits`,
+      } 提交`,
       value,
       rebasedCommitCount: this.rebasedCommitCount,
       totalCommitCount: this.totalCommitCount,

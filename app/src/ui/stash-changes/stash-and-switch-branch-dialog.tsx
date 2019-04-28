@@ -55,7 +55,7 @@ export class StashAndSwitchBranch extends React.Component<
     return (
       <Dialog
         id="stash-changes"
-        title={__DARWIN__ ? 'Switch Branch' : 'Switch branch'}
+        title={__DARWIN__ ? '切換分支' : '切換分支'}
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
         loading={isStashingChanges}
@@ -68,9 +68,9 @@ export class StashAndSwitchBranch extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit">
-              {__DARWIN__ ? 'Switch Branch' : 'Switch branch'}
+              {__DARWIN__ ? '切換分支' : '切換分支'}
             </Button>
-            <Button onClick={this.props.onDismissed}>Cancel</Button>
+            <Button onClick={this.props.onDismissed}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>
@@ -87,8 +87,7 @@ export class StashAndSwitchBranch extends React.Component<
 
     return (
       <Row>
-        <Octicon symbol={OcticonSymbol.alert} /> Your current stash will be
-        overwritten by creating a new stash
+        <Octicon symbol={OcticonSymbol.alert} /> 您當前的隱匿將被建立一個新的隱匿覆蓋
       </Row>
     )
   }
@@ -97,20 +96,20 @@ export class StashAndSwitchBranch extends React.Component<
     const { branchToCheckout } = this.props
     const items = [
       {
-        title: `Leave my changes on ${this.props.currentBranch.name}`,
+        title: `保留我的變更 ${this.props.currentBranch.name}`,
         description:
-          'Your in-progress work will be stashed on this branch for you to return to later',
+          '您正在進行的工作將被隱匿在此分支上，以便您之後復原',
       },
       {
-        title: `Bring my changes to ${branchToCheckout.name}`,
-        description: 'Your in-progress work will follow you to the new branch',
+        title: `將我的變更於 ${branchToCheckout.name}`,
+        description: '你正在進行的工作將跟蹤到新的分支',
       },
     ]
 
     return (
       <Row>
         <VerticalSegmentedControl
-          label="You have changes on this branch. What would you like to do with them?"
+          label="您對此分支進行了變更。 你想怎麼做呢?"
           items={items}
           selectedIndex={this.state.selectedStashAction}
           onSelectionChanged={this.onSelectionChanged}

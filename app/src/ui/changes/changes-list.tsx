@@ -302,10 +302,10 @@ export class ChangesList extends React.Component<
       files.length === 1
         ? __DARWIN__
           ? `Discard Changes`
-          : `Discard changes`
+          : `放棄變更`
         : __DARWIN__
         ? `Discard ${files.length} Selected Changes`
-        : `Discard ${files.length} selected changes`
+        : `放棄 ${files.length} 選定的變更`
 
     return this.props.askForConfirmationOnDiscardChanges ? `${label}…` : label
   }
@@ -320,7 +320,7 @@ export class ChangesList extends React.Component<
 
     const items: IMenuItem[] = [
       {
-        label: __DARWIN__ ? 'Discard All Changes…' : 'Discard all changes…',
+        label: __DARWIN__ ? 'Discard All Changes…' : '放棄全部變更…',
         action: this.onDiscardAllChanges,
         enabled: this.props.workingDirectory.files.length > 0,
       },
@@ -340,7 +340,7 @@ export class ChangesList extends React.Component<
 
   private getDiscardAllChangesMenuItem = (): IMenuItem => {
     return {
-      label: __DARWIN__ ? 'Discard All Changes…' : 'Discard all changes…',
+      label: __DARWIN__ ? 'Discard All Changes…' : '放棄全部變更…',
       action: () => this.onDiscardAllChanges(),
     }
   }
@@ -374,7 +374,7 @@ export class ChangesList extends React.Component<
     const { externalEditorLabel, repository } = this.props
 
     const openInExternalEditor = externalEditorLabel
-      ? `Open in ${externalEditorLabel}`
+      ? `開啟 ${externalEditorLabel}`
       : DefaultEditorLabel
 
     return {
@@ -433,7 +433,7 @@ export class ChangesList extends React.Component<
       items.push({
         label: __DARWIN__
           ? 'Ignore File (Add to .gitignore)'
-          : 'Ignore file (add to .gitignore)',
+          : '忽略檔案 (增加到 .gitignore)',
         action: () => this.props.onIgnore(path),
         enabled: Path.basename(path) !== GitIgnoreFileName,
       })
@@ -441,7 +441,7 @@ export class ChangesList extends React.Component<
       items.push({
         label: __DARWIN__
           ? `Ignore ${paths.length} Selected Files (Add to .gitignore)`
-          : `Ignore ${paths.length} selected files (add to .gitignore)`,
+          : `忽略 ${paths.length} 選定的檔案 (增加到 .gitignore)`,
         action: () => {
           // Filter out any .gitignores that happens to be selected, ignoring
           // those doesn't make sense.
@@ -461,7 +461,7 @@ export class ChangesList extends React.Component<
         items.push({
           label: __DARWIN__
             ? `Ignore All ${extension} Files (Add to .gitignore)`
-            : `Ignore all ${extension} files (add to .gitignore)`,
+            : `忽略全部 ${extension} 檔案 (增加到 .gitignore)`,
           action: () => this.props.onIgnore(`*${extension}`),
         })
       })
@@ -534,7 +534,7 @@ export class ChangesList extends React.Component<
     singleFileCommit: boolean
   ) {
     if (!singleFileCommit) {
-      return 'Summary (required)'
+      return '摘要 (必填)'
     }
 
     const firstFile = files[0]
@@ -543,15 +543,15 @@ export class ChangesList extends React.Component<
     switch (firstFile.status.kind) {
       case AppFileStatusKind.New:
       case AppFileStatusKind.Untracked:
-        return `Create ${fileName}`
+        return `建立 ${fileName}`
       case AppFileStatusKind.Deleted:
-        return `Delete ${fileName}`
+        return `刪除 ${fileName}`
       default:
         // TODO:
         // this doesn't feel like a great message for AppFileStatus.Copied or
         // AppFileStatus.Renamed but without more insight (and whether this
         // affects other parts of the flow) we can just default to this for now
-        return `Update ${fileName}`
+        return `更新 ${fileName}`
     }
   }
 
@@ -655,7 +655,7 @@ export class ChangesList extends React.Component<
         >
           <div className="stash-entry-row-content">
             <Octicon className="icon" symbol={StashIcon} />
-            <div className="text">Stashed Changes</div>
+            <div className="text">藏匿的變更</div>
             <Octicon className="arrow" symbol={OcticonSymbol.chevronRight} />
           </div>
         </ListRow>
@@ -665,8 +665,8 @@ export class ChangesList extends React.Component<
 
   public render() {
     const fileCount = this.props.workingDirectory.files.length
-    const filesPlural = fileCount === 1 ? 'file' : 'files'
-    const filesDescription = `${fileCount} changed ${filesPlural}`
+    const filesPlural = fileCount === 1 ? '檔案' : '檔案'
+    const filesDescription = `${fileCount} 變更${filesPlural}`
     const includeAllValue = getIncludeAllValue(
       this.props.workingDirectory,
       this.props.rebaseConflictState

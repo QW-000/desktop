@@ -6,8 +6,8 @@ export function renderUnmergedFilesSummary(conflictedFilesCount: number) {
   // localization, it burns :vampire:
   const message =
     conflictedFilesCount === 1
-      ? `1 conflicted file`
-      : `${conflictedFilesCount} conflicted files`
+      ? `1 衝突的檔案`
+      : `${conflictedFilesCount} 衝突的檔案`
   return <h3 className="summary">{message}</h3>
 }
 
@@ -17,7 +17,7 @@ export function renderAllResolved() {
       <div className="green-circle">
         <Octicon symbol={OcticonSymbol.check} />
       </div>
-      <div className="message">All conflicts resolved</div>
+      <div className="message">全部衝突都解決了</div>
     </div>
   )
 }
@@ -26,9 +26,9 @@ export function renderShellLink(openThisRepositoryInShell: () => void) {
   return (
     <div>
       <LinkButton onClick={openThisRepositoryInShell}>
-        Open in command line,
+        在命令行中開啟
       </LinkButton>{' '}
-      your tool of choice, or close to resolve manually.
+      您選擇的工具，或關閉以手動解決。
     </div>
   )
 }

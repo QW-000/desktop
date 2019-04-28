@@ -88,11 +88,11 @@ function renderLastFetched(lastFetched: Date | null): JSX.Element | string {
   if (lastFetched) {
     return (
       <span>
-        Last fetched <RelativeTime date={lastFetched} />
+        上次提取 <RelativeTime date={lastFetched} />
       </span>
     )
   } else {
-    return 'Never fetched'
+    return '從未取得'
   }
 }
 
@@ -107,7 +107,7 @@ function progressButton(progress: Progress, networkActionInProgress: boolean) {
     <ToolbarButton
       {...defaultProps}
       title={progress.title}
-      description={progress.description || 'Hang on…'}
+      description={progress.description || '請稍候…'}
       progressValue={progress.value}
       icon={OcticonSymbol.sync}
       iconClassName={networkActionInProgress ? 'spin' : ''}
@@ -121,8 +121,8 @@ function publishRepositoryButton(onClick: () => void) {
   return (
     <ToolbarButton
       {...defaultProps}
-      title="Publish repository"
-      description="Publish this repository to GitHub"
+      title="發布存儲庫"
+      description="將此存儲庫發布到 GitHub"
       className="push-pull-button"
       icon={OcticonSymbol.cloudUpload}
       style={ToolbarButtonStyle.Subtitle}
@@ -135,8 +135,8 @@ function unbornRepositoryButton() {
   return (
     <ToolbarButton
       {...defaultProps}
-      title="Publish branch"
-      description="Cannot publish unborn HEAD"
+      title="發布分支"
+      description="無法發布原生的 HEAD"
       icon={OcticonSymbol.cloudUpload}
       disabled={true}
     />
@@ -145,13 +145,13 @@ function unbornRepositoryButton() {
 
 function detachedHeadButton(rebaseInProgress: boolean) {
   const description = rebaseInProgress
-    ? 'Rebase in progress'
-    : 'Cannot publish detached HEAD'
+    ? '變基正在進行中'
+    : '無法發布分離的 HEAD'
 
   return (
     <ToolbarButton
       {...defaultProps}
-      title="Publish branch"
+      title="發布分支"
       description={description}
       icon={OcticonSymbol.cloudUpload}
       disabled={true}
@@ -161,13 +161,13 @@ function detachedHeadButton(rebaseInProgress: boolean) {
 
 function publishBranchButton(isGitHub: boolean, onClick: () => void) {
   const description = isGitHub
-    ? 'Publish this branch to GitHub'
-    : 'Publish this branch to the remote'
+    ? '將此分支發布到'
+    : '將此分支發布到遠端'
 
   return (
     <ToolbarButton
       {...defaultProps}
-      title="Publish branch"
+      title="發布分支"
       description={description}
       icon={OcticonSymbol.cloudUpload}
       onClick={onClick}
@@ -181,7 +181,7 @@ function fetchButton(
   lastFetched: Date | null,
   onClick: () => void
 ) {
-  const title = `Fetch ${remoteName}`
+  const title = `提取 ${remoteName}`
   return (
     <ToolbarButton
       {...defaultProps}
@@ -204,8 +204,8 @@ function pullButton(
 ) {
   const title =
     pullWithRebase && enablePullWithRebase()
-      ? `Pull ${remoteName} with rebase`
-      : `Pull ${remoteName}`
+      ? `拉取 ${remoteName} 以變基`
+      : `拉取 ${remoteName}`
 
   return (
     <ToolbarButton
@@ -229,7 +229,7 @@ function pushButton(
   return (
     <ToolbarButton
       {...defaultProps}
-      title={`Push ${remoteName}`}
+      title={`推送 ${remoteName}`}
       description={renderLastFetched(lastFetched)}
       icon={OcticonSymbol.arrowUp}
       onClick={onClick}
@@ -258,7 +258,7 @@ function forcePushButton(
   return (
     <ToolbarButton
       {...defaultProps}
-      title={`Force push ${remoteName}`}
+      title={`強制推送 ${remoteName}`}
       description={renderLastFetched(lastFetched)}
       icon={forcePushIcon}
       onClick={onClick}

@@ -168,7 +168,7 @@ const renderManualConflictedFile: React.SFC<{
           className="small-button button-group-item resolve-arrow-menu"
           onClick={onDropdownClick}
         >
-          Resolve
+          解決
           <Octicon symbol={OcticonSymbol.triangleDown} />
         </Button>
       </div>
@@ -203,8 +203,8 @@ const renderConflictedFileWithConflictMarkers: React.SFC<{
   )
   const message =
     humanReadableConflicts === 1
-      ? `1 conflict`
-      : `${humanReadableConflicts} conflicts`
+      ? `1 衝突`
+      : `${humanReadableConflicts} 衝突`
 
   const disabled = props.resolvedExternalEditor === null
   const tooltip = editorButtonTooltip(props.resolvedExternalEditor)
@@ -325,7 +325,7 @@ function resolvedFileStatusString(
   if (manualResolution === ManualConflictResolutionKind.theirs) {
     return getUnmergedStatusEntryDescription(status.entry.them, branch)
   }
-  return 'No conflicts remaining'
+  return '沒有其餘衝突'
 }
 
 const renderResolvedFileStatusSummary: React.SFC<{
@@ -356,7 +356,7 @@ const renderResolvedFileStatusSummary: React.SFC<{
           props.dispatcher
         )}
       >
-        Undo
+        還原
       </LinkButton>
     </div>
   )
@@ -389,7 +389,7 @@ function calculateConflicts(conflictMarkers: number) {
 
 function editorButtonString(editorName: string | null): string {
   const defaultEditorString = 'editor'
-  return `Open in ${editorName || defaultEditorString}`
+  return `開啟 ${editorName || defaultEditorString}`
 }
 
 function editorButtonTooltip(editorName: string | null): string | undefined {
@@ -399,10 +399,10 @@ function editorButtonTooltip(editorName: string | null): string | undefined {
   }
 
   if (__DARWIN__) {
-    return `No editor configured in Preferences > Advanced`
+    return `尚未在 偏好 > 進階 設定編輯器`
   } else {
-    return `No editor configured in Options > Advanced`
+    return `尚未在 選項 > 進階 設定編輯器`
   }
 }
 
-const manualConflictString = 'Manual conflict'
+const manualConflictString = '手動衝突'

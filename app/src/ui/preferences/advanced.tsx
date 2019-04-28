@@ -144,15 +144,14 @@ export class Advanced extends React.Component<
   private reportDesktopUsageLabel() {
     return (
       <span>
-        Help GitHub Desktop improve by submitting{' '}
-        <LinkButton uri={SamplesURL}>usage stats</LinkButton>
+         提交 {' '} <LinkButton uri={SamplesURL}>使用狀態</LinkButton> 幫助 GitHub Desktop 改善
       </span>
     )
   }
 
   private renderExternalEditor() {
     const options = this.props.availableEditors
-    const label = __DARWIN__ ? 'External Editor' : 'External editor'
+    const label = __DARWIN__ ? 'External Editor' : '外部編輯器'
 
     if (options.length === 0) {
       // this is emulating the <Select/> component's UI so the styles are
@@ -164,8 +163,8 @@ export class Advanced extends React.Component<
         <div className="select-component no-options-found">
           <label>{label}</label>
           <span>
-            No editors found.{' '}
-            <LinkButton uri="https://atom.io/">Install Atom?</LinkButton>
+            沒有找到編輯器! {' '}
+            <LinkButton uri="https://atom.io/">安裝 Atom?</LinkButton>
           </span>
         </div>
       )
@@ -213,7 +212,7 @@ export class Advanced extends React.Component<
 
     return (
       <div className="brutalism">
-        <strong>{__DARWIN__ ? 'Merge Tool' : 'Merge tool'}</strong>
+        <strong>{__DARWIN__ ? 'Merge Tool' : '合併工具'}</strong>
 
         <Row>
           <TextBox
@@ -253,7 +252,7 @@ export class Advanced extends React.Component<
         </Row>
         <Row>
           <Checkbox
-            label="Show confirmation dialog before removing repositories"
+            label="刪除存儲庫之前顯示確定對話框"
             value={
               this.state.confirmRepositoryRemoval
                 ? CheckboxValue.On
@@ -264,7 +263,7 @@ export class Advanced extends React.Component<
         </Row>
         <Row>
           <Checkbox
-            label="Show confirmation dialog before discarding changes"
+            label="在放棄變更之前顯示確定對話框"
             value={
               this.state.confirmDiscardChanges
                 ? CheckboxValue.On
@@ -275,7 +274,7 @@ export class Advanced extends React.Component<
         </Row>
         <Row>
           <Checkbox
-            label="Show confirmation dialog before force pushing"
+            label="推送前顯示確定對話框"
             value={
               this.state.confirmForcePush ? CheckboxValue.On : CheckboxValue.Off
             }

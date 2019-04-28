@@ -124,17 +124,15 @@ export class CreateBranch extends React.Component<
     if (tip.kind === TipState.Detached) {
       return (
         <p>
-          You do not currently have any branch checked out (your HEAD reference
-          is detached). As such your new branch will be based on your currently
-          checked out commit ({tip.currentSha.substr(0, 7)}
-          ).
+          您目前沒有簽出任何分支 (您的 HEAD 引用已分離)
+          因此，新分支將基於當前簽出的提交 ({tip.currentSha.substr(0, 7)}
+          )。
         </p>
       )
     } else if (tip.kind === TipState.Unborn) {
       return (
         <p>
-          Your current branch is unborn (does not contain any commits). Creating
-          a new branch will rename the current branch.
+          您當前的分支是原生的 (無任何提交)。 建立新分支將重新命名當前分支。
         </p>
       )
     } else if (tip.kind === TipState.Valid) {
@@ -146,28 +144,27 @@ export class CreateBranch extends React.Component<
       if (!defaultBranch || defaultBranch.name === currentBranch.name) {
         const defaultBranchLink = (
           <LinkButton uri="https://help.github.com/articles/setting-the-default-branch/">
-            default branch
+            預設分支
           </LinkButton>
         )
         return (
           <p>
-            Your new branch will be based on your currently checked out branch (
+            您的新分支將基於當前 (
             <Ref>{currentBranch.name}</Ref>
-            ). <Ref>{currentBranch.name}</Ref> is the {defaultBranchLink} for
-            your repository.
+            ) 分支簽出。 <Ref>{currentBranch.name}</Ref> 是您的 {defaultBranchLink} 存儲庫。
           </p>
         )
       } else {
         const items = [
           {
             title: defaultBranch.name,
-            description:
-              "The default branch in your repository. Pick this to start on something new that's not dependent on your current branch.",
+            描述:
+              "存儲庫中的預設分支。 選擇此選項以開始一些不依賴於當前分支的新內容。",
           },
           {
             title: currentBranch.name,
-            description:
-              'The currently checked out branch. Pick this if you need to build on work done in this branch.',
+            描述:
+              '當前簽出的分支。 如果您需要在此分支中完成工作，請選擇此選項。',
           },
         ]
 
@@ -177,7 +174,7 @@ export class CreateBranch extends React.Component<
         return (
           <Row>
             <VerticalSegmentedControl
-              label="Create branch based on…"
+              label="建立分支基於…"
               items={items}
               selectedIndex={selectedIndex}
               onSelectionChanged={this.onBaseBranchChanged}
@@ -210,7 +207,7 @@ export class CreateBranch extends React.Component<
     return (
       <Dialog
         id="create-branch"
-        title={__DARWIN__ ? 'Create a Branch' : 'Create a branch'}
+        title={__DARWIN__ ? 'Create a Branch' : '建立一項分支'}
         onSubmit={this.createBranch}
         onDismissed={this.props.onDismissed}
         loading={this.state.isCreatingBranch}
@@ -221,7 +218,7 @@ export class CreateBranch extends React.Component<
         <DialogContent>
           <Row>
             <TextBox
-              label="Name"
+              label="名稱"
               value={this.state.proposedName}
               autoFocus={true}
               onValueChanged={this.onBranchNameChange}
@@ -244,9 +241,9 @@ export class CreateBranch extends React.Component<
         <DialogFooter>
           <ButtonGroup>
             <Button type="submit" disabled={disabled}>
-              {__DARWIN__ ? 'Create Branch' : 'Create branch'}
+              {__DARWIN__ ? 'Create Branch' : '建立分支'}
             </Button>
-            <Button onClick={this.props.onDismissed}>Cancel</Button>
+            <Button onClick={this.props.onDismissed}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>
@@ -263,7 +260,7 @@ export class CreateBranch extends React.Component<
       this.props.allBranches.findIndex(b => b.name === sanitizedName) > -1
 
     const currentError = alreadyExists
-      ? new Error(`A branch named ${sanitizedName} already exists`)
+      ? new Error(`名為 ${sanitizedName} 的分支已存在`)
       : null
 
     this.setState({
@@ -283,7 +280,7 @@ export class CreateBranch extends React.Component<
       // to make sure the startPoint state is valid given the current props.
       if (!this.props.defaultBranch) {
         this.setState({
-          currentError: new Error('Could not determine the default branch'),
+          currentError: new Error('無法確定預設分支'),
         })
         return
       }

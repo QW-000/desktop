@@ -230,13 +230,13 @@ function renderUnknownUserAutocompleteItem(
   user.classList.add('user', 'unknown')
 
   const username = document.createElement('span')
-  username.className = 'username'
+  username.className = '用戶名'
   username.innerText = text
   user.appendChild(username)
 
   const description = document.createElement('span')
-  description.className = 'description'
-  description.innerText = `Search for user`
+  description.className = '描述'
+  description.innerText = `搜尋用戶名`
   user.appendChild(description)
 
   elem.appendChild(user)
@@ -307,8 +307,8 @@ function renderUnknownHandleMarkReplacementElement(
 
   elem.classList.add('handle', isError ? 'error' : 'progress')
   elem.title = isError
-    ? `Could not find user with username ${username}`
-    : `Searching for @${username}`
+    ? `無法找到名為 ${username} 的用戶`
+    : `正在搜尋 @${username}`
 
   const symbol = isError ? OcticonSymbol.stop : OcticonSymbol.sync
 
@@ -773,12 +773,12 @@ export class AuthorInput extends React.Component<IAuthorInputProps, {}> {
     e.preventDefault()
 
     const menu: IMenuItem[] = [
-      { label: 'Undo', action: () => cm.getDoc().undo() },
-      { label: 'Redo', action: () => cm.getDoc().redo() },
+      { label: '取消', action: () => cm.getDoc().undo() },
+      { label: '重做', action: () => cm.getDoc().redo() },
       { type: 'separator' },
-      { role: 'cut' },
-      { role: 'copy' },
-      { role: 'paste' },
+      { role: '剪下' },
+      { role: '複製' },
+      { role: '貼上' },
     ]
 
     if (__WIN32__) {
@@ -786,7 +786,7 @@ export class AuthorInput extends React.Component<IAuthorInputProps, {}> {
     }
 
     menu.push({
-      label: __DARWIN__ ? 'Select All' : 'Select all',
+      label: __DARWIN__ ? 'Select All' : '全選',
       action: () => {
         cm.execCommand('selectAll')
       },

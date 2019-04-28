@@ -62,7 +62,7 @@ export class ConfirmRemoveRepository extends React.Component<
         id="confirm-remove-repository"
         key="remove-repository-confirmation"
         type="warning"
-        title={__DARWIN__ ? 'Remove Repository' : 'Remove repository'}
+        title={__DARWIN__ ? 'Remove Repository' : '刪除存儲庫'}
         dismissable={isRemovingRepository ? false : true}
         loading={isRemovingRepository}
         onDismissed={this.cancel}
@@ -70,19 +70,19 @@ export class ConfirmRemoveRepository extends React.Component<
       >
         <DialogContent>
           <p>
-            Are you sure you want to remove the repository "
+            您確定要刪除 "
             {this.props.repository.name}
-            "?
+            " 存儲庫?
           </p>
           <p className="description">
-            The repository will be removed from GitHub Desktop:
+            存儲庫將從 GitHub Desktop 中刪除:
             <br />
             <Ref>{this.props.repository.path}</Ref>
           </p>
 
           <div>
             <Checkbox
-              label={'Also move this repository to ' + TrashNameLabel}
+              label={'同時將此存儲庫移動到 ' + TrashNameLabel}
               value={
                 this.state.deleteRepoFromDisk
                   ? CheckboxValue.On
@@ -95,10 +95,10 @@ export class ConfirmRemoveRepository extends React.Component<
         <DialogFooter>
           <ButtonGroup destructive={true}>
             <Button disabled={isRemovingRepository} type="submit">
-              Cancel
+              取消
             </Button>
             <Button onClick={this.onConfirmed} disabled={isRemovingRepository}>
-              Remove
+              清除
             </Button>
           </ButtonGroup>
         </DialogFooter>

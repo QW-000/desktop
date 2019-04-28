@@ -58,7 +58,7 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
           <div className="login">@{account.login}</div>
         </div>
         <Button onClick={this.logout(account)}>
-          {__DARWIN__ ? 'Sign Out' : 'Sign out'}
+          {__DARWIN__ ? 'Sign Out' : '登出'}
         </Button>
       </Row>
     )
@@ -73,7 +73,7 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
   }
 
   private renderSignIn(type: SignInType) {
-    const signInTitle = __DARWIN__ ? 'Sign In' : 'Sign in'
+    const signInTitle = __DARWIN__ ? 'Sign In' : '登入'
     switch (type) {
       case SignInType.DotCom: {
         return (
@@ -82,7 +82,7 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
             onAction={this.onDotComSignIn}
           >
             <div>
-              Sign in to your GitHub.com account to access your repositories.
+              登入 GitHub.com 帳戶存取您的存儲庫。
             </div>
           </CallToAction>
         )
@@ -94,13 +94,12 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
             onAction={this.onEnterpriseSignIn}
           >
             <div>
-              If you have a GitHub Enterprise account at work, sign in to it to
-              get access to your repositories.
+              如果您有 GitHub Enterprise 帳戶，請登入此帳戶存取存儲庫。
             </div>
           </CallToAction>
         )
       default:
-        return assertNever(type, `Unknown sign in type: ${type}`)
+        return assertNever(type, `未知的登入類型: ${type}`)
     }
   }
 

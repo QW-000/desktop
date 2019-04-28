@@ -65,7 +65,7 @@ export async function fetch(
   }
 
   if (progressCallback) {
-    const title = `Fetching ${remote}`
+    const title = `提取 ${remote}`
     const kind = 'fetch'
 
     opts = await executionOptionsWithProgress(

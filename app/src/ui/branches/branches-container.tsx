@@ -86,8 +86,8 @@ export class BranchesContainer extends React.Component<
         <Row className="merge-button-row">
           <Button className="merge-button" onClick={this.onMergeClick}>
             <Octicon className="icon" symbol={OcticonSymbol.gitMerge} />
-            <span title={`Merge a branch into ${branchName}`}>
-              Choose a branch to merge into <strong>{branchName}</strong>
+            <span title={`將分支合併到 ${branchName}`}>
+              選擇要合併到 <strong>{branchName}</strong> 的分支
             </span>
           </Button>
         </Row>
@@ -115,9 +115,9 @@ export class BranchesContainer extends React.Component<
         onTabClicked={this.onTabClicked}
         selectedIndex={this.props.selectedTab}
       >
-        <span>Branches</span>
+        <span>分支</span>
         <span className="pull-request-tab">
-          {__DARWIN__ ? 'Pull Requests' : 'Pull requests'}
+          {__DARWIN__ ? 'Pull Requests' : '拉取請求'}
           {this.renderOpenPullRequestsBubble()}
         </span>
       </TabBar>
@@ -158,7 +158,7 @@ export class BranchesContainer extends React.Component<
       }
     }
 
-    return assertNever(tab, `Unknown Branches tab: ${tab}`)
+    return assertNever(tab, `未知分支標籤: ${tab}`)
   }
 
   private renderPullRequests() {
@@ -206,7 +206,7 @@ export class BranchesContainer extends React.Component<
       <Button
         disabled={this.props.isLoadingPullRequests}
         onClick={this.onRefreshPullRequests}
-        tooltip="Refresh the list of pull requests"
+        tooltip="更新拉取請求清單"
       >
         <Octicon
           symbol={OcticonSymbol.sync}

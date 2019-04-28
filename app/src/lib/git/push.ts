@@ -72,7 +72,7 @@ export async function push(
 
   if (progressCallback) {
     args.push('--progress')
-    const title = `Pushing to ${remote}`
+    const title = `推送到 ${remote}`
     const kind = 'push'
 
     opts = await executionOptionsWithProgress(

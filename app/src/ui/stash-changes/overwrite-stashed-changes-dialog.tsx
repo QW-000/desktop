@@ -35,7 +35,7 @@ export class OverwriteStash extends React.Component<
   }
 
   public render() {
-    const title = __DARWIN__ ? 'Overwrite Stash?' : 'Overwrite stash?'
+    const title = __DARWIN__ ? '覆蓋藏匿?' : '覆蓋藏匿?'
 
     return (
       <Dialog
@@ -49,14 +49,13 @@ export class OverwriteStash extends React.Component<
       >
         <DialogContent>
           <Row>
-            Are you sure you want to proceed? This will overwrite your existing
-            stash with your current changes.
+            你確定要繼續嗎? 這將使用當前的變更覆蓋現存的藏匿。
           </Row>
         </DialogContent>
         <DialogFooter>
           <ButtonGroup destructive={true}>
-            <Button type="submit">Cancel</Button>
-            <Button onClick={this.onSubmit}>Overwrite</Button>
+            <Button type="submit">取消</Button>
+            <Button onClick={this.onSubmit}>覆蓋</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>
