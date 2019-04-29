@@ -131,7 +131,7 @@ const Header: React.SFC<{
     <>
       <Octicon symbol={OcticonSymbol.alert} />
       <span className="text">
-        當分支上存在變更時，無法復原藏匿。
+        當分支上存在變更時無法復原藏匿。
       </span>
     </>
   )
@@ -146,7 +146,11 @@ const Header: React.SFC<{
       <h3>藏匿變更</h3>
       <div className="row">
         <ButtonGroup destructive={false}>
-          <Button onClick={onRestoreClick} type="submit">
+          <Button
+            disabled={!isWorkingTreeClean}
+            onClick={onRestoreClick}
+            type="submit"
+          >
             復原
           </Button>
           <Button onClick={onDiscardClick}>丟棄</Button>
