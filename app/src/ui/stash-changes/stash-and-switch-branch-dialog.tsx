@@ -104,7 +104,7 @@ export class StashAndSwitchBranch extends React.Component<
       },
       {
         title: `將我的變更於 ${branchToCheckout.name}`,
-        description: '你正在進行的工作將跟蹤到新的分支',
+        description: '你正在進行的工作將跟踪到新的分支',
       },
     ]
 
