@@ -339,7 +339,7 @@ export function buildDefaultMenu({
       },
       separator,
       {
-        label: __DARWIN__ ? 'Discard All Changes…' : 'Discard all changes…',
+        label: __DARWIN__ ? 'Discard All Changes…' : '放棄全部變更…',
         id: 'discard-all-changes',
         click: emit('discard-all-changes'),
       },
