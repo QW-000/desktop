@@ -71,7 +71,7 @@ export function spawn(
         if (code === 0) {
           resolve(stdout)
         } else {
-          reject(new Error(`Command "${command} ${args}" failed: "${stdout}"`))
+          reject(new Error(`命令 "${command} ${args}" 失敗: "${stdout}"`))
         }
       })
 

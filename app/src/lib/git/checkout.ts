@@ -68,7 +68,7 @@ export async function checkoutBranch(
   }
 
   if (progressCallback) {
-    const title = `Checking out branch ${branch.name}`
+    const title = `簽出分支 ${branch.name}`
     const kind = 'checkout'
     const targetBranch = branch.name
 

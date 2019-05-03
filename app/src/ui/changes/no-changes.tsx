@@ -366,14 +366,12 @@ export class NoChanges extends React.Component<
     const numChanges = stashEntry.files.files.length
     const description = (
       <>
-        You have {numChanges} {numChanges === 1 ? 'change' : 'changes'} in
-        progress that you have not yet committed.
+        你有 {numChanges} {numChanges === 1 ? '變更' : '變更'} 正在進行中尚未提交。
       </>
     )
     const discoverabilityContent = (
       <>
-        When a stash exists, access it at the bottom of the Changes tab to the
-        left.
+        當一個藏匿存在，在變更標籤的左側底部存取它。
       </>
     )
     const itemId: MenuIDs = 'toggle-stashed-changes'
@@ -386,11 +384,11 @@ export class NoChanges extends React.Component<
     return (
       <MenuBackedBlankslateAction
         key="view-stash-action"
-        title="View your stashed changes"
+        title="檢閱您的藏匿變更"
         menuItemId={itemId}
         description={description}
         discoverabilityContent={discoverabilityContent}
-        buttonText="View stash"
+        buttonText="檢閱藏匿"
         type="primary"
         disabled={menuItem !== null && !menuItem.enabled}
       />
