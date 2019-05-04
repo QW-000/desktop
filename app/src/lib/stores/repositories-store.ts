@@ -52,7 +52,7 @@ export class RepositoriesStore extends BaseStore {
     const owner = await this.db.owners.get(dbRepo.ownerID)
 
     if (owner == null) {
-      throw new Error(`Couldn't find the owner for ${dbRepo.name}`)
+      throw new Error(`找不到 ${dbRepo.name} 的擁有者`)
     }
 
     let parent: GitHubRepository | null = null
@@ -174,7 +174,7 @@ export class RepositoriesStore extends BaseStore {
     const repoID = repository.id
     if (!repoID) {
       return fatalError(
-        '`updateRepositoryMissing` can only update `missing` for a repository which has been added to the database.'
+        '`updateRepositoryMissing` 只能為已增加到資料存儲庫的更新 `missing` 。'
       )
     }
 
@@ -206,7 +206,7 @@ export class RepositoriesStore extends BaseStore {
     const repoID = repository.id
     if (!repoID) {
       return fatalError(
-        '`updateRepositoryPath` can only update the path for a repository which has been added to the database.'
+        '`updateRepositoryPath` 只能更新已增加到資料存儲庫的路徑。'
       )
     }
 
@@ -302,7 +302,7 @@ export class RepositoriesStore extends BaseStore {
     const repoID = repository.id
     if (!repoID) {
       return fatalError(
-        '`updateGitHubRepository` can only update a GitHub repository for a repository which has been added to the database.'
+        '`updateGitHubRepository` 只能更新已增加到資料存儲庫的 GitHub 存儲庫。'
       )
     }
 
@@ -349,21 +349,21 @@ export class RepositoriesStore extends BaseStore {
     const repoID = repository.id
     if (repoID === 0) {
       return fatalError(
-        '`updateLastPruneDate` can only update the last prune date for a repository which has been added to the database.'
+        '`updateLastPruneDate` 只能更新已增加到資料存儲庫的最後修整日期。'
       )
     }
 
     const githubRepo = repository.gitHubRepository
     if (githubRepo === null) {
       return fatalError(
-        `'updateLastPruneDate' can only update GitHub repositories`
+        `'updateLastPruneDate' 只能更新 GitHub 存儲庫`
       )
     }
 
     const gitHubRepositoryID = githubRepo.dbID
     if (gitHubRepositoryID === null) {
       return fatalError(
-        `'updateLastPruneDate' can only update GitHub repositories with a valid ID: received ID of ${gitHubRepositoryID}`
+        `'updateLastPruneDate' 只能使用有效的 ID 更新 GitHub 存儲庫: 收到的 ID 為 ${gitHubRepositoryID}`
       )
     }
 
@@ -380,21 +380,21 @@ export class RepositoriesStore extends BaseStore {
     const repoID = repository.id
     if (!repoID) {
       return fatalError(
-        '`getLastPruneDate` - can only retrieve the last prune date for a repositories that have been stored in the database.'
+        '`getLastPruneDate` - 只能取回已存儲在資料存儲庫的最後修整日期。'
       )
     }
 
     const githubRepo = repository.gitHubRepository
     if (githubRepo === null) {
       return fatalError(
-        `'getLastPruneDate' - can only retrieve the last prune date for GitHub repositories.`
+        `'getLastPruneDate' - 只能取回 GitHub 存儲庫的最後修整日期。`
       )
     }
 
     const gitHubRepositoryID = githubRepo.dbID
     if (gitHubRepositoryID === null) {
       return fatalError(
-        `'getLastPruneDate' - can only retrieve the last prune date for GitHub repositories that have been stored in the database.`
+        `'getLastPruneDate' - 只能取回已存儲在資料庫中的 GitHub 存儲庫的最後修整日期。`
       )
     }
 
@@ -402,7 +402,7 @@ export class RepositoriesStore extends BaseStore {
 
     if (record === undefined) {
       return fatalError(
-        `'getLastPruneDate' - unable to find GitHub repository with ID: ${gitHubRepositoryID}`
+        `'getLastPruneDate' - 找不到 GitHub 的存儲庫 ID: ${gitHubRepositoryID}`
       )
     }
 

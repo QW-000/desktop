@@ -35,7 +35,7 @@ export function mapStatus(status: AppFileStatus): string {
     case AppFileStatusKind.Conflicted:
       if (isConflictWithMarkers(status)) {
         const conflictsCount = status.conflictMarkerCount
-        return conflictsCount > 0 ? 'Conflicted' : 'Resolved'
+        return conflictsCount > 0 ? '衝突' : '解決'
       }
 
       return 'Conflicted'
@@ -43,7 +43,7 @@ export function mapStatus(status: AppFileStatus): string {
       return 'Copied'
   }
 
-  return assertNever(status, `Unknown file status ${status}`)
+  return assertNever(status, `未知的檔案狀態 ${status}`)
 }
 
 /** Typechecker helper to identify conflicted files */
@@ -95,17 +95,17 @@ export function getUnmergedStatusEntryDescription(
   entry: UnmergedStatusEntry,
   branch?: string
 ): string {
-  const suffix = branch ? ` from ${branch}` : ''
+  const suffix = branch ? ` 從 ${branch}` : ''
 
   switch (entry) {
     case GitStatusEntry.Added:
-      return `Using the added file${suffix}`
+      return `使用增加的檔案 ${suffix}`
     case GitStatusEntry.UpdatedButUnmerged:
-      return `Using the modified file${suffix}`
+      return `使用修改後的檔案 ${suffix}`
     case GitStatusEntry.Deleted:
-      return `Using the deleted file${suffix}`
+      return `使用已刪除的檔案 ${suffix}`
     default:
-      return assertNever(entry, 'Unknown status entry to format')
+      return assertNever(entry, '未知狀態的項目格式')
   }
 }
 
@@ -116,17 +116,17 @@ export function getLabelForManualResolutionOption(
   entry: UnmergedStatusEntry,
   branch?: string
 ): string {
-  const suffix = branch ? ` from ${branch}` : ''
+  const suffix = branch ? ` 從 ${branch}` : ''
 
   switch (entry) {
     case GitStatusEntry.Added:
-      return `Use the added file${suffix}`
+      return `使用增加的檔案 ${suffix}`
     case GitStatusEntry.UpdatedButUnmerged:
-      return `Use the modified file${suffix}`
+      return `使用修改後的檔案 ${suffix}`
     case GitStatusEntry.Deleted:
-      return `Use the deleted file${suffix}`
+      return `使用已刪除的檔案 ${suffix}`
     default:
-      return assertNever(entry, 'Unknown status entry to format')
+      return assertNever(entry, '未知狀態的項目格式')
   }
 }
 

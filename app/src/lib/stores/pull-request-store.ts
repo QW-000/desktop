@@ -35,7 +35,7 @@ export class PullRequestStore extends TypedBaseStore<GitHubRepository> {
     account: Account
   ): Promise<void> {
     const githubRepo = forceUnwrap(
-      'Can only refresh pull requests for GitHub repositories',
+      '只可以更新 GitHub 存儲庫的拉取請求',
       repository.gitHubRepository
     )
     const apiClient = API.fromAccount(account)
@@ -66,7 +66,7 @@ export class PullRequestStore extends TypedBaseStore<GitHubRepository> {
   /** Is the store currently fetching the list of open pull requests? */
   public isFetchingPullRequests(repository: GitHubRepository): boolean {
     const repoDbId = forceUnwrap(
-      'Cannot fetch PRs for a repository which is not in the database',
+      '無法取得不存在資料存儲庫的 PR',
       repository.dbID
     )
     const currentCount = this.activeFetchCountPerRepository.get(repoDbId) || 0
@@ -82,7 +82,7 @@ export class PullRequestStore extends TypedBaseStore<GitHubRepository> {
 
     if (gitHubRepositoryID == null) {
       return fatalError(
-        "Cannot get pull requests for a repository that hasn't been inserted into the database!"
+        "無法取得尚未存入資料存儲庫的拉取請求!"
       )
     }
 
@@ -107,21 +107,21 @@ export class PullRequestStore extends TypedBaseStore<GitHubRepository> {
       // We know the base repo ID can't be null since it's the repository we
       // fetched the PR from in the first place.
       const parentRepositoryDbId = forceUnwrap(
-        'A pull request cannot have a null base repo id',
+        '拉取請求不能含有空基存儲庫的 ID',
         record.base.repoId
       )
       const parentGitGubRepository: GitHubRepository | null = await this.repositoryStore.findGitHubRepositoryByID(
         parentRepositoryDbId
       )
       const parentGitHubRepository = forceUnwrap(
-        'PR cannot have a null base repo',
+        'PR 不能是空基存儲庫',
         parentGitGubRepository
       )
 
       // We can be certain the PR ID is valid since we just got it from the
       // database.
       const pullRequestDbId = forceUnwrap(
-        'PR cannot have a null ID after being retrieved from the database',
+        '從資料庫中取回後，PR 不能含有空的 ID',
         record.id
       )
 
@@ -198,7 +198,7 @@ export class PullRequestStore extends TypedBaseStore<GitHubRepository> {
     update: (count: number) => number
   ) {
     const repoDbId = forceUnwrap(
-      'Cannot fetch PRs for a repository which is not in the database',
+      '無法取得不存在資料存儲庫的 PR',
       repository.dbID
     )
     const currentCount = this.activeFetchCountPerRepository.get(repoDbId) || 0
@@ -216,7 +216,7 @@ export class PullRequestStore extends TypedBaseStore<GitHubRepository> {
 
     if (repoDbId == null) {
       return fatalError(
-        "Cannot store pull requests for a repository that hasn't been inserted into the database!"
+        "無法取得尚未存入資料存儲庫的拉取請求!"
       )
     }
 
@@ -247,14 +247,14 @@ export class PullRequestStore extends TypedBaseStore<GitHubRepository> {
       )
 
       const githubRepoDbId = forceUnwrap(
-        'PR cannot have non-existent repo',
+        'PR 不能是不存在的存儲庫',
         githubRepo.dbID
       )
 
       // We know the base repo isn't null since that's where we got the PR from
       // in the first place.
       const parentRepo = forceUnwrap(
-        'PR cannot have a null base repo',
+        'PR 不能是空基存儲庫',
         pr.base.repo
       )
       const parentGitHubRepo = await this.repositoryStore.upsertGitHubRepository(
@@ -262,7 +262,7 @@ export class PullRequestStore extends TypedBaseStore<GitHubRepository> {
         parentRepo
       )
       const parentGitHubRepoDbId = forceUnwrap(
-        'PR cannot have a null parent database id',
+        'PR 不能是空父代資料庫的 ID',
         parentGitHubRepo.dbID
       )
 

@@ -10,7 +10,7 @@ export class UpstreamAlreadyExistsError extends Error {
   public readonly existingRemote: IRemote
 
   public constructor(repository: Repository, existingRemote: IRemote) {
-    super(`The remote '${existingRemote.name}' already exists`)
+    super(`遠程 '${existingRemote.name}' 已經存在`)
 
     this.repository = repository
     this.existingRemote = existingRemote
