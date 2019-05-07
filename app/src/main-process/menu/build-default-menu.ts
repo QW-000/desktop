@@ -8,6 +8,7 @@ import { ensureDir } from 'fs-extra'
 import { log } from '../log'
 import { openDirectorySafe } from '../shell'
 import { enableRebaseDialog, enableStashing } from '../../lib/feature-flag'
+import { MenuLabelsEvent } from '../../models/menu-labels'
 
 const defaultEditorLabel = __DARWIN__
   ? 'Open in External Editor'
@@ -15,13 +16,15 @@ const defaultEditorLabel = __DARWIN__
 const defaultShellLabel = __DARWIN__
   ? '開啟終端機'
   : '開啟命令提示字元'
-const defaultPullRequestLabel = __DARWIN__
-  ? 'Create Pull Request'
+const createPullRequestLabel = __DARWIN__
+  ? '建立拉取請求'
   : '建立拉取請求(&P)'
-const defaultBranchNameDefaultValue = __DARWIN__
-  ? 'Default Branch'
-  : '預設分支'
-const defaultRepositoryRemovalLabel = __DARWIN__ ? '清除' : '清除(&R)'
+const showPullRequestLabel = __DARWIN__
+  ? '顯示拉取請求'
+  : '顯示拉取請求(&P)'
+const defaultBranchNameValue = __DARWIN__ ? '預設分支' : '預設分支'
+const confirmRepositoryRemovalLabel = __DARWIN__ ? '清除…' : '清除(&R)…'
+const repositoryRemovalLabel = __DARWIN__ ? '清除' : '清除(&R)'
 
 enum ZoomDirection {
   Reset,
@@ -29,28 +32,33 @@ enum ZoomDirection {
   Out,
 }
 
-export type MenuLabels = {
-  editorLabel?: string
-  shellLabel?: string
-  pullRequestLabel?: string
-  defaultBranchName?: string
-  removeRepoLabel?: string
-  isForcePushForCurrentRepository?: boolean
-  askForConfirmationOnForcePush?: boolean
-  isStashedChangesVisible?: boolean
-}
-
 export function buildDefaultMenu({
-  editorLabel = defaultEditorLabel,
-  shellLabel = defaultShellLabel,
-  pullRequestLabel = defaultPullRequestLabel,
-  defaultBranchName = defaultBranchNameDefaultValue,
-  removeRepoLabel = defaultRepositoryRemovalLabel,
+  selectedExternalEditor,
+  selectedShell,
+  askForConfirmationOnForcePush,
+  askForConfirmationOnRepositoryRemoval,
+  hasCurrentPullRequest = false,
+  defaultBranchName = defaultBranchNameValue,
   isForcePushForCurrentRepository = false,
-  askForConfirmationOnForcePush = false,
   isStashedChangesVisible = false,
-}: MenuLabels): Electron.Menu {
+}: MenuLabelsEvent): Electron.Menu {
   defaultBranchName = truncateWithEllipsis(defaultBranchName, 25)
+
+  const removeRepoLabel = askForConfirmationOnRepositoryRemoval
+    ? confirmRepositoryRemovalLabel
+    : repositoryRemovalLabel
+
+  const pullRequestLabel = hasCurrentPullRequest
+    ? showPullRequestLabel
+    : createPullRequestLabel
+
+  const shellLabel =
+    selectedShell === null ? defaultShellLabel : `開啟 ${selectedShell}`
+
+  const editorLabel =
+    selectedExternalEditor === null
+      ? defaultEditorLabel
+      : `開啟 ${selectedExternalEditor}`
 
   const template = new Array<Electron.MenuItemConstructorOptions>()
   const separator: Electron.MenuItemConstructorOptions = { type: 'separator' }
