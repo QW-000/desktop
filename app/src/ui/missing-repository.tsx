@@ -46,8 +46,8 @@ export class MissingRepository extends React.Component<
           <div className="title">找不到 "{this.props.repository.name}"</div>
           <div className="details">
             最後一次出現{' '}
-            <span className="路徑">{this.props.repository.path}</span>.{' '}
-            <LinkButton onClick={this.checkAgain}>Check&nbsp;again.</LinkButton>
+            <span className="路徑">{this.props.repository.path}</span>。{' '}
+            <LinkButton onClick={this.checkAgain}>再次檢查。&nbsp;</LinkButton>
           </div>
         </div>
 

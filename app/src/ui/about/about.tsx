@@ -168,7 +168,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
 
     return (
       <p className="update-status">
-        您有最新版本 (last checked{' '}
+        您有最新版本 (上次檢查 {' '}
         <RelativeTime date={lastCheckedDate} />)
       </p>
     )

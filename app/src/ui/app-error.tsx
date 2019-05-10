@@ -143,7 +143,7 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
         id="app-error"
         type="error"
         key="error"
-        title="Error"
+        title="錯誤"
         dismissable={false}
         onDismissed={this.onDismissed}
         disabled={this.state.disabled}
