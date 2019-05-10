@@ -32,9 +32,9 @@ export function showUncaughtException(isLaunchError: boolean, error: Error) {
         type: 'error',
         title: __DARWIN__ ? `Unrecoverable Error` : '無法復原之錯誤',
         message:
-          `GitHub Desktop has encountered an unrecoverable error and will need to restart.\n\n` +
-          `This has been reported to the team, but if you encounter this repeatedly please report ` +
-          `this issue to the GitHub Desktop issue tracker.\n\n${error.stack ||
+          `GitHub Desktop 遇到無法復原之錯誤，需要重新啟動。\n\n` +
+          `這已被報告給團隊，但如果您屢次遇到此錯誤請報告` +
+          `這個問題到此 GitHub Desktop 的問題跟踪。\n\n${error.stack ||
             error.message}`,
       },
       response => {
