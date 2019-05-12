@@ -183,7 +183,7 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
     if (commitCount === 0) {
       return (
         <React.Fragment>
-          {`這個分支是最新的 `}
+          {`這個分支是最新的同 `}
           <strong>{branch.name}</strong>
         </React.Fragment>
       )
