@@ -25,22 +25,22 @@ export function mapStatus(status: AppFileStatus): string {
   switch (status.kind) {
     case AppFileStatusKind.New:
     case AppFileStatusKind.Untracked:
-      return 'New'
+      return 'New 新增'
     case AppFileStatusKind.Modified:
-      return 'Modified'
+      return 'Modified 修改'
     case AppFileStatusKind.Deleted:
-      return 'Deleted'
+      return 'Deleted 刪除'
     case AppFileStatusKind.Renamed:
-      return 'Renamed'
+      return 'Renamed 重新命名'
     case AppFileStatusKind.Conflicted:
       if (isConflictWithMarkers(status)) {
         const conflictsCount = status.conflictMarkerCount
-        return conflictsCount > 0 ? '衝突' : '解決'
+        return conflictsCount > 0 ? 'Conflicted 衝突' : 'Resolved 解決'
       }
 
-      return 'Conflicted'
+      return 'Conflicted 衝突'
     case AppFileStatusKind.Copied:
-      return 'Copied'
+      return 'Copied 複製'
   }
 
   return assertNever(status, `未知的檔案狀態 ${status}`)
