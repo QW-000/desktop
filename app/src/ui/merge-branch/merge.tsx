@@ -220,7 +220,7 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
       <React.Fragment>
         將由
         <strong>{` ${count} 衝突 ${pluralized}`}</strong>
-        {` 合併於 `}
+        {` 合併 `}
         <strong>{branch.name}</strong>
         {` 到 `}
         <strong>{currentBranch.name}</strong>
