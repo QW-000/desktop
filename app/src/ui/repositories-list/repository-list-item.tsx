@@ -202,11 +202,11 @@ const renderAheadBehindIndicator = (aheadBehind: IAheadBehind) => {
   }
 
   const aheadBehindTooltip =
-    '當前簽出的分支是 ' +
-    (behind ? ` ${commitGrammar(behind)} 落後 ` : '') +
-    (behind && ahead ? ' 與 ' : '') +
-    (ahead ? ` ${commitGrammar(ahead)} 向前 ` : '') +
-    ' 其跟踪的分支。'
+    '當前簽出的分支是' +
+    (behind ? ` ${commitGrammar(behind)} 落後` : '') +
+    (behind && ahead ? '與' : '') +
+    (ahead ? ` ${commitGrammar(ahead)} 提前` : '') +
+    '其跟踪的分支。'
 
   return (
     <div className="ahead-behind" title={aheadBehindTooltip}>
@@ -231,4 +231,4 @@ const renderChangesIndicator = () => {
 }
 
 const commitGrammar = (commitNum: number) =>
-  `${commitNum} 提交 ${commitNum > 1 ? 's' : ''}` // english is hard
+  `${commitNum} 提交${commitNum > 1 ? 's' : ''}` // english is hard

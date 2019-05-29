@@ -138,13 +138,12 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
       <div className="panel empty large-diff">
         <img src={NoDiffImage} className="blankslate-image" />
         <p>
-          The diff is too large to be displayed by default.
+          差異過大，預設情況下無法顯示。
           <br />
-          You can try to show it anyways, but performance may be negatively
-          impacted.
+          您可以嘗試顯示它，但表現可能會受到負面影響。
         </p>
         <Button onClick={this.showLargeDiff}>
-          {__DARWIN__ ? 'Show Diff' : 'Show diff'}
+          {__DARWIN__ ? '顯示差異' : '顯示差異'}
         </Button>
       </div>
     )
@@ -154,7 +153,7 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
     return (
       <div className="panel empty large-diff">
         <img src={NoDiffImage} />
-        <p>The diff is too large to be displayed.</p>
+        <p>差異過大而無法顯示。</p>
       </div>
     )
   }
@@ -177,13 +176,13 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
         this.props.file.status.kind === AppFileStatusKind.New ||
         this.props.file.status.kind === AppFileStatusKind.Untracked
       ) {
-        return <div className="panel empty">The file is empty</div>
+        return <div className="panel empty">此檔案是空的</div>
       }
 
       if (this.props.file.status.kind === AppFileStatusKind.Renamed) {
         return (
           <div className="panel renamed">
-            The file was renamed but not changed
+            此檔案已重新命名但未變更
           </div>
         )
       }
@@ -194,12 +193,12 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
       ) {
         return (
           <div className="panel empty">
-            The file is in conflict and must be resolved via the command line.
+            此檔案存在衝突，必須經由命令行解決。
           </div>
         )
       }
 
-      return <div className="panel empty">No content changes found</div>
+      return <div className="panel empty">未找到任何的內容變更</div>
     }
 
     return this.renderTextDiff(diff)
