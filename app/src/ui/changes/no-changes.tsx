@@ -21,6 +21,7 @@ import { IAheadBehind } from '../../models/branch'
 import { IRemote } from '../../models/remote'
 import { isCurrentBranchForcePush } from '../../lib/rebase'
 import { StashedChangesLoadStates } from '../../models/stash-entry'
+import { Dispatcher } from '../dispatcher'
 
 function formatMenuItemLabel(text: string) {
   if (__WIN32__ || __LINUX__) {
@@ -38,6 +39,8 @@ function formatParentMenuLabel(menuItem: IMenuItemInfo) {
 const PaperStackImage = encodePathAsUrl(__dirname, 'static/paper-stack.svg')
 
 interface INoChangesProps {
+  readonly dispatcher: Dispatcher
+
   /**
    * The currently selected repository
    */
@@ -214,7 +217,8 @@ export class NoChanges extends React.Component<
   private renderMenuBackedAction(
     itemId: MenuIDs,
     title: string,
-    description?: string | JSX.Element
+    description?: string | JSX.Element,
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   ) {
     const menuItem = this.getMenuItemInfo(itemId)
 
@@ -231,6 +235,7 @@ export class NoChanges extends React.Component<
         menuItemId={itemId}
         buttonText={formatMenuItemLabel(menuItem.label)}
         disabled={!menuItem.enabled}
+        onClick={onClick}
       />
     )
   }
@@ -240,9 +245,14 @@ export class NoChanges extends React.Component<
 
     return this.renderMenuBackedAction(
       'open-working-directory',
-      `在${fileManager}中檢視存儲庫中的檔案`
+      `在${fileManager}中檢視存儲庫中的檔案`,
+      undefined,
+      this.onShowInFileManagerClicked
     )
   }
+
+  private onShowInFileManagerClicked = () =>
+    this.props.dispatcher.recordSuggestedStepOpenWorkingDirectory()
 
   private renderViewOnGitHub() {
     const isGitHub = this.props.repository.gitHubRepository !== null
@@ -253,9 +263,14 @@ export class NoChanges extends React.Component<
 
     return this.renderMenuBackedAction(
       'view-repository-on-github',
-      `在瀏覽器中開啟 GitHub 上的存儲庫頁面`
+      `在瀏覽器中開啟 GitHub 上的存儲庫頁面`,
+      undefined,
+      this.onViewOnGitHubClicked
     )
   }
+
+  private onViewOnGitHubClicked = () =>
+    this.props.dispatcher.recordSuggestedStepViewOnGitHub()
 
   private openPreferences = () => {
     executeMenuItemById('preferences')
@@ -292,8 +307,16 @@ export class NoChanges extends React.Component<
       </>
     )
 
-    return this.renderMenuBackedAction(itemId, title, description)
+    return this.renderMenuBackedAction(
+      itemId,
+      title,
+      description,
+      this.onOpenInExternalEditorClicked
+    )
   }
+
+  private onOpenInExternalEditorClicked = () =>
+    this.props.dispatcher.recordSuggestedStepOpenInExternalEditor()
 
   private renderRemoteAction() {
     const { remote, aheadBehind, branchesState } = this.props.repositoryState
@@ -427,9 +450,13 @@ export class NoChanges extends React.Component<
         menuItemId={itemId}
         type="primary"
         disabled={!menuItem.enabled}
+        onClick={this.onPublishRepositoryClicked}
       />
     )
   }
+
+  private onPublishRepositoryClicked = () =>
+    this.props.dispatcher.recordSuggestedStepPublishRepository()
 
   private renderPublishBranchAction(tip: IValidBranch) {
     // This is a bit confusing, there's no dedicated
@@ -470,9 +497,13 @@ export class NoChanges extends React.Component<
         buttonText="發布分支"
         type="primary"
         disabled={!menuItem.enabled}
+        onClick={this.onPublishBranchClicked}
       />
     )
   }
+
+  private onPublishBranchClicked = () =>
+    this.props.dispatcher.recordSuggestedStepPublishBranch()
 
   private renderPullBranchAction(
     tip: IValidBranch,
@@ -601,9 +632,13 @@ export class NoChanges extends React.Component<
         discoverabilityContent={this.renderDiscoverabilityElements(menuItem)}
         type="primary"
         disabled={!menuItem.enabled}
+        onClick={this.onCreatePullRequestClicked}
       />
     )
   }
+
+  private onCreatePullRequestClicked = () =>
+    this.props.dispatcher.recordSuggestedStepCreatePullRequest()
 
   private renderActions() {
     return (

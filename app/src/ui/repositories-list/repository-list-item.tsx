@@ -8,6 +8,7 @@ import { HighlightText } from '../lib/highlight-text'
 import { IMatches } from '../../lib/fuzzy-find'
 import { IAheadBehind } from '../../models/branch'
 import { RevealInFileManagerLabel } from '../lib/context-menu'
+import { enableGroupRepositoriesByOwner } from '../../lib/feature-flag'
 
 const defaultEditorLabel = __DARWIN__
   ? 'Open in External Editor'
@@ -61,35 +62,7 @@ export class RepositoryListItem extends React.Component<
     const gitHubRepo =
       repository instanceof Repository ? repository.gitHubRepository : null
     const hasChanges = this.props.changedFilesCount > 0
-    const renderAheadBehindIndicator = () => {
-      if (
-        !(repository instanceof Repository) ||
-        this.props.aheadBehind === null
-      ) {
-        return null
-      }
-      const { ahead, behind } = this.props.aheadBehind
-      if (ahead === 0 && behind === 0) {
-        return null
-      }
-      const commitGrammar = (commitNum: number) =>
-        `${commitNum} 提交${commitNum > 1 ? '，' : ''}` // english is hard
-      const aheadBehindTooltip =
-        '當前簽出的分支是' +
-        (behind ? ` ${commitGrammar(behind)} 落後` : '') +
-        (behind && ahead ? '與' : '') +
-        (ahead ? ` ${commitGrammar(ahead)} 提前` : '') +
-        '其跟踪的分支。'
 
-      return (
-        <div className="ahead-behind" title={aheadBehindTooltip}>
-          {ahead > 0 ? <Octicon symbol={OcticonSymbol.arrowSmallUp} /> : null}
-          {behind > 0 ? (
-            <Octicon symbol={OcticonSymbol.arrowSmallDown} />
-          ) : null}
-        </div>
-      )
-    }
     const repoTooltip = gitHubRepo
       ? gitHubRepo.fullName + '\n' + gitHubRepo.htmlURL + '\n' + path
       : path
@@ -99,22 +72,33 @@ export class RepositoryListItem extends React.Component<
       prefix = `${gitHubRepo.owner.login}/`
     }
 
+    const className = enableGroupRepositoriesByOwner()
+      ? 'repository-list-item group-repositories-by-owner'
+      : 'repository-list-item'
+
     return (
-      <div onContextMenu={this.onContextMenu} className="repository-list-item">
-        <div
-          className="change-indicator-wrapper"
-          title={
-            hasChanges ? '此存儲庫中存在未提交的變更' : ''
-          }
-        >
-          {hasChanges ? (
-            <Octicon
-              className="change-indicator"
-              symbol={OcticonSymbol.primitiveDot}
-            />
-          ) : null}
-        </div>
-        <Octicon symbol={iconForRepository(repository)} />
+      <div onContextMenu={this.onContextMenu} className={className}>
+        {!enableGroupRepositoriesByOwner() && (
+          <div
+            className="change-indicator-wrapper"
+            title={
+              hasChanges
+                ? '此存儲庫中存在未提交的變更'
+                : ''
+            }
+          >
+            {hasChanges ? (
+              <Octicon
+                className="change-indicator"
+                symbol={OcticonSymbol.primitiveDot}
+              />
+            ) : null}
+          </div>
+        )}
+        <Octicon
+          className="icon-for-repository"
+          symbol={iconForRepository(repository)}
+        />
         <div className="name" title={repoTooltip}>
           {prefix ? <span className="prefix">{prefix}</span> : null}
           <HighlightText
@@ -123,7 +107,11 @@ export class RepositoryListItem extends React.Component<
           />
         </div>
 
-        {renderAheadBehindIndicator()}
+        {repository instanceof Repository &&
+          renderRepoIndicators({
+            aheadBehind: this.props.aheadBehind,
+            hasChanges: enableGroupRepositoriesByOwner() && hasChanges,
+          })}
       </div>
     )
   }
@@ -194,3 +182,53 @@ export class RepositoryListItem extends React.Component<
     this.props.onOpenInExternalEditor(this.props.repository)
   }
 }
+
+const renderRepoIndicators: React.SFC<{
+  aheadBehind: IAheadBehind | null
+  hasChanges: boolean
+}> = props => {
+  return (
+    <div className="repo-indicators">
+      {props.aheadBehind && renderAheadBehindIndicator(props.aheadBehind)}
+      {props.hasChanges && renderChangesIndicator()}
+    </div>
+  )
+}
+
+const renderAheadBehindIndicator = (aheadBehind: IAheadBehind) => {
+  const { ahead, behind } = aheadBehind
+  if (ahead === 0 && behind === 0) {
+    return null
+  }
+
+  const aheadBehindTooltip =
+    '當前簽出的分支是 ' +
+    (behind ? ` ${commitGrammar(behind)} 落後 ` : '') +
+    (behind && ahead ? ' 與 ' : '') +
+    (ahead ? ` ${commitGrammar(ahead)} 向前 ` : '') +
+    ' 其跟踪的分支。'
+
+  return (
+    <div className="ahead-behind" title={aheadBehindTooltip}>
+      {ahead > 0 && <Octicon symbol={OcticonSymbol.arrowSmallUp} />}
+      {behind > 0 && <Octicon symbol={OcticonSymbol.arrowSmallDown} />}
+    </div>
+  )
+}
+
+const renderChangesIndicator = () => {
+  const classNames = enableGroupRepositoriesByOwner()
+    ? 'change-indicator-wrapper group-repositories-by-owner'
+    : 'change-indicator-wrapper'
+  return (
+    <div
+      className={classNames}
+      title="此存儲庫中存在未提交的變更"
+    >
+      <Octicon symbol={OcticonSymbol.primitiveDot} />
+    </div>
+  )
+}
+
+const commitGrammar = (commitNum: number) =>
+  `${commitNum} 提交 ${commitNum > 1 ? 's' : ''}` // english is hard
