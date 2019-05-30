@@ -134,8 +134,14 @@ export interface IDailyMeasures {
    */
   readonly enterpriseCommits: number
 
-  /** The number of time the user made a commit to a repo hosted on Github.com */
+  /** The number of times the user made a commit to a repo hosted on Github.com */
   readonly dotcomCommits: number
+
+  /** The number of times the user made a commit to a protected GitHub or GitHub Enterprise repository */
+  readonly commitsToProtectedBranch: number
+
+  /** The number of times the user made a commit to a repository with branch protections enabled */
+  readonly commitsToRepositoryWithBranchProtections: number
 
   /** The number of times the user dismissed the merge conflicts dialog */
   readonly mergeConflictsDialogDismissalCount: number
@@ -188,6 +194,32 @@ export interface IDailyMeasures {
   /** The number of times the user opens the "Rebase current branch" menu item */
   readonly rebaseCurrentBranchMenuCount: number
 
+  /** The number of times the user views a stash entry after checking out a branch */
+  readonly stashViewedAfterCheckoutCount: number
+
+  /** The number of times the user **doesn't** view a stash entry after checking out a branch */
+  readonly stashNotViewedAfterCheckoutCount: number
+
+  /** The number of times the user elects to stash changes on the current branch  */
+  readonly stashCreatedOnCurrentBranchCount: number
+
+  /** The number of times the user elects to take changes to new branch instead of stashing them */
+  readonly changesTakenToNewBranchCount: number
+
+  /** The number of times the user elects to restore an entry from their stash */
+  readonly stashRestoreCount: number
+
+  /** The number of times the user elects to discard a stash entry */
+  readonly stashDiscardCount: number
+
+  /**
+   * The number of times the user views the stash entry as a result
+   * of clicking the "Stashed changes" row directly
+   */
+  readonly stashViewCount: number
+
+  /** The number of times the user takes no action on a stash entry once viewed */
+  readonly noActionTakenOnStashCount: number
   /**
    * The number of times the user has opened their external editor from the
    * suggested next steps view
@@ -227,6 +259,12 @@ export interface IDailyMeasures {
    * a keyboard shortcut only `createPullRequestCount` will increment.
    */
   readonly suggestedStepCreatePullRequest: number
+
+  /**
+   * The number of times the user has used the view stash action from
+   * the suggested next steps view
+   */
+  readonly suggestedStepViewStash: number
 }
 
 export class StatsDatabase extends Dexie {

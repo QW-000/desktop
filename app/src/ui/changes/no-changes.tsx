@@ -365,7 +365,7 @@ export class NoChanges extends React.Component<
     return null
   }
 
-  private renderStashAction() {
+  private renderViewStashAction() {
     if (!enableStashing()) {
       return null
     }
@@ -414,11 +414,13 @@ export class NoChanges extends React.Component<
         buttonText="檢閱藏匿"
         type="primary"
         disabled={menuItem !== null && !menuItem.enabled}
+        onClick={this.onViewStashClicked}
       />
     )
-
-    return null
   }
+
+  private onViewStashClicked = () =>
+    this.props.dispatcher.recordSuggestedStepViewStash()
 
   private renderPublishRepositoryAction() {
     // This is a bit confusing, there's no dedicated
@@ -654,7 +656,7 @@ export class NoChanges extends React.Component<
           transitionEnterTimeout={750}
           transitionLeaveTimeout={500}
         >
-          {this.renderStashAction() || this.renderRemoteAction()}
+          {this.renderViewStashAction() || this.renderRemoteAction()}
         </ReactCSSTransitionReplace>
         <div className="actions">
           {this.renderOpenInExternalEditor()}
