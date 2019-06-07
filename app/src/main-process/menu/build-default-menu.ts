@@ -9,10 +9,8 @@ import { log } from '../log'
 import { openDirectorySafe } from '../shell'
 import { enableRebaseDialog, enableStashing } from '../../lib/feature-flag'
 import { MenuLabelsEvent } from '../../models/menu-labels'
+import { DefaultEditorLabel } from '../../ui/lib/context-menu'
 
-const defaultEditorLabel = __DARWIN__
-  ? 'Open in External Editor'
-  : '開啟外部編輯器'
 const defaultShellLabel = __DARWIN__
   ? '開啟終端機'
   : '開啟命令提示字元'
@@ -57,7 +55,7 @@ export function buildDefaultMenu({
 
   const editorLabel =
     selectedExternalEditor === null
-      ? defaultEditorLabel
+      ? DefaultEditorLabel
       : `開啟 ${selectedExternalEditor}`
 
   const template = new Array<Electron.MenuItemConstructorOptions>()
@@ -286,7 +284,7 @@ export function buildDefaultMenu({
       {
         label: removeRepoLabel,
         id: 'remove-repository',
-        accelerator: 'CmdOrCtrl+Delete',
+        accelerator: 'CmdOrCtrl+Backspace',
         click: emit('remove-repository'),
       },
       separator,
@@ -353,6 +351,7 @@ export function buildDefaultMenu({
       {
         label: __DARWIN__ ? 'Discard All Changes…' : '放棄全部變更…',
         id: 'discard-all-changes',
+        accelerator: 'CmdOrCtrl+Shift+Backspace',
         click: emit('discard-all-changes'),
       },
       separator,
