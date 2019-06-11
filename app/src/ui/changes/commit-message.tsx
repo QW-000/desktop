@@ -218,7 +218,7 @@ export class CommitMessage extends React.Component<
       trailers,
     }
 
-    const timer = startTimer('create commit', this.props.repository)
+    const timer = startTimer('建立提交', this.props.repository)
     const commitCreated = await this.props.onCreateCommit(commitContext)
     timer.done()
 

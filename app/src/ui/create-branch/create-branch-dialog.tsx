@@ -290,7 +290,7 @@ export class CreateBranch extends React.Component<
 
     if (name.length > 0) {
       this.setState({ isCreatingBranch: true })
-      const timer = startTimer('create branch', this.props.repository)
+      const timer = startTimer('建立分支', this.props.repository)
       await this.props.dispatcher.createBranch(
         this.props.repository,
         name,

@@ -238,7 +238,7 @@ export class BranchesContainer extends React.Component<
 
     if (currentBranch == null || currentBranch.name !== branch.name) {
       const timer = startTimer(
-        'checkout branch from list',
+        '從清單中簽出分支',
         this.props.repository
       )
 
@@ -287,7 +287,7 @@ export class BranchesContainer extends React.Component<
   private onPullRequestClicked = (pullRequest: PullRequest) => {
     this.props.dispatcher.closeFoldout(FoldoutType.Branch)
     const timer = startTimer(
-      'checkout pull request from list',
+      '從清單中簽出拉取請求',
       this.props.repository
     )
     this.props.dispatcher
