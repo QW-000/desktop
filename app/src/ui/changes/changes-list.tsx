@@ -322,7 +322,7 @@ export class ChangesList extends React.Component<
 
     const items: IMenuItem[] = [
       {
-        label: __DARWIN__ ? 'Discard All Changes…' : 'Discard all changes…',
+        label: __DARWIN__ ? '放棄全部變更…' : '放棄全部變更…',
         action: this.onDiscardAllChanges,
         enabled: this.props.workingDirectory.files.length > 0,
       },
