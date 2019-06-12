@@ -38,14 +38,13 @@ export class StashDiffHeader extends React.Component<
     const { isWorkingTreeClean } = this.props
     const restoreMessage = isWorkingTreeClean ? (
       <span className="text">
-        <strong>Restore</strong> will move your stashed files to the Changes
-        list.
+        <strong>復原</strong> 將您的藏匿檔案移動到變更清單。
       </span>
     ) : (
       <>
         <Octicon symbol={OcticonSymbol.alert} />
         <span className="text">
-          Unable to restore stash when changes are present on your branch.
+          當分支上存在變更時無法復原藏匿。
         </span>
       </>
     )
@@ -57,7 +56,7 @@ export class StashDiffHeader extends React.Component<
     // the correct button ordering
     return (
       <div className="header">
-        <h3>Stashed changes</h3>
+        <h3>藏匿變更</h3>
         <div className="row">
           <ButtonGroup destructive={false}>
             <Button
@@ -65,13 +64,13 @@ export class StashDiffHeader extends React.Component<
               onClick={this.onRestoreClick}
               type="submit"
             >
-              Restore
+              復原
             </Button>
             <Button
               disabled={this.state.isRestoring}
               onClick={this.onDiscardClick}
             >
-              Discard
+              丟棄
             </Button>
           </ButtonGroup>
           <div className="explanatory-text">{restoreMessage}</div>
