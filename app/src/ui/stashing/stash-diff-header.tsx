@@ -36,18 +36,6 @@ export class StashDiffHeader extends React.Component<
 
   public render() {
     const { isWorkingTreeClean } = this.props
-    const restoreMessage = isWorkingTreeClean ? (
-      <span className="text">
-        <strong>復原</strong> 將您的藏匿檔案移動到變更清單。
-      </span>
-    ) : (
-      <>
-        <Octicon symbol={OcticonSymbol.alert} />
-        <span className="text">
-          當分支上存在變更時無法復原藏匿。
-        </span>
-      </>
-    )
 
     // we pass `false` to `ButtonGroup` below because it assumes
     // the "submit" button performs the destructive action.
@@ -73,8 +61,31 @@ export class StashDiffHeader extends React.Component<
               丟棄
             </Button>
           </ButtonGroup>
-          <div className="explanatory-text">{restoreMessage}</div>
+          {this.renderExplanatoryText()}
         </div>
+      </div>
+    )
+  }
+
+  private renderExplanatoryText() {
+    const { isWorkingTreeClean } = this.props
+
+    if (isWorkingTreeClean || this.state.isRestoring) {
+      return (
+        <div className="explanatory-text">
+          <span className="text">
+            <strong>復原</strong> 將您的藏匿檔案移動到變更清單。
+          </span>
+        </div>
+      )
+    }
+
+    return (
+      <div className="explanatory-text">
+        <Octicon symbol={OcticonSymbol.alert} />
+        <span className="text">
+          當分支上存在變更時無法復原藏匿。
+        </span>
       </div>
     )
   }
