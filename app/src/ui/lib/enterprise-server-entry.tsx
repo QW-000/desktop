@@ -36,7 +36,7 @@ interface IEnterpriseServerEntryState {
   readonly serverAddress: string
 }
 
-/** An entry form for an Enterprise server address. */
+/** An entry form for an Enterprise Server address. */
 export class EnterpriseServerEntry extends React.Component<
   IEnterpriseServerEntryProps,
   IEnterpriseServerEntryState
@@ -54,7 +54,7 @@ export class EnterpriseServerEntry extends React.Component<
     return (
       <Form onSubmit={this.onSubmit}>
         <TextBox
-          label="Enterprise 服務器地址"
+          label="Enterprise 伺服器地址"
           autoFocus={true}
           disabled={disableEntry}
           onValueChanged={this.onServerAddressChanged}

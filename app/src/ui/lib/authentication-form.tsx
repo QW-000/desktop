@@ -151,7 +151,7 @@ export class AuthenticationForm extends React.Component<
         {basicAuth ? <hr className="short-rule" /> : null}
         {basicAuth ? null : (
           <p>
-            您的 GitHub Enterprise 需要使用瀏覽器登入。
+            您的 GitHub Enterprise 伺服器需要使用瀏覽器登入。
           </p>
         )}
 

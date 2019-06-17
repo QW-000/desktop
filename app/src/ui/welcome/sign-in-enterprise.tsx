@@ -26,7 +26,7 @@ export class SignInEnterprise extends React.Component<
     return (
       <div id="sign-in-enterprise">
         <h1 className="welcome-title">
-          登入您的 GitHub Enterprise 服務器
+          登入您的 GitHub Enterprise 伺服器
         </h1>
 
         <SignIn signInState={state} dispatcher={this.props.dispatcher}>

@@ -21,7 +21,7 @@ export class Start extends React.Component<IStartProps, {}> {
         <h1 className="welcome-title">歡迎使用 GitHub&nbsp;Desktop</h1>
         <p className="welcome-text">
           GitHub Desktop 是一種在 GitHub 上為項目做貢獻的無縫方式
-             與 GitHub Enterprise。 在下方登入可以開始使用您的項目。
+             與 GitHub Enterprise 伺服器。 在下方登入可以開始使用您的項目。
         </p>
 
         <p className="welcome-text">
@@ -44,7 +44,7 @@ export class Start extends React.Component<IStartProps, {}> {
             className="welcome-button"
             onClick={this.signInToEnterprise}
           >
-            登入 GitHub Enterprise
+            登入 GitHub Enterprise 伺服器
           </LinkButton>
         </div>
 
