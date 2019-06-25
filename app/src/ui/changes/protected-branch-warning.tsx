@@ -39,9 +39,9 @@ export class ProtectedBranchWarning extends React.Component<
         </div>
 
         <div className="warning-message">
-          <strong>{this.props.currentBranch}</strong> is a protected branch.
-          Want to{' '}
-          <LinkButton onClick={this.onSwitchBranch}>switch branches</LinkButton>
+          <strong>{this.props.currentBranch}</strong> 是受保護的分支。
+          想要{' '}
+          <LinkButton onClick={this.onSwitchBranch}>切換分支</LinkButton>
           ?
         </div>
       </div>

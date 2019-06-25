@@ -308,7 +308,7 @@ export class BlankSlateView extends React.Component<
     return (
       <TabBar selectedIndex={selectedIndex} onTabClicked={this.onTabClicked}>
         <span>GitHub.com</span>
-        <span>GitHub Enterprise Server</span>
+        <span>GitHub Enterprise 伺服器</span>
       </TabBar>
     )
   }
@@ -362,7 +362,7 @@ export class BlankSlateView extends React.Component<
         <div className="drag-drop-info">
           <Octicon symbol={OcticonSymbol.lightBulb} />
           <div>
-            <strong>專家提示!</strong> 您可以拖曳現有的存儲庫資料夾到 Desktop 上增加。
+            <strong>專家提示!</strong> 您可以拖曳現有的存儲庫資料夾增加到 Desktop 上。
           </div>
         </div>
       </div>
