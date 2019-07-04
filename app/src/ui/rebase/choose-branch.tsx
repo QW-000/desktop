@@ -321,6 +321,10 @@ export class ChooseBranchDialog extends React.Component<
     return <>無法啟動變基。 請您選擇一個有效的分支。</>
   }
 
+  private renderInvalidRebaseMessage() {
+    return <>Unable to start rebase. Check you have chosen a valid branch.</>
+  }
+
   private renderCleanRebaseMessage(
     currentBranch: Branch,
     baseBranch: Branch,
