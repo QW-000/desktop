@@ -159,6 +159,13 @@ export function buildDefaultMenu({
         accelerator: 'CmdOrCtrl+A',
         click: emit('select-all'),
       },
+      separator,
+      {
+        id: 'find',
+        label: __DARWIN__ ? '搜尋' : '搜尋(&F)',
+        accelerator: 'CmdOrCtrl+F',
+        click: emit('find-text'),
+      },
     ],
   })
 
