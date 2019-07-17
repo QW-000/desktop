@@ -773,12 +773,12 @@ export class AuthorInput extends React.Component<IAuthorInputProps, {}> {
     e.preventDefault()
 
     const menu: IMenuItem[] = [
-      { label: '取消', action: () => cm.getDoc().undo() },
-      { label: '重做', action: () => cm.getDoc().redo() },
+      { label: 'Undo', action: () => cm.getDoc().undo() },
+      { label: 'Redo', action: () => cm.getDoc().redo() },
       { type: 'separator' },
-      { role: '剪下' },
-      { role: '複製' },
-      { role: '貼上' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
     ]
 
     if (__WIN32__) {

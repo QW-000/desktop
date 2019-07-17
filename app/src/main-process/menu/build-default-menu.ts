@@ -85,15 +85,15 @@ export function buildDefaultMenu({
         },
         separator,
         {
-          role: '服務',
+          role: 'services',
           submenu: [],
         },
         separator,
-        { role: '隱藏' },
-        { role: '隱藏其他' },
-        { role: '取消隱藏' },
+        { role: 'hide' },
+        { role: 'hideothers' },
+        { role: 'unhide' },
         separator,
-        { role: '放棄' },
+        { role: 'quit' },
       ],
     })
   }
