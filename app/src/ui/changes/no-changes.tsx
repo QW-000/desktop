@@ -576,7 +576,7 @@ export class NoChanges extends React.Component<
     const description = (
       <>
         你有{' '}
-        {aheadBehind.ahead === 1 ? '一項本機提交' : '本機提交'} 等待被推到 {isGitHub ? 'GitHub' : '遠端'}
+        {aheadBehind.ahead === 1 ? '一項本機提交' : '本機提交'} 等待被推到 {isGitHub ? 'GitHub' : '遠端'}。
       </>
     )
 
@@ -688,7 +688,7 @@ export class NoChanges extends React.Component<
             <div className="text">
               <h1>沒有本機變更</h1>
               <p>
-                您的存儲庫中沒有未提交的變更! 以下是有關下一步操作的友好建議。
+                此存儲庫沒有未提交的變更。以下可能您會發現一些有用的操作:
               </p>
             </div>
             <img src={PaperStackImage} className="blankslate-image" />
