@@ -688,7 +688,7 @@ export class NoChanges extends React.Component<
             <div className="text">
               <h1>沒有本機變更</h1>
               <p>
-                此存儲庫沒有未提交的變更。以下您可能會發現一些實用的操作:
+                此存儲庫沒有未提交的變更。 以下是有關下一步操作的友好建議。
               </p>
             </div>
             <img src={PaperStackImage} className="blankslate-image" />
