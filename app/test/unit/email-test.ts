@@ -132,7 +132,7 @@ describe('emails', () => {
     expect(result!.email).toBe('shiftkey@users.noreply.github.com')
   })
 
-  it('returns the noreply if there is no public address for GitHub Enterprise Server as well', () => {
+  it('如果沒有 GitHub Enterprise 伺服器的公用位址，則返回無回應', () => {
     const emails: IAPIEmail[] = [
       {
         email: 'shiftkey@example.com',

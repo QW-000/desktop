@@ -29,10 +29,9 @@ export class TutorialDone extends React.Component<ITutorialDoneProps, {}> {
         <div className="content">
           <div className="header">
             <div className="text">
-              <h1>You're done!</h1>
+              <h1>你完成了!</h1>
               <p>
-                You’ve learned the basics on how to use GitHub Desktop. Here are
-                some suggestions for what to do next.
+                您已經了解有關如何使用 GitHub Desktop 的基本知識。 以下是有關下一步操作的一些建議。
               </p>
             </div>
             <img src={ClappingHandsImage} className="blankslate-image" />
@@ -60,13 +59,13 @@ export class TutorialDone extends React.Component<ITutorialDoneProps, {}> {
           <img src={ExploreImage} />
         </div>
         <div className="text-wrapper">
-          <h2>Explore projects on GitHub</h2>
+          <h2>在 GitHub 上探索項目</h2>
           <p className="description">
-            Contribute to a project that interests you
+            有助於您感興趣的項目
           </p>
         </div>
         <Button onClick={this.openDotcomExplore}>
-          {__DARWIN__ ? 'Open in Browser' : 'Open in browser'}
+          {__DARWIN__ ? 'Open in Browser' : '在瀏覽器中開啟'}
         </Button>
       </li>
     )
@@ -79,11 +78,11 @@ export class TutorialDone extends React.Component<ITutorialDoneProps, {}> {
           <img src={NewRepoImage} />
         </div>
         <div className="text-wrapper">
-          <h2>Start a new project</h2>
-          <p className="description">Create a new repository</p>
+          <h2>開始一個新項目</h2>
+          <p className="description">建立一項新的存儲庫</p>
         </div>
         <Button onClick={this.onCreateNewRepository}>
-          {__DARWIN__ ? 'Create Repository' : 'Create repository'}
+          {__DARWIN__ ? 'Create Repository' : '建立存儲庫'}
         </Button>
       </li>
     )
@@ -96,13 +95,13 @@ export class TutorialDone extends React.Component<ITutorialDoneProps, {}> {
           <img src={FolderImage} />
         </div>
         <div className="text-wrapper">
-          <h2>Add a local repository</h2>
+          <h2>增加本機存儲庫</h2>
           <p className="description">
-            Work on an existing project in GitHub Desktop
+            在 GitHub Desktop 上現有項目作業
           </p>
         </div>
         <Button onClick={this.onAddExistingRepository}>
-          {__DARWIN__ ? 'Add Repository' : 'Add repository'}
+          {__DARWIN__ ? 'Add Repository' : '增加存儲庫'}
         </Button>
       </li>
     )
