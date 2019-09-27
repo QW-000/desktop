@@ -6,8 +6,18 @@ import { Form } from './form'
 import { Button } from './button'
 import { TextBox } from './text-box'
 import { Errors } from './errors'
+import { getDotComAPIEndpoint } from '../../lib/api'
 
 interface IAuthenticationFormProps {
+  /**
+   * The URL to the host which we're currently authenticating
+   * against. This will be either https://api.github.com when
+   * signing in against GitHub.com or a user-specified
+   * URL when signing in against a GitHub Enterprise Server
+   * instance.
+   */
+  readonly endpoint: string
+
   /** Does the server support basic auth? */
   readonly supportsBasicAuth: boolean
 
@@ -149,11 +159,7 @@ export class AuthenticationForm extends React.Component<
     return (
       <div>
         {basicAuth ? <hr className="short-rule" /> : null}
-        {basicAuth ? null : (
-          <p>
-            您的 GitHub Enterprise 伺服器需要使用瀏覽器登入。
-          </p>
-        )}
+        {basicAuth ? null : this.renderEndpointRequiresWebFlow()}
 
         <div className="sign-in-footer">
           {basicAuth ? browserSignInLink : browserSignInButton}
@@ -161,6 +167,27 @@ export class AuthenticationForm extends React.Component<
         </div>
       </div>
     )
+  }
+
+  private renderEndpointRequiresWebFlow() {
+    if (this.props.endpoint === getDotComAPIEndpoint()) {
+      return (
+        <>
+          <p>
+            為了提高您的帳戶安全，GitHub 現在需要您經由瀏覽器登入。
+          </p>
+          <p>
+            登入後，瀏覽器將會返回 GitHub Desktop。如果瀏覽器要求您啟動 GitHub Desktop 的許可，請允許它。
+          </p>
+        </>
+      )
+    } else {
+      return (
+        <p>
+          您的 GitHub Enterprise 伺服器情況需要您使用瀏覽器登入。
+        </p>
+      )
+    }
   }
 
   private renderError() {

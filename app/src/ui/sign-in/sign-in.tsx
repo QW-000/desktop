@@ -17,6 +17,7 @@ import { ButtonGroup } from '../lib/button-group'
 import { Dialog, DialogError, DialogContent, DialogFooter } from '../dialog'
 
 import { getWelcomeMessage } from '../../lib/2fa'
+import { getDotComAPIEndpoint } from '../../lib/api'
 
 interface ISignInProps {
   readonly dispatcher: Dispatcher
@@ -30,6 +31,12 @@ interface ISignInState {
   readonly password: string
   readonly otpToken: string
 }
+
+const SignInWithBrowserTitle = __DARWIN__
+  ? 'Sign in Using Your Browser'
+  : '使用瀏覽器登入'
+
+const DefaultTitle = '登入'
 
 export class SignIn extends React.Component<ISignInProps, ISignInState> {
   public constructor(props: ISignInProps) {
@@ -176,13 +183,26 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
 
   private renderAuthenticationStep(state: IAuthenticationState) {
     if (!state.supportsBasicAuth) {
-      return (
-        <DialogContent>
-          <p>
-            您的 GitHub Enterprise 伺服器需要使用瀏覽器登入。
-          </p>
-        </DialogContent>
-      )
+      if (state.endpoint === getDotComAPIEndpoint()) {
+        return (
+          <DialogContent>
+            <p>
+              為了提高您的帳戶安全，GitHub 現在需要您經由瀏覽器登入。
+            </p>
+            <p>
+              登入後，瀏覽器將會返回 GitHub Desktop。如果瀏覽器要求您啟動 GitHub Desktop 的許可，請允許它。
+            </p>
+          </DialogContent>
+        )
+      } else {
+        return (
+          <DialogContent>
+            <p>
+              您的 GitHub Enterprise 伺服器情況需要您使用瀏覽器登入。
+            </p>
+          </DialogContent>
+        )
+      }
     }
 
     const disableSubmit = state.loading
@@ -287,10 +307,17 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       <DialogError>{state.error.message}</DialogError>
     ) : null
 
+    const title =
+      this.props.signInState &&
+      this.props.signInState.kind === SignInStep.Authentication &&
+      !this.props.signInState.supportsBasicAuth
+        ? SignInWithBrowserTitle
+        : DefaultTitle
+
     return (
       <Dialog
-        id="sign-in"
-        title="登入"
+        id="登入"
+        title={title}
         disabled={disabled}
         onDismissed={this.props.onDismissed}
         onSubmit={this.onSubmit}

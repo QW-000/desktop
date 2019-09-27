@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { clipboard } from 'electron'
 
 import { Row } from '../lib/row'
 import { Button } from '../lib/button'
@@ -68,10 +67,6 @@ export class About extends React.Component<IAboutProps, IAboutState> {
 
   private onUpdateStateChanged = (updateState: IUpdateState) => {
     this.setState({ updateState })
-  }
-
-  private onClickVersion = () => {
-    clipboard.writeText(this.props.applicationVersion)
   }
 
   public componentDidMount() {
@@ -232,7 +227,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
     if (!this.state.updateState.lastSuccessfulCheck) {
       return (
         <DialogError>
-          無法確定上次執行更新檢查的時間。 
+          無法確定上次執行更新檢查的時間。
           您可能正在執行舊版本，請嘗試手動檢查更新，如果問題仍然存在，請聯絡 GitHub 支援
           ________________________________________________________________________________
           注意:此版本無法取得官方版本的更新，上方警示請勿理會。
@@ -270,14 +265,8 @@ export class About extends React.Component<IAboutProps, IAboutState> {
           </Row>
           <h2>{name}</h2>
           <p className="no-padding">
-            <LinkButton
-              title="點擊複製"
-              className="version-text"
-              onClick={this.onClickVersion}
-            >
-              {versionText}
-            </LinkButton>{' '}
-            ({releaseNotesLink})
+            <span className="selectable-text">{versionText}</span> (
+            {releaseNotesLink})
           </p>
           <p className="no-padding">
             <LinkButton onClick={this.props.onShowTermsAndConditions}>
