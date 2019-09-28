@@ -97,12 +97,12 @@ export class TutorialPanel extends React.Component<
     return (
       <div className="tutorial-panel-component panel">
         <div className="titleArea">
-          <h3>Get started</h3>
+          <h3>開始吧</h3>
           <img src={TutorialPanelImage} />
         </div>
         <ol>
           <TutorialStepInstructions
-            summaryText="Install a text editor"
+            summaryText="安裝本文編輯器"
             isComplete={this.isStepComplete}
             isNextStepTodo={this.isStepNextTodo}
             sectionId={TutorialStep.PickEditor}
@@ -113,42 +113,41 @@ export class TutorialPanel extends React.Component<
             {!this.isStepComplete(TutorialStep.PickEditor) ? (
               <>
                 <p className="description">
-                  It doesn’t look like you have a text editor installed. We can
-                  recommend{' '}
+                  您似乎沒有安裝本文編輯器。 我們可以推薦{' '}
                   <LinkButton
                     uri="https://atom.io"
-                    title="Open the Atom website"
+                    title="開啟 Atom 網站"
                   >
                     Atom
                   </LinkButton>
-                  {` or `}
+                  {` 或 `}
                   <LinkButton
                     uri="https://code.visualstudio.com"
-                    title="Open the VS Code website"
+                    title="開啟 VS 程式碼網站"
                   >
-                    Visual Studio Code
+                    Visual Studio 程式碼
                   </LinkButton>
-                  , but feel free to use any.
+                  可隨時使用。
                 </p>
                 <div className="action">
                   <LinkButton onClick={this.skipEditorInstall}>
-                    I have an editor
+                    我已有編輯器
                   </LinkButton>
                 </div>
               </>
             ) : (
               <p className="description">
-                Your default editor is{' '}
-                <strong>{this.props.resolvedExternalEditor}</strong>. You can
-                change your preferred editor in{' '}
+                您的預設編輯器是{' '}
+                <strong>{this.props.resolvedExternalEditor}</strong>。 您可以
+                  在{' '}
                 <LinkButton onClick={this.onPreferencesClick}>
-                  {__DARWIN__ ? 'Preferences' : 'options'}
-                </LinkButton>
+                  {__DARWIN__ ? '偏好' : '選項'}
+                </LinkButton>中更改您喜歡的編輯器
               </p>
             )}
           </TutorialStepInstructions>
           <TutorialStepInstructions
-            summaryText="Create a branch"
+            summaryText="建立分支"
             isComplete={this.isStepComplete}
             isNextStepTodo={this.isStepNextTodo}
             sectionId={TutorialStep.CreateBranch}
@@ -156,9 +155,7 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              {`A branch allows you to work on different versions of a repository at one time. Create a
-                branch by going into the branch menu in the top bar and
-              clicking "${__DARWIN__ ? 'New Branch' : 'New branch'}".`}
+              {`「分支」可讓你同時處理不同型式的存儲庫。 經由功能表的「分支」頂部欄中並點擊 "${__DARWIN__ ? '新分支' : '新分支'}"來建立分支。`}
             </p>
             <div className="action">
               {__DARWIN__ ? (
@@ -177,7 +174,7 @@ export class TutorialPanel extends React.Component<
             </div>
           </TutorialStepInstructions>
           <TutorialStepInstructions
-            summaryText="Edit a file"
+            summaryText="編輯檔案"
             isComplete={this.isStepComplete}
             isNextStepTodo={this.isStepNextTodo}
             sectionId={TutorialStep.EditFile}
@@ -185,16 +182,16 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              Open this repository in your preferred text editor. Edit the
+              在首選的本文編輯器中開啟此存儲庫。 編輯此
               {` `}
               <Monospaced>README.md</Monospaced>
               {` `}
-              file, save it, and come back.
+              檔案，儲存並返回。
             </p>
             {this.props.resolvedExternalEditor && (
               <div className="action">
                 <Button onClick={this.openTutorialFileInEditor}>
-                  {__DARWIN__ ? 'Open Editor' : 'Open editor'}
+                  {__DARWIN__ ? '開啟編輯器' : '開啟編輯器'}
                 </Button>
                 {__DARWIN__ ? (
                   <>
@@ -213,7 +210,7 @@ export class TutorialPanel extends React.Component<
             )}
           </TutorialStepInstructions>
           <TutorialStepInstructions
-            summaryText="Make a commit"
+            summaryText="製作提交"
             isComplete={this.isStepComplete}
             isNextStepTodo={this.isStepNextTodo}
             sectionId={TutorialStep.MakeCommit}
@@ -221,13 +218,11 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              A commit allows you to save sets of changes. In the bottom left
-              area, write a message that describes the changes you made. When
-              you’re done, click the blue Commit button to finish.
+              「提交」允許您儲存變更集。 在底部左側區域填寫描述您所做的變更訊息。 當您完成後，點擊藍色的「提交」按鈕即可完成。
             </p>
           </TutorialStepInstructions>
           <TutorialStepInstructions
-            summaryText="Publish to GitHub"
+            summaryText="發布到 GitHub"
             isComplete={this.isStepComplete}
             isNextStepTodo={this.isStepNextTodo}
             sectionId={TutorialStep.PushBranch}
@@ -235,8 +230,7 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              Publishing will “push”, or upload, your commits to this branch of
-              your repository on GitHub.com.
+              「發布」將會“推送”或上傳你的提交到 GitHub.com 上的存儲庫分支。
             </p>
             <div className="action">
               {__DARWIN__ ? (
@@ -253,7 +247,7 @@ export class TutorialPanel extends React.Component<
             </div>
           </TutorialStepInstructions>
           <TutorialStepInstructions
-            summaryText="Open a pull request"
+            summaryText="開啟拉取請求"
             isComplete={this.isStepComplete}
             isNextStepTodo={this.isStepNextTodo}
             sectionId={TutorialStep.OpenPullRequest}
@@ -262,14 +256,11 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              A pull request allows you to propose changes to the code. By
-              opening one, you’re requesting that someone review and merge them.
-              Since this is a demo repository, this pull request will be
-              private.
+              「拉取請求」允許您提出對程式碼的變更。 經由開啟一個拉取請求將有專人審核並合併。 由於這是一個展示存儲庫，因此該拉取請求將是私有的。
             </p>
             <div className="action">
               <Button onClick={this.openPullRequest}>
-                {__DARWIN__ ? 'Open Pull Request' : 'Open pull request'}
+                {__DARWIN__ ? '開啟拉取請求' : '開啟拉取請求'}
               </Button>
               {__DARWIN__ ? (
                 <>
@@ -287,7 +278,7 @@ export class TutorialPanel extends React.Component<
         </ol>
         <div className="footer">
           <Button onClick={this.props.onExitTutorial}>
-            {__DARWIN__ ? 'Exit Tutorial' : 'Exit tutorial'}
+            {__DARWIN__ ? '離開教學' : '離開教學'}
           </Button>
         </div>
       </div>
@@ -394,5 +385,5 @@ class TutorialStepInstructions extends React.Component<
 }
 
 const SkipLinkButton: React.SFC<{ onClick: () => void }> = props => (
-  <LinkButton onClick={props.onClick}>Skip</LinkButton>
+  <LinkButton onClick={props.onClick}>略過</LinkButton>
 )

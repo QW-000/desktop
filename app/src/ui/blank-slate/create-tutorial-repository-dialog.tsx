@@ -85,11 +85,11 @@ interface ICreateTutorialRepositoryDialogState {
 
 const nl = __WIN32__ ? '\r\n' : '\n'
 const InititalReadmeContents =
-  `# Welcome to GitHub Desktop!${nl}${nl}` +
-  `This is your README. READMEs are where you can communicate ` +
-  `what your project is and how to use it.${nl}${nl}` +
-  `Make any change to this file, save it, and then head ` +
-  `back to GitHub Desktop.${nl}`
+  `# 歡迎使用 GitHub Desktop!${nl}${nl}` +
+  `這是你的讀我檔案。 README 檔案是您可以傳達的地方 ` +
+  `您的項目是什麼以及如何使用。${nl}${nl}` +
+  `對此檔案進行任何變更將其儲存，然後 ` +
+  `返回到 GitHub Desktop。${nl}`
 
 /**
  * A dialog component reponsible for initializing, publishing, and adding
@@ -111,7 +111,7 @@ export class CreateTutorialRepositoryDialog extends React.Component<
       return await api.createRepository(
         null,
         name,
-        'GitHub Desktop tutorial repository',
+        'GitHub Desktop 教學存儲庫',
         true
       )
     } catch (err) {
@@ -120,19 +120,19 @@ export class CreateTutorialRepositoryDialog extends React.Component<
         err.responseStatus === 422 &&
         err.apiError !== null
       ) {
-        if (err.apiError.message === 'Repository creation failed.') {
+        if (err.apiError.message === '存儲庫建立失敗。') {
           if (
             err.apiError.errors &&
             err.apiError.errors.some(
-              x => x.message === 'name already exists on this account'
+              x => x.message === '帳戶上已存在此名稱'
             )
           ) {
             throw new Error(
-              'You already have a repository named ' +
-                `"${name}" on your account at ${friendlyEndpointName(
-                  account
+              '在 ' +
+                `"${name}" 帳戶上已經有一個名為 ${friendlyEndpointName(
+                  的存儲庫
                 )}.\n\n` +
-                'Please delete the repository and try again.'
+                '請刪除存儲庫，然後重試。'
             )
           }
         }
@@ -147,7 +147,7 @@ export class CreateTutorialRepositoryDialog extends React.Component<
     account: Account,
     progressCb: (title: string, value: number, description?: string) => void
   ) {
-    const pushTitle = `Pushing repository to ${friendlyEndpointName(account)}`
+    const pushTitle = `將存儲庫推送到 ${friendlyEndpointName(account)}`
     progressCb(pushTitle, 0)
 
     const pushOpts = await executionOptionsWithProgress(
@@ -178,16 +178,16 @@ export class CreateTutorialRepositoryDialog extends React.Component<
 
       if (await pathExists(path)) {
         throw new Error(
-          `The path ${path} already exists. Please move it ` +
-            'out of the way, or remove it, and then try again.'
+          `路徑 ${path} 已經存在。 請移動 ` +
+            '或將其移除，然後重試。'
         )
       }
 
-      this.setProgress(`Creating repository on ${endpointName}`, 0)
+      this.setProgress(`在 ${endpointName 建立存儲庫}`, 0)
 
       const repo = await this.createAPIRepository(account, name)
 
-      this.setProgress('Initializing local repository', 0.2)
+      this.setProgress('初始化本機存儲庫', 0.2)
 
       await ensureDir(path)
       await git(['init'], path, 'tutorial:init')
@@ -210,7 +210,7 @@ export class CreateTutorialRepositoryDialog extends React.Component<
         this.setProgress(title, 0.3 + value * 0.6, description)
       })
 
-      this.setProgress('Finalizing tutorial repository', 0.9)
+      this.setProgress('完成教學存儲庫', 0.9)
       await this.props.onTutorialRepositoryCreated(path, account, repo)
       this.props.onDismissed()
     } catch (err) {
@@ -221,7 +221,7 @@ export class CreateTutorialRepositoryDialog extends React.Component<
       } else {
         this.props.onError(
           new Error(
-            `Failed creating the tutorial repository.\n\n${err.message}`
+            `建立教學存儲庫失敗。\n\n${err.message}`
           )
         )
       }
@@ -263,7 +263,7 @@ export class CreateTutorialRepositoryDialog extends React.Component<
     return (
       <Dialog
         id="create-tutorial-repository-dialog"
-        title="Start tutorial"
+        title="開始教學"
         onDismissed={this.onCancel}
         onSubmit={this.onSubmit}
         dismissable={!this.state.loading}
@@ -272,20 +272,18 @@ export class CreateTutorialRepositoryDialog extends React.Component<
       >
         <DialogContent>
           <div>
-            This will create a repository on your local machine, and push it to
-            your account <Ref>@{this.props.account.login}</Ref> on{' '}
+            這將在本機電腦上建立一個存儲庫，並將其推送到您在 <Ref>@{this.props.account.login}</Ref> {' '}
             <LinkButton uri={getHTMLURL(account.endpoint)}>
               {friendlyEndpointName(account)}
             </LinkButton>
-            . This repository will only be visible to you, and not visible
-            publicly.
+            上的帳戶。 此存儲庫僅您可見，而不是公開顯示。
           </div>
           {this.renderProgress()}
         </DialogContent>
         <DialogFooter>
           <ButtonGroup>
-            <Button type="submit">Continue</Button>
-            <Button onClick={this.onCancel}>Cancel</Button>
+            <Button type="submit">繼續</Button>
+            <Button onClick={this.onCancel}>取消</Button>
           </ButtonGroup>
         </DialogFooter>
       </Dialog>
