@@ -130,8 +130,8 @@ export class CreateTutorialRepositoryDialog extends React.Component<
             throw new Error(
               '在 ' +
                 `"${name}" 帳戶上已經有一個名為 ${friendlyEndpointName(
-                  的存儲庫
-                )}.\n\n` +
+                  account
+                )}的存儲庫。\n\n` +
                 '請刪除存儲庫，然後重試。'
             )
           }
@@ -183,7 +183,7 @@ export class CreateTutorialRepositoryDialog extends React.Component<
         )
       }
 
-      this.setProgress(`在 ${endpointName 建立存儲庫}`, 0)
+      this.setProgress(`在 ${endpointName} 建立存儲庫`, 0)
 
       const repo = await this.createAPIRepository(account, name)
 
