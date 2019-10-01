@@ -4,8 +4,6 @@ import { MenuEvent } from './menu-event'
 import { truncateWithEllipsis } from '../../lib/truncate-with-ellipsis'
 import { getLogDirectoryPath } from '../../lib/logging/get-log-path'
 import { ensureDir } from 'fs-extra'
-
-import { log } from '../log'
 import { openDirectorySafe } from '../shell'
 import { enableRebaseDialog, enableStashing } from '../../lib/feature-flag'
 import { MenuLabelsEvent } from '../../models/menu-labels'
@@ -425,32 +423,40 @@ export function buildDefaultMenu({
   const submitIssueItem: Electron.MenuItemConstructorOptions = {
     label: __DARWIN__ ? '報告問題…' : '報告問題…',
     click() {
-      shell.openExternal('https://github.com/desktop/desktop/issues/new/choose')
+      shell
+        .openExternal('https://github.com/desktop/desktop/issues/new/choose')
+        .catch(err => log.error('Failed opening issue creation page', err))
     },
   }
 
   const contactSupportItem: Electron.MenuItemConstructorOptions = {
     label: __DARWIN__ ? '聯絡 GitHub 支援…' : '聯絡 GitHub 支援(&C)…',
     click() {
-      shell.openExternal(
-        `https://github.com/contact?from_desktop_app=1&app_version=${app.getVersion()}`
-      )
+      shell
+        .openExternal(
+          `https://github.com/contact?from_desktop_app=1&app_version=${app.getVersion()}`
+        )
+        .catch(err => log.error('Failed opening contact support page', err))
     },
   }
 
   const showUserGuides: Electron.MenuItemConstructorOptions = {
     label: '顯示使用者指南',
     click() {
-      shell.openExternal('https://help.github.com/desktop/guides/')
+      shell
+        .openExternal('https://help.github.com/desktop/guides/')
+        .catch(err => log.error('Failed opening user guides page', err))
     },
   }
 
   const showKeyboardShortcuts: Electron.MenuItemConstructorOptions = {
     label: __DARWIN__ ? '顯示鍵盤捷徑鍵' : '顯示鍵盤捷徑鍵',
     click() {
-      shell.openExternal(
-        'https://help.github.com/en/desktop/getting-started-with-github-desktop/keyboard-shortcuts-in-github-desktop'
-      )
+      shell
+        .openExternal(
+          'https://help.github.com/en/desktop/getting-started-with-github-desktop/keyboard-shortcuts-in-github-desktop'
+        )
+        .catch(err => log.error('Failed opening keyboard shortcuts page', err))
     },
   }
 
@@ -469,7 +475,7 @@ export function buildDefaultMenu({
           openDirectorySafe(logPath)
         })
         .catch(err => {
-          log('error', err.message)
+          log.error('Failed opening logs directory', err)
         })
     },
   }

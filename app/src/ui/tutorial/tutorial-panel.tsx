@@ -218,7 +218,7 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              「提交」允許您儲存變更集。 在底部左側區域填寫描述您所做的變更訊息。 當您完成後，點擊藍色的「提交」按鈕即可完成。
+              「提交」允許您儲存變更集。 在左下角的“摘要”欄填寫描述您所做的變更訊息。 當您完成後，點擊藍色的「提交」按鈕即可完成。
             </p>
           </TutorialStepInstructions>
           <TutorialStepInstructions
@@ -230,7 +230,7 @@ export class TutorialPanel extends React.Component<
             onSummaryClick={this.onStepSummaryClick}
           >
             <p className="description">
-              「發布」將會“推送”或上傳你的提交到 GitHub.com 上的存儲庫分支。
+              「發布」將會“推送”或上傳你的提交到 GitHub 上的存儲庫分支。使用頂部欄中的第三個按鈕進行發布。
             </p>
             <div className="action">
               {__DARWIN__ ? (
@@ -261,6 +261,7 @@ export class TutorialPanel extends React.Component<
             <div className="action">
               <Button onClick={this.openPullRequest}>
                 {__DARWIN__ ? '開啟拉取請求' : '開啟拉取請求'}
+                <Octicon symbol={OcticonSymbol.linkExternal} />
               </Button>
               {__DARWIN__ ? (
                 <>

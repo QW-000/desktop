@@ -23,6 +23,7 @@ import {
   executionOptionsWithProgress,
 } from '../../lib/progress'
 import { Progress } from '../../models/progress'
+import { Dispatcher } from '../dispatcher'
 import { APIError } from '../../lib/http'
 
 interface ICreateTutorialRepositoryDialogProps {
@@ -31,6 +32,8 @@ interface ICreateTutorialRepositoryDialogProps {
    * be the owner of the tutorial repository.
    */
   readonly account: Account
+
+  readonly dispatcher: Dispatcher
 
   /**
    * Event triggered when the dialog is dismissed by the user in the
@@ -88,7 +91,7 @@ const InititalReadmeContents =
   `# 歡迎使用 GitHub Desktop!${nl}${nl}` +
   `這是你的讀我檔案。 README 檔案是您可以傳達的地方 ` +
   `您的項目是什麼以及如何使用。${nl}${nl}` +
-  `對此檔案進行任何變更將其儲存，然後 ` +
+  `在第 6 行上寫下您的名字並儲存，然後 ` +
   `返回到 GitHub Desktop。${nl}`
 
 /**
@@ -167,6 +170,8 @@ export class CreateTutorialRepositoryDialog extends React.Component<
   }
 
   public onSubmit = async () => {
+    this.props.dispatcher.recordTutorialStarted()
+
     const { account } = this.props
     const endpointName = friendlyEndpointName(account)
     this.setState({ loading: true })
@@ -212,6 +217,7 @@ export class CreateTutorialRepositoryDialog extends React.Component<
 
       this.setProgress('完成教學存儲庫', 0.9)
       await this.props.onTutorialRepositoryCreated(path, account, repo)
+      this.props.dispatcher.recordTutorialRepositoryCreated()
       this.props.onDismissed()
     } catch (err) {
       this.setState({ loading: false, progress: undefined })
