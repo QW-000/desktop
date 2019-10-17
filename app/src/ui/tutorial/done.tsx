@@ -1,16 +1,21 @@
 import * as React from 'react'
 
 import { encodePathAsUrl } from '../../lib/path'
-import { Button } from '../lib/button'
 import { Dispatcher } from '../dispatcher'
 import { Repository } from '../../models/repository'
 import { PopupType } from '../../models/popup'
 import { Octicon, OcticonSymbol } from '../octicons'
+import { SuggestedAction } from '../suggested-actions'
+import { SuggestedActionGroup } from '../suggested-actions'
 
 const ClappingHandsImage = encodePathAsUrl(
   __dirname,
   'static/admin-mentoring.svg'
 )
+
+const TelescopeOcticon = <Octicon symbol={OcticonSymbol.telescope} />
+const PlusOcticon = <Octicon symbol={OcticonSymbol.plus} />
+const FileDirectoryOcticon = <Octicon symbol={OcticonSymbol.fileDirectory} />
 
 interface ITutorialDoneProps {
   readonly dispatcher: Dispatcher
@@ -23,7 +28,7 @@ interface ITutorialDoneProps {
 export class TutorialDone extends React.Component<ITutorialDoneProps, {}> {
   public render() {
     return (
-      <div id="no-changes">
+      <div id="tutorial-done">
         <div className="content">
           <div className="header">
             <div className="text">
@@ -32,76 +37,38 @@ export class TutorialDone extends React.Component<ITutorialDoneProps, {}> {
                 您已經了解有關如何使用 GitHub Desktop 的基本知識。 以下是有關下一步操作的一些建議。
               </p>
             </div>
-            <img src={ClappingHandsImage} className="blankslate-image" />
+            <img src={ClappingHandsImage} className="image" />
           </div>
-          {this.renderActions()}
+          <SuggestedActionGroup>
+            <SuggestedAction
+              title="在 GitHub 上探索項目"
+              description="有助於您感興趣的項目"
+              buttonText={__DARWIN__ ? '在瀏覽器中開啟' : '在瀏覽器中開啟'}
+              onClick={this.openDotcomExplore}
+              type="normal"
+              image={TelescopeOcticon}
+            />
+            <SuggestedAction
+              title="建立一個新的存儲庫"
+              description="開始一個全新的項目"
+              buttonText={
+                __DARWIN__ ? '建立存儲庫' : '建立存儲庫'
+              }
+              onClick={this.onCreateNewRepository}
+              type="normal"
+              image={PlusOcticon}
+            />
+            <SuggestedAction
+              title="增加本機存儲庫"
+              description="在 GitHub Desktop 上現有項目作業"
+              buttonText={__DARWIN__ ? '增加存儲庫' : '增加存儲庫'}
+              onClick={this.onAddExistingRepository}
+              type="normal"
+              image={FileDirectoryOcticon}
+            />
+          </SuggestedActionGroup>
         </div>
       </div>
-    )
-  }
-
-  private renderActions() {
-    return (
-      <ul className="actions">
-        {this.renderExploreProjects()}
-        {this.renderStartNewProject()}
-        {this.renderAddLocalRepo()}
-      </ul>
-    )
-  }
-
-  private renderExploreProjects() {
-    return (
-      <li className="blankslate-action">
-        <div className="image-wrapper">
-          <Octicon symbol={OcticonSymbol.telescope} />
-        </div>
-        <div className="text-wrapper">
-          <h2>在 GitHub 上探索項目</h2>
-          <p className="description">
-            有助於您感興趣的項目
-          </p>
-        </div>
-        <Button onClick={this.openDotcomExplore}>
-          {__DARWIN__ ? '在瀏覽器中開啟' : '在瀏覽器中開啟'}
-        </Button>
-      </li>
-    )
-  }
-
-  private renderStartNewProject() {
-    return (
-      <li className="blankslate-action">
-        <div className="image-wrapper">
-          <Octicon symbol={OcticonSymbol.plus} />
-        </div>
-        <div className="text-wrapper">
-          <h2>建立一個新的存儲庫</h2>
-          <p className="description">開始一個全新的項目</p>
-        </div>
-        <Button onClick={this.onCreateNewRepository}>
-          {__DARWIN__ ? '建立存儲庫' : '建立存儲庫'}
-        </Button>
-      </li>
-    )
-  }
-
-  private renderAddLocalRepo() {
-    return (
-      <li className="blankslate-action">
-        <div className="image-wrapper">
-          <Octicon symbol={OcticonSymbol.fileDirectory} />
-        </div>
-        <div className="text-wrapper">
-          <h2>增加本機存儲庫</h2>
-          <p className="description">
-            在 GitHub Desktop 上現有項目作業
-          </p>
-        </div>
-        <Button onClick={this.onAddExistingRepository}>
-          {__DARWIN__ ? '增加存儲庫' : '增加存儲庫'}
-        </Button>
-      </li>
     )
   }
 

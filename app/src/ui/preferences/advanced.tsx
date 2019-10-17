@@ -17,7 +17,7 @@ interface IAdvancedPreferencesProps {
   readonly confirmDiscardChanges: boolean
   readonly confirmForcePush: boolean
   readonly availableEditors: ReadonlyArray<ExternalEditor>
-  readonly selectedExternalEditor?: ExternalEditor
+  readonly selectedExternalEditor: ExternalEditor | null
   readonly availableShells: ReadonlyArray<Shell>
   readonly selectedShell: Shell
   readonly onOptOutofReportingchanged: (checked: boolean) => void
@@ -34,7 +34,7 @@ interface IAdvancedPreferencesProps {
 
 interface IAdvancedPreferencesState {
   readonly optOutOfUsageTracking: boolean
-  readonly selectedExternalEditor?: ExternalEditor
+  readonly selectedExternalEditor: ExternalEditor | null
   readonly selectedShell: Shell
   readonly confirmRepositoryRemoval: boolean
   readonly confirmDiscardChanges: boolean
@@ -151,6 +151,7 @@ export class Advanced extends React.Component<
 
   private renderExternalEditor() {
     const options = this.props.availableEditors
+    const selectedEditor = this.state.selectedExternalEditor
     const label = __DARWIN__ ? 'External Editor' : '外部編輯器'
 
     if (options.length === 0) {
@@ -173,7 +174,7 @@ export class Advanced extends React.Component<
     return (
       <Select
         label={label}
-        value={this.state.selectedExternalEditor}
+        value={selectedEditor ? selectedEditor : undefined}
         onChange={this.onSelectedEditorChanged}
       >
         {options.map(n => (

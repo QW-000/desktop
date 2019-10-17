@@ -176,6 +176,7 @@ export class CloneableRepositoryFilterList extends React.PureComponent<
         renderNoItems={this.renderNoItems}
         renderPostFilter={this.renderPostFilter}
         onItemClick={this.props.onItemClicked ? this.onItemClick : undefined}
+        placeholderText="篩選您的存儲庫"
       />
     )
   }
@@ -250,9 +251,15 @@ export class CloneableRepositoryFilterList extends React.PureComponent<
 
   private renderNoItems = () => {
     const { loading, repositories } = this.props
+    const endpointName =
+      this.props.account.endpoint === getDotComAPIEndpoint()
+        ? 'GitHub.com'
+        : getHTMLURL(this.props.account.endpoint)
 
     if (loading && (repositories === null || repositories.length === 0)) {
-      return <div className="no-items loading">載入存儲庫…</div>
+      return (
+        <div className="no-items loading">{`載入 ${endpointName} 存儲庫…`}</div>
+      )
     }
 
     if (this.props.filterText.length !== 0) {
@@ -266,18 +273,13 @@ export class CloneableRepositoryFilterList extends React.PureComponent<
       )
     }
 
-    const endpointName =
-      this.props.account.endpoint === getDotComAPIEndpoint()
-        ? 'GitHub.com'
-        : getHTMLURL(this.props.account.endpoint)
-
     return (
       <div className="no-items empty-repository-list">
         <div>
-          找不到帳戶 {' '}
-          <Ref>{this.props.account.login}</Ref>  的任何存儲庫上的 {endpointName}.{' '}
+          似乎在 {' '}
+          <Ref>{this.props.account.login}</Ref> 上沒有用於 {endpointName}{' '} 的存儲庫。
           <LinkButton onClick={this.refreshRepositories}>
-            更新清單
+            更新此清單
           </LinkButton>{' '}
           要是你最近建立了一項存儲庫。
         </div>

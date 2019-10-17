@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as ReactCSSTransitionReplace from 'react-css-transition-replace'
 
 import { encodePathAsUrl } from '../../lib/path'
 import { Repository } from '../../models/repository'
@@ -12,7 +11,7 @@ import { MenuIDs } from '../../models/menu-ids'
 import { IMenu, MenuItem } from '../../models/app-menu'
 import memoizeOne from 'memoize-one'
 import { getPlatformSpecificNameOrSymbolForModifier } from '../../lib/menu-item'
-import { MenuBackedBlankslateAction } from './menu-backed-blankslate-action'
+import { MenuBackedSuggestedAction } from '../suggested-actions'
 import { executeMenuItemById } from '../main-process-proxy'
 import { IRepositoryState } from '../../lib/app-state'
 import { TipState, IValidBranch } from '../../models/tip'
@@ -22,6 +21,7 @@ import { IRemote } from '../../models/remote'
 import { isCurrentBranchForcePush } from '../../lib/rebase'
 import { StashedChangesLoadStates } from '../../models/stash-entry'
 import { Dispatcher } from '../dispatcher'
+import { SuggestedActionGroup } from '../suggested-actions'
 
 function formatMenuItemLabel(text: string) {
   if (__WIN32__ || __LINUX__) {
@@ -228,7 +228,7 @@ export class NoChanges extends React.Component<
     }
 
     return (
-      <MenuBackedBlankslateAction
+      <MenuBackedSuggestedAction
         title={title}
         description={description}
         discoverabilityContent={this.renderDiscoverabilityElements(menuItem)}
@@ -405,7 +405,7 @@ export class NoChanges extends React.Component<
     }
 
     return (
-      <MenuBackedBlankslateAction
+      <MenuBackedSuggestedAction
         key="view-stash-action"
         title="檢閱您的藏匿變更"
         menuItemId={itemId}
@@ -443,7 +443,7 @@ export class NoChanges extends React.Component<
     )
 
     return (
-      <MenuBackedBlankslateAction
+      <MenuBackedSuggestedAction
         key="publish-repository-action"
         title="將您的存儲庫發布到 GitHub"
         description="此存儲庫目前僅在本機電腦上可用，經由發布在 GitHub 上，你可以分享並與其他作者合作。"
@@ -490,7 +490,7 @@ export class NoChanges extends React.Component<
     )
 
     return (
-      <MenuBackedBlankslateAction
+      <MenuBackedSuggestedAction
         key="publish-branch-action"
         title="發布您的分支"
         menuItemId={itemId}
@@ -545,7 +545,7 @@ export class NoChanges extends React.Component<
     const buttonText = `拉取 ${remote.name}`
 
     return (
-      <MenuBackedBlankslateAction
+      <MenuBackedSuggestedAction
         key="pull-branch-action"
         title={title}
         menuItemId={itemId}
@@ -593,7 +593,7 @@ export class NoChanges extends React.Component<
     const buttonText = `推送 ${remote.name}`
 
     return (
-      <MenuBackedBlankslateAction
+      <MenuBackedSuggestedAction
         key="push-branch-action"
         title={title}
         menuItemId={itemId}
@@ -625,7 +625,7 @@ export class NoChanges extends React.Component<
     const buttonText = `建立拉取請求`
 
     return (
-      <MenuBackedBlankslateAction
+      <MenuBackedSuggestedAction
         key="create-pr-action"
         title={title}
         menuItemId={itemId}
@@ -645,24 +645,18 @@ export class NoChanges extends React.Component<
   private renderActions() {
     return (
       <>
-        <ReactCSSTransitionReplace
-          transitionAppear={false}
-          transitionEnter={this.state.enableTransitions}
-          transitionLeave={this.state.enableTransitions}
-          overflowHidden={false}
-          transitionName="action"
-          component="div"
-          className="actions primary"
-          transitionEnterTimeout={750}
-          transitionLeaveTimeout={500}
+        <SuggestedActionGroup
+          type="primary"
+          transitions={'replace'}
+          enableTransitions={this.state.enableTransitions}
         >
           {this.renderViewStashAction() || this.renderRemoteAction()}
-        </ReactCSSTransitionReplace>
-        <div className="actions">
+        </SuggestedActionGroup>
+        <SuggestedActionGroup>
           {this.renderOpenInExternalEditor()}
           {this.renderShowInFileManager()}
           {this.renderViewOnGitHub()}
-        </div>
+        </SuggestedActionGroup>
       </>
     )
   }
