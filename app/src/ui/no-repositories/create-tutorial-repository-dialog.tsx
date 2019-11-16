@@ -184,7 +184,7 @@ export class CreateTutorialRepositoryDialog extends React.Component<
 
       if (await pathExists(path)) {
         throw new Error(
-          `路徑 ${path} 已經存在。 請移動 ` +
+          `路徑 '${path}' 已經存在。 請移動 ` +
             '或將其移除，然後重試。'
         )
       }

@@ -20,7 +20,7 @@ import {
 import { lookupPreferredEmail } from '../../lib/email'
 import { Shell, getAvailableShells } from '../../lib/shells'
 import { getAvailableEditors } from '../../lib/editors/lookup'
-import { disallowedCharacters } from './identifier-rules'
+import { gitAuthorNameIsValid } from './identifier-rules'
 import { Appearance } from './appearance'
 import { ApplicationTheme } from '../lib/application-theme'
 
@@ -168,20 +168,6 @@ export class Preferences extends React.Component<
     this.props.dispatcher.removeAccount(account)
   }
 
-  private disallowedCharacterErrorMessage(name: string, email: string) {
-    const disallowedNameCharacters = disallowedCharacters(name)
-    if (disallowedNameCharacters != null) {
-      return `Git 名稱欄位不能是未允許的字元 "${disallowedNameCharacters}"`
-    }
-
-    const disallowedEmailCharacters = disallowedCharacters(email)
-    if (disallowedEmailCharacters != null) {
-      return `Git 電子郵件欄位不能是未允許的字元 "${disallowedEmailCharacters}"`
-    }
-
-    return null
-  }
-
   private renderDisallowedCharactersError() {
     const message = this.state.disallowedCharactersMessage
     if (message != null) {
@@ -272,21 +258,16 @@ export class Preferences extends React.Component<
   }
 
   private onCommitterNameChanged = (committerName: string) => {
-    const disallowedCharactersMessage = this.disallowedCharacterErrorMessage(
+    this.setState({
       committerName,
-      this.state.committerEmail
-    )
-
-    this.setState({ committerName, disallowedCharactersMessage })
+      disallowedCharactersMessage: gitAuthorNameIsValid(committerName)
+        ? null
+        : 'Name is invalid, it consists only of disallowed characters.',
+    })
   }
 
   private onCommitterEmailChanged = (committerEmail: string) => {
-    const disallowedCharactersMessage = this.disallowedCharacterErrorMessage(
-      this.state.committerName,
-      committerEmail
-    )
-
-    this.setState({ committerEmail, disallowedCharactersMessage })
+    this.setState({ committerEmail })
   }
 
   private onSelectedEditorChanged = (editor: ExternalEditor) => {

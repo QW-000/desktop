@@ -143,7 +143,7 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
         <p>
           差異過大，預設情況下無法顯示。
           <br />
-          您可以嘗試顯示它，但表現可能會受到負面影響。
+          您仍然可以嘗試顯示它，但效能可能會受到負面影響。
         </p>
         <Button onClick={this.showLargeDiff}>
           {__DARWIN__ ? '顯示差異' : '顯示差異'}
