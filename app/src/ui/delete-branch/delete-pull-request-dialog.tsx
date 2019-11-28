@@ -7,9 +7,8 @@ import { Branch } from '../../models/branch'
 import { PullRequest } from '../../models/pull-request'
 
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { LinkButton } from '../lib/link-button'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IDeleteBranchProps {
   readonly dispatcher: Dispatcher
@@ -27,6 +26,7 @@ export class DeletePullRequest extends React.Component<IDeleteBranchProps, {}> {
         title={__DARWIN__ ? 'Delete Branch' : '刪除分支'}
         type="warning"
         onDismissed={this.props.onDismissed}
+        onSubmit={this.deleteBranch}
       >
         <DialogContent>
           <p>此分支具有與之關聯的開放拉取請求。</p>
@@ -39,10 +39,7 @@ export class DeletePullRequest extends React.Component<IDeleteBranchProps, {}> {
           </p>
         </DialogContent>
         <DialogFooter>
-          <ButtonGroup destructive={true}>
-            <Button type="submit">取消</Button>
-            <Button onClick={this.deleteBranch}>刪除</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup destructive={true} okButtonText="刪除" />
         </DialogFooter>
       </Dialog>
     )

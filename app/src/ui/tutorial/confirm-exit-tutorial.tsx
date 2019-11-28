@@ -1,9 +1,7 @@
 import * as React from 'react'
 
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
-
 import { DialogFooter, DialogContent, Dialog } from '../dialog'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IConfirmExitTutorialProps {
   readonly onDismissed: () => void
@@ -28,10 +26,9 @@ export class ConfirmExitTutorial extends React.Component<
           </p>
         </DialogContent>
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit">離開教學</Button>
-            <Button onClick={this.props.onDismissed}>取消</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText={__DARWIN__ ? 'Exit Tutorial' : '離開教學'}
+          />
         </DialogFooter>
       </Dialog>
     )

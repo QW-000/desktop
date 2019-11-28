@@ -3,11 +3,10 @@ import * as React from 'react'
 import { Dispatcher } from '../dispatcher'
 import { Repository } from '../../models/repository'
 import { Branch } from '../../models/branch'
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Ref } from '../lib/ref'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IDeleteBranchProps {
   readonly dispatcher: Dispatcher
@@ -42,6 +41,7 @@ export class DeleteBranch extends React.Component<
         id="delete-branch"
         title={__DARWIN__ ? 'Delete Branch' : '刪除分支'}
         type="warning"
+        onSubmit={this.deleteBranch}
         onDismissed={this.props.onDismissed}
         disabled={this.state.isDeleting}
         loading={this.state.isDeleting}
@@ -55,10 +55,7 @@ export class DeleteBranch extends React.Component<
           {this.renderDeleteOnRemote()}
         </DialogContent>
         <DialogFooter>
-          <ButtonGroup destructive={true}>
-            <Button type="submit">取消</Button>
-            <Button onClick={this.deleteBranch}>刪除</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup destructive={true} okButtonText="刪除" />
         </DialogFooter>
       </Dialog>
     )

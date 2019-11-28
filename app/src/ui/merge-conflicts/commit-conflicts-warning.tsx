@@ -1,8 +1,6 @@
 // tslint:disable:button-group-order
 
 import * as React from 'react'
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Dispatcher } from '../dispatcher'
 import { Repository } from '../../models/repository'
@@ -11,6 +9,7 @@ import { WorkingDirectoryFileChange } from '../../models/status'
 import { PathText } from '../lib/path-text'
 import { Monospaced } from '../lib/monospaced'
 import { DefaultCommitMessage } from '../../models/commit-message'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface ICommitConflictsWarningProps {
   readonly dispatcher: Dispatcher
@@ -63,7 +62,6 @@ export class CommitConflictsWarning extends React.Component<
     return (
       <Dialog
         id="commit-conflict-markers-warning"
-        dismissable={false}
         onDismissed={this.onCancel}
         onSubmit={this.onSubmit}
         title={'確定提交衝突的檔案'}
@@ -77,10 +75,12 @@ export class CommitConflictsWarning extends React.Component<
           <p>您確定要提交這些衝突的檔案嗎?</p>
         </DialogContent>
         <DialogFooter>
-          <ButtonGroup>
-            <Button onClick={this.onCancel}>取消</Button>
-            <Button type="submit">是的，提交檔案</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={
+              __DARWIN__ ? 'Yes, Commit Files' : '是的，提交檔案'
+            }
+          />
         </DialogFooter>
       </Dialog>
     )

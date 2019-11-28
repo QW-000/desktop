@@ -3,8 +3,6 @@ import { PublishRepository } from './publish-repository'
 import { Dispatcher } from '../dispatcher'
 import { Account } from '../../models/account'
 import { Repository } from '../../models/repository'
-import { ButtonGroup } from '../lib/button-group'
-import { Button } from '../lib/button'
 import { Dialog, DialogFooter, DialogContent, DialogError } from '../dialog'
 import { TabBar } from '../tab-bar'
 import { getDotComAPIEndpoint } from '../../lib/api'
@@ -17,6 +15,7 @@ import {
   RepositoryPublicationSettings,
   PublishSettingsType,
 } from '../../models/publish-settings'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 enum PublishTab {
   DotCom = 0,
@@ -253,12 +252,12 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
     if (user) {
       return (
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit" disabled={disabled}>
-              {__DARWIN__ ? 'Publish Repository' : '發布存儲庫'}
-            </Button>
-            <Button onClick={this.props.onDismissed}>取消</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText={
+              __DARWIN__ ? 'Publish Repository' : '發布存儲庫'
+            }
+            okButtonDisabled={disabled}
+          />
         </DialogFooter>
       )
     } else {
@@ -283,7 +282,7 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
     const tab = this.state.currentTab
     const account = this.getAccountForTab(tab)
     if (!account) {
-      fatalError(`Tried to publish with no user. That seems impossible!`)
+      fatalError(`嘗試在沒有帳戶的情況下發布。 這似乎不可能!`)
       return
     }
 

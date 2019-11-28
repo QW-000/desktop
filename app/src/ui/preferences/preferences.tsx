@@ -8,8 +8,6 @@ import { Accounts } from './accounts'
 import { Advanced } from './advanced'
 import { Git } from './git'
 import { assertNever } from '../../lib/fatal-error'
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { Dialog, DialogFooter, DialogError } from '../dialog'
 import {
   getGlobalConfigValue,
@@ -23,6 +21,7 @@ import { getAvailableEditors } from '../../lib/editors/lookup'
 import { gitAuthorNameIsValid } from './identifier-rules'
 import { Appearance } from './appearance'
 import { ApplicationTheme } from '../lib/application-theme'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IPreferencesProps {
   readonly dispatcher: Dispatcher
@@ -262,7 +261,7 @@ export class Preferences extends React.Component<
       committerName,
       disallowedCharactersMessage: gitAuthorNameIsValid(committerName)
         ? null
-        : 'Name is invalid, it consists only of disallowed characters.',
+        : '名稱無效，包含不允許的字元。',
     })
   }
 
@@ -302,12 +301,10 @@ export class Preferences extends React.Component<
       case PreferencesTab.Git: {
         return (
           <DialogFooter>
-            <ButtonGroup>
-              <Button type="submit" disabled={hasDisabledError}>
-                儲存
-              </Button>
-              <Button onClick={this.props.onDismissed}>取消</Button>
-            </ButtonGroup>
+            <OkCancelButtonGroup
+              okButtonText="儲存"
+              okButtonDisabled={hasDisabledError}
+            />
           </DialogFooter>
         )
       }

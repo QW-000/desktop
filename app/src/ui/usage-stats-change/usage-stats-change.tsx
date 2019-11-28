@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
-import { ButtonGroup } from '../lib/button-group'
-import { Button } from '../lib/button'
 import { Row } from '../lib/row'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IUsageStatsChangeProps {
   readonly onDismissed: (optOut: boolean) => void
@@ -77,13 +76,11 @@ export class UsageStatsChange extends React.Component<
           </Row>
         </DialogContent>
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit">繼續</Button>
-            <Button onClick={this.viewMoreInfo}>
-              {' '}
-              {__DARWIN__ ? 'More Info' : '更多資訊'}
-            </Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText="繼續"
+            cancelButtonText={__DARWIN__ ? 'More Info' : '更多資訊'}
+            onCancelButtonClick={this.viewMoreInfo}
+          />
         </DialogFooter>
       </Dialog>
     )
@@ -100,7 +97,8 @@ export class UsageStatsChange extends React.Component<
     this.props.onDismissed(this.state.optOutOfUsageTracking)
   }
 
-  private viewMoreInfo = () => {
+  private viewMoreInfo = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     this.props.onOpenUsageDataUrl()
   }
 }

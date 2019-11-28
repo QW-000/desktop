@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { Repository } from '../../models/repository'
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Monospaced } from '../lib/monospaced'
 import { PathText } from '../lib/path-text'
 import { LinkButton } from '../lib/link-button'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 const LFSURL = 'https://git-lfs.github.com/'
 
@@ -43,12 +42,10 @@ export class InitializeLFS extends React.Component<IInitializeLFSProps, {}> {
         <DialogContent>{this.renderRepositories()}</DialogContent>
 
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit">初始化 Git LFS</Button>
-            <Button onClick={this.props.onDismissed}>
-              {__DARWIN__ ? 'Not Now' : '現在不要'}
-            </Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText="初始化 Git LFS"
+            cancelButtonText={__DARWIN__ ? 'Not Now' : '現在不要'}
+          />
         </DialogFooter>
       </Dialog>
     )

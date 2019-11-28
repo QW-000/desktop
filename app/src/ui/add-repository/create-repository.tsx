@@ -13,7 +13,6 @@ import {
 } from '../../lib/git'
 import { sanitizedRepositoryName } from './sanitized-repository-name'
 import { TextBox } from '../lib/text-box'
-import { ButtonGroup } from '../lib/button-group'
 import { Button } from '../lib/button'
 import { Row } from '../lib/row'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
@@ -30,6 +29,7 @@ import { LinkButton } from '../lib/link-button'
 import { PopupType } from '../../models/popup'
 import { Ref } from '../lib/ref'
 import { enableReadmeOverwriteWarning } from '../../lib/feature-flag'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 /** The sentinel value used to indicate no gitignore should be used. */
 const NoGitIgnoreValue = 'None'
@@ -395,7 +395,7 @@ export class CreateRepository extends React.Component<
     return (
       <Row>
         <Select
-          label={__DARWIN__ ? 'Git Ignore' : 'Git 忽略'}
+          label={__DARWIN__ ? 'Git 忽略' : 'Git 忽略'}
           value={this.state.gitIgnore}
           onChange={this.onGitIgnoreChange}
         >
@@ -518,7 +518,7 @@ export class CreateRepository extends React.Component<
       <Dialog
         id="create-repository"
         title={
-          __DARWIN__ ? 'Create a New Repository' : '建立新的存儲庫'
+          __DARWIN__ ? '建立新的存儲庫' : '建立新的存儲庫'
         }
         loading={this.state.creating}
         onSubmit={this.createRepository}
@@ -533,7 +533,6 @@ export class CreateRepository extends React.Component<
               label="名稱"
               placeholder="存儲庫名稱"
               onValueChanged={this.onNameChanged}
-              autoFocus={true}
             />
           </Row>
 
@@ -550,7 +549,7 @@ export class CreateRepository extends React.Component<
           <Row>
             <TextBox
               value={this.state.path}
-              label={__DARWIN__ ? 'Local Path' : '本機路徑'}
+              label={__DARWIN__ ? '本機路徑' : '本機路徑'}
               placeholder="存儲庫路徑"
               onValueChanged={this.onPathChanged}
               disabled={readOnlyPath}
@@ -580,13 +579,12 @@ export class CreateRepository extends React.Component<
         </DialogContent>
 
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit" disabled={disabled}>
-              {__DARWIN__ ? 'Create Repository' : '建立存儲庫'}
-            </Button>
-
-            <Button onClick={this.props.onDismissed}>取消</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText={
+              __DARWIN__ ? '建立存儲庫' : '建立存儲庫'
+            }
+            okButtonDisabled={disabled}
+          />
         </DialogFooter>
       </Dialog>
     )

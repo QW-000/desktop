@@ -5,8 +5,6 @@ import { Dispatcher } from '../dispatcher'
 import { VerticalSegmentedControl } from '../lib/vertical-segmented-control'
 import { Row } from '../lib/row'
 import { Branch } from '../../models/branch'
-import { ButtonGroup } from '../lib/button-group'
-import { Button } from '../lib/button'
 import {
   UncommittedChangesStrategyKind,
   stashOnCurrentBranch,
@@ -14,6 +12,7 @@ import {
 import { Octicon, OcticonSymbol } from '../octicons'
 import { PopupType } from '../../models/popup'
 import { startTimer } from '../lib/timing'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 enum StashAction {
   StashOnCurrentBranch,
@@ -73,12 +72,9 @@ export class StashAndSwitchBranch extends React.Component<
           {this.renderStashOverwriteWarning()}
         </DialogContent>
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit">
-              {__DARWIN__ ? '切換分支' : '切換分支'}
-            </Button>
-            <Button onClick={this.props.onDismissed}>取消</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText={__DARWIN__ ? 'Switch Branch' : '切換分支'}
+          />
         </DialogFooter>
       </Dialog>
     )
@@ -152,7 +148,7 @@ export class StashAndSwitchBranch extends React.Component<
 
     this.setState({ isStashingChanges: true })
 
-    const timer = startTimer('stash and checkout', repository)
+    const timer = startTimer('藏匿與簽出', repository)
     try {
       if (selectedStashAction === StashAction.StashOnCurrentBranch) {
         await dispatcher.checkoutBranch(

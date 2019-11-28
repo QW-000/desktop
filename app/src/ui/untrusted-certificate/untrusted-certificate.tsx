@@ -1,8 +1,7 @@
 import * as React from 'react'
 import * as URL from 'url'
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IUntrustedCertificateProps {
   /** The untrusted certificate. */
@@ -24,6 +23,10 @@ interface IUntrustedCertificateProps {
 /**
  * The dialog we display when an API request encounters an untrusted
  * certificate.
+ *
+ * An easy way to test this dialog is to attempt to sign in to GitHub
+ * Enterprise Server using  one of the badssl.com domains, such
+ * as https://self-signed.badssl.com/
  */
 export class UntrustedCertificate extends React.Component<
   IUntrustedCertificateProps,
@@ -31,24 +34,13 @@ export class UntrustedCertificate extends React.Component<
 > {
   public render() {
     const host = URL.parse(this.props.url).hostname
-    const type = __DARWIN__ ? 'warning' : 'error'
-    const buttonGroup = __DARWIN__ ? (
-      <ButtonGroup destructive={true}>
-        <Button type="submit">取消</Button>
-        <Button onClick={this.onContinue}>檢視憑證</Button>
-      </ButtonGroup>
-    ) : (
-      <ButtonGroup>
-        <Button type="submit">關閉</Button>
-        <Button onClick={this.onContinue}>增加憑證</Button>
-      </ButtonGroup>
-    )
+
     return (
       <Dialog
-        title={__DARWIN__ ? 'Untrusted Server' : '不受信賴的服務器'}
+        title={__DARWIN__ ? '不受信賴的伺服器' : '不受信賴的伺服器'}
         onDismissed={this.props.onDismissed}
-        onSubmit={this.props.onDismissed}
-        type={type}
+        onSubmit={this.onContinue}
+        type={__DARWIN__ ? '警告' : '錯誤'}
       >
         <DialogContent>
           <p>
@@ -69,7 +61,12 @@ export class UntrustedCertificate extends React.Component<
             如果您不確定該怎麼做，請取消並聯絡您的系統管理員。
           </p>
         </DialogContent>
-        <DialogFooter>{buttonGroup}</DialogFooter>
+        <DialogFooter>
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText={__DARWIN__ ? '檢視憑證' : '增加憑證'}
+          />
+        </DialogFooter>
       </Dialog>
     )
   }

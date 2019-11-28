@@ -1,18 +1,18 @@
-import { remote } from 'electron'
 import * as React from 'react'
+import * as Path from 'path'
 
+import { remote } from 'electron'
 import { Dispatcher } from '../dispatcher'
 import { isGitRepository } from '../../lib/git'
 import { isBareRepository } from '../../lib/git'
 import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { TextBox } from '../lib/text-box'
 import { Row } from '../lib/row'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Octicon, OcticonSymbol } from '../octicons'
 import { LinkButton } from '../lib/link-button'
 import { PopupType } from '../../models/popup'
-import * as Path from 'path'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 import untildify = require('untildify')
 
@@ -136,7 +136,7 @@ export class AddExistingRepository extends React.Component<
     return (
       <Dialog
         id="add-existing-repository"
-        title={__DARWIN__ ? 'Add Local Repository' : '增加本機存儲庫'}
+        title={__DARWIN__ ? '增加本機存儲庫' : '增加本機存儲庫'}
         onSubmit={this.addRepository}
         onDismissed={this.props.onDismissed}
       >
@@ -144,10 +144,9 @@ export class AddExistingRepository extends React.Component<
           <Row>
             <TextBox
               value={this.state.path}
-              label={__DARWIN__ ? 'Local Path' : '本機路徑'}
+              label={__DARWIN__ ? '本機路徑' : '本機路徑'}
               placeholder="存儲庫路徑"
               onValueChanged={this.onPathChanged}
-              autoFocus={true}
             />
             <Button onClick={this.showFilePicker}>選擇…</Button>
           </Row>
@@ -155,12 +154,10 @@ export class AddExistingRepository extends React.Component<
         </DialogContent>
 
         <DialogFooter>
-          <ButtonGroup>
-            <Button disabled={disabled} type="submit">
-              {__DARWIN__ ? 'Add Repository' : '增加存儲庫'}
-            </Button>
-            <Button onClick={this.props.onDismissed}>取消</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText={__DARWIN__ ? '增加存儲庫' : '增加存儲庫'}
+            okButtonDisabled={disabled}
+          />
         </DialogFooter>
       </Dialog>
     )

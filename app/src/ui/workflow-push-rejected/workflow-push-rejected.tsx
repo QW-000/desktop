@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
-import { ButtonGroup } from '../lib/button-group'
-import { Button } from '../lib/button'
 import { Dispatcher } from '../dispatcher'
 import { Ref } from '../lib/ref'
 import { Repository } from '../../models/repository'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IWorkflowPushRejectedDialogProps {
   readonly rejectedPath: string
@@ -40,7 +39,7 @@ export class WorkflowPushRejectedDialog extends React.Component<
       >
         <DialogContent>
           <p>
-            伺服器拒絕此推送，因為此推送包含對工作流程檔案 ( <Ref>{this.props.rejectedPath}</Ref>) 的修改。 
+            伺服器拒絕此推送，因為此推送包含對工作流程檔案 ( <Ref>{this.props.rejectedPath}</Ref>) 的修改。
             為了能夠推送到工作流程檔案，GitHub Desktop 需要請求其它權限。
           </p>
           <p>
@@ -48,10 +47,7 @@ export class WorkflowPushRejectedDialog extends React.Component<
           </p>
         </DialogContent>
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit">同意</Button>
-            <Button onClick={this.props.onDismissed}>取消</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup okButtonText="同意" />
         </DialogFooter>
       </Dialog>
     )

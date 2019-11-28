@@ -2,11 +2,10 @@ import * as React from 'react'
 
 import { TextBox } from '../lib/text-box'
 import { Row } from '../lib/row'
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { Monospaced } from '../lib/monospaced'
 import { RetryAction } from '../../models/retry-actions'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IGenericGitAuthenticationProps {
   /** The hostname with which the user tried to authenticate. */
@@ -78,12 +77,10 @@ export class GenericGitAuthentication extends React.Component<
         </DialogContent>
 
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit" disabled={disabled}>
-              {__DARWIN__ ? 'Save and Retry' : '儲存並重試'}
-            </Button>
-            <Button onClick={this.props.onDismiss}>取消</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText={__DARWIN__ ? 'Save and Retry' : '儲存並重試'}
+            okButtonDisabled={disabled}
+          />
         </DialogFooter>
       </Dialog>
     )

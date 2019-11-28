@@ -20,7 +20,6 @@ export class Git extends React.Component<IGitProps, {}> {
             label="名稱"
             value={this.props.name}
             onValueChanged={this.props.onNameChanged}
-            autoFocus={true}
           />
         </Row>
         <Row>

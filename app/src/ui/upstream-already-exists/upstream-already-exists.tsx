@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
-import { ButtonGroup } from '../lib/button-group'
-import { Button } from '../lib/button'
 import { Repository } from '../../models/repository'
 import { IRemote } from '../../models/remote'
 import { Ref } from '../lib/ref'
 import { forceUnwrap } from '../../lib/fatal-error'
 import { UpstreamRemoteName } from '../../lib/stores'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IUpstreamAlreadyExistsProps {
   readonly repository: Repository
@@ -47,7 +46,7 @@ export class UpstreamAlreadyExists extends React.Component<
           __DARWIN__ ? 'Upstream Already Exists' : '上游已經存在'
         }
         onDismissed={this.props.onDismissed}
-        onSubmit={this.onIgnore}
+        onSubmit={this.onUpdate}
         type="warning"
       >
         <DialogContent>
@@ -67,10 +66,12 @@ export class UpstreamAlreadyExists extends React.Component<
           <p>是否使用預定的遠端網址更新?</p>
         </DialogContent>
         <DialogFooter>
-          <ButtonGroup destructive={true}>
-            <Button type="submit">忽略</Button>
-            <Button onClick={this.onUpdate}>更新</Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            destructive={true}
+            okButtonText="更新"
+            cancelButtonText="忽略"
+            onCancelButtonClick={this.onIgnore}
+          />
         </DialogFooter>
       </Dialog>
     )
@@ -81,7 +82,8 @@ export class UpstreamAlreadyExists extends React.Component<
     this.props.onDismissed()
   }
 
-  private onIgnore = () => {
+  private onIgnore = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     this.props.onIgnore(this.props.repository)
     this.props.onDismissed()
   }

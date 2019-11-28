@@ -8,16 +8,15 @@ import {
   ITwoFactorAuthenticationState,
 } from '../../lib/stores'
 import { assertNever } from '../../lib/fatal-error'
-import { Button } from '../lib/button'
 import { LinkButton } from '../lib/link-button'
 import { Octicon, OcticonSymbol } from '../octicons'
 import { Row } from '../lib/row'
 import { TextBox } from '../lib/text-box'
-import { ButtonGroup } from '../lib/button-group'
 import { Dialog, DialogError, DialogContent, DialogFooter } from '../dialog'
 
 import { getWelcomeMessage } from '../../lib/2fa'
 import { getDotComAPIEndpoint } from '../../lib/api'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface ISignInProps {
   readonly dispatcher: Dispatcher
@@ -91,7 +90,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
         this.props.onDismissed()
         break
       default:
-        assertNever(state, `Unknown sign in step ${stepKind}`)
+        assertNever(state, `未知的登入步驟 ${stepKind}`)
     }
   }
 
@@ -151,17 +150,15 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
         }
         break
       default:
-        return assertNever(state, `Unknown sign in step ${stepKind}`)
+        return assertNever(state, `未知的登入步驟 ${stepKind}`)
     }
 
     return (
       <DialogFooter>
-        <ButtonGroup>
-          <Button disabled={disableSubmit} type="submit">
-            {primaryButtonText}
-          </Button>
-          <Button onClick={this.props.onDismissed}>取消</Button>
-        </ButtonGroup>
+        <OkCancelButtonGroup
+          okButtonText={primaryButtonText}
+          okButtonDisabled={disableSubmit}
+        />
       </DialogFooter>
     )
   }
@@ -290,7 +287,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       case SignInStep.Success:
         return null
       default:
-        return assertNever(state, `Unknown sign in step ${stepKind}`)
+        return assertNever(state, `未知的登入步驟 ${stepKind}`)
     }
   }
 

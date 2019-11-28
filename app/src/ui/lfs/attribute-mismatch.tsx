@@ -1,10 +1,9 @@
 import * as React from 'react'
-import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { LinkButton } from '../lib/link-button'
 import { getGlobalConfigPath } from '../../lib/git'
 import { shell } from '../../lib/app-shell'
+import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IAttributeMismatchProps {
   /** Called when the dialog should be dismissed. */
@@ -76,16 +75,12 @@ export class AttributeMismatch extends React.Component<
         </DialogContent>
 
         <DialogFooter>
-          <ButtonGroup>
-            <Button type="submit">
-              {__DARWIN__
-                ? 'Update Existing Filters'
-                : '更新現存過濾器'}
-            </Button>
-            <Button onClick={this.props.onDismissed}>
-              {__DARWIN__ ? 'Not Now' : '現在不要'}
-            </Button>
-          </ButtonGroup>
+          <OkCancelButtonGroup
+            okButtonText={
+              __DARWIN__ ? 'Update Existing Filters' : '更新現存過濾器'
+            }
+            cancelButtonText={__DARWIN__ ? 'Not Now' : '現在不要'}
+          />
         </DialogFooter>
       </Dialog>
     )
