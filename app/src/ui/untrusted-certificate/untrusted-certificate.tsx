@@ -40,7 +40,7 @@ export class UntrustedCertificate extends React.Component<
         title={__DARWIN__ ? '不受信賴的伺服器' : '不受信賴的伺服器'}
         onDismissed={this.props.onDismissed}
         onSubmit={this.onContinue}
-        type={__DARWIN__ ? '警告' : '錯誤'}
+        type={__DARWIN__ ? 'warning' : 'error'}
       >
         <DialogContent>
           <p>
