@@ -37,7 +37,7 @@ export class WarnForcePushDialog extends React.Component<
 
     const title = __DARWIN__
       ? 'Rebase Will Require Force Push'
-      : 'Rebase will require force push'
+      : '變基需要強制推送'
 
     return (
       <Dialog
@@ -49,18 +49,16 @@ export class WarnForcePushDialog extends React.Component<
       >
         <DialogContent>
           <p>
-            Are you sure you want to rebase <Ref>{targetBranch.name}</Ref> onto{' '}
+            您確定要變基 <Ref>{targetBranch.name}</Ref> 到 {' '}
             <Ref>{baseBranch.name}</Ref>?
           </p>
           <p>
-            At the end of the rebase flow, GitHub Desktop will enable you to
-            force push the branch to update the upstream branch. Force pushing
-            will alter the history on the remote and potentially cause problems
-            for others collaborating on this branch.
+            在變基流程結束時，GitHub Desktop 將使您能夠強制推送分支以更新上游分支。
+            強制推送將變更遠端伺服器上的歷史記錄，並可能對該分支上的其他合作者造成問題。
           </p>
           <div>
             <Checkbox
-              label="Do not show this message again"
+              label="不要再顯示此訊息"
               value={
                 this.state.askForConfirmationOnForcePush
                   ? CheckboxValue.Off
@@ -72,7 +70,7 @@ export class WarnForcePushDialog extends React.Component<
         </DialogContent>
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={__DARWIN__ ? 'Begin Rebase' : 'Begin rebase'}
+            okButtonText={__DARWIN__ ? 'Begin Rebase' : '開始變基'}
           />
         </DialogFooter>
       </Dialog>

@@ -52,16 +52,16 @@ export class ConfirmAbortDialog extends React.Component<
     if (baseBranch !== undefined) {
       firstParagraph = (
         <p>
-          {'Are you sure you want to abort rebasing '}
+          {'您確定要中止變基 '}
           <Ref>{baseBranch}</Ref>
-          {' onto '}
+          {' 到 '}
           <Ref>{targetBranch}</Ref>?
         </p>
       )
     } else {
       firstParagraph = (
         <p>
-          {'Are you sure you want to abort rebasing '}
+          {'您確定要中止變基 '}
           <Ref>{targetBranch}</Ref>?
         </p>
       )
@@ -71,8 +71,7 @@ export class ConfirmAbortDialog extends React.Component<
       <div className="column-left">
         {firstParagraph}
         <p>
-          Aborting this rebase will take you back to the original branch state
-          and and the conflicts you have already resolved will be discarded.
+          中止此變基將使您回到原始分支狀態，並且您已經解決的衝突將被丟棄。
         </p>
       </div>
     )
@@ -84,7 +83,7 @@ export class ConfirmAbortDialog extends React.Component<
     return (
       <Dialog
         id="abort-merge-warning"
-        title={__DARWIN__ ? 'Confirm Abort Rebase' : 'Confirm abort rebase'}
+        title={__DARWIN__ ? 'Confirm Abort Rebase' : '確認中止變基'}
         onDismissed={this.onCancel}
         onSubmit={this.onSubmit}
         disabled={this.state.isAborting}
@@ -96,7 +95,7 @@ export class ConfirmAbortDialog extends React.Component<
         <DialogFooter>
           <OkCancelButtonGroup
             destructive={true}
-            okButtonText={__DARWIN__ ? 'Abort Rebase' : 'Abort rebase'}
+            okButtonText={__DARWIN__ ? 'Abort Rebase' : '中止變基'}
           />
         </DialogFooter>
       </Dialog>
