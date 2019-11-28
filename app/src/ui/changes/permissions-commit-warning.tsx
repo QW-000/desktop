@@ -79,7 +79,7 @@ const ReadonlyRepoMessage: React.SFC<{
 }> = props => {
   return (
     <>
-      You do not have permission to push to <strong>{props.name}</strong>.
+      您沒有權限來推送 <strong>{props.name}</strong>。
     </>
   )
 }
@@ -90,8 +90,8 @@ const ProtectedBranchMessage: React.SFC<{
 }> = props => {
   return (
     <>
-      <strong>{props.currentBranch}</strong> is a protected branch. Want to{' '}
-      <LinkButton onClick={props.onSwitchBranch}>switch branches</LinkButton>?
+      <strong>{props.currentBranch}</strong> 是受保護的分支。 想要 {' '}
+      <LinkButton onClick={props.onSwitchBranch}>切換分支</LinkButton>?
     </>
   )
 }
