@@ -48,7 +48,7 @@ export class ChangedFileDetails extends React.Component<
         </Button>
       )
     } else if (diff.kind === DiffType.Text && diff.lineEndingsChange) {
-      const message = `警告: 行結尾已從 '${
+      const message = `警告: 行尾將更改為 '${
         diff.lineEndingsChange.from
       }' 變更到 '${diff.lineEndingsChange.to}'。`
       return (
