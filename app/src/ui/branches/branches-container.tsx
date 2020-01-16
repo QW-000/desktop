@@ -262,6 +262,20 @@ export class BranchesContainer extends React.Component<
     } = this.props
 
     if (currentBranch == null || currentBranch.name !== branch.name) {
+      if (
+        !currentBranchProtected &&
+        this.props.selectedUncommittedChangesStrategy.kind ===
+          stashOnCurrentBranch.kind &&
+        couldOverwriteStash
+      ) {
+        dispatcher.showPopup({
+          type: PopupType.ConfirmOverwriteStash,
+          repository,
+          branchToCheckout: branch,
+        })
+        return
+      }
+
       const timer = startTimer('從清單中簽出分支', repository)
 
       // Never prompt to stash changes if someone is switching away from a protected branch
