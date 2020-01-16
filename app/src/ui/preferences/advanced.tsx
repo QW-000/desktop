@@ -101,7 +101,7 @@ export class Advanced extends React.Component<
     return (
       <DialogContent>
         <div className="advanced-section">
-          <h2>If I have changes and I switch branches...</h2>
+          <h2>如果我有變更並且切換了分支...</h2>
           <div className="radio-component">
             <input
               type="radio"
@@ -114,7 +114,7 @@ export class Advanced extends React.Component<
               onChange={this.onUncommittedChangesStrategyKindChanged}
             />
             <label htmlFor={UncommittedChangesStrategyKind.AskForConfirmation}>
-              Ask me where I want the changes to go
+              問我在哪裡我想要的變更
             </label>
           </div>
           <div className="radio-component">
@@ -129,7 +129,7 @@ export class Advanced extends React.Component<
               onChange={this.onUncommittedChangesStrategyKindChanged}
             />
             <label htmlFor={UncommittedChangesStrategyKind.MoveToNewBranch}>
-              Always bring my changes to my new branch
+              總是將我的變更帶到新分支
             </label>
           </div>
           <div className="radio-component">
@@ -146,12 +146,12 @@ export class Advanced extends React.Component<
             <label
               htmlFor={UncommittedChangesStrategyKind.StashOnCurrentBranch}
             >
-              Always stash and leave my changes on the current branch
+              總是藏匿並保留我的變更在當前分支上
             </label>
           </div>
         </div>
         <div className="advanced-section">
-          <h2>Show a confirmation dialog before...</h2>
+          <h2>在動作之前顯示確定對話框...</h2>
           <Checkbox
             label="刪除存儲庫"
             value={
@@ -179,7 +179,7 @@ export class Advanced extends React.Component<
           />
         </div>
         <div className="advanced-section">
-          <h2>Usage</h2>
+          <h2>使用</h2>
           <Checkbox
             label={this.reportDesktopUsageLabel()}
             value={

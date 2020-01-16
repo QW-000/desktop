@@ -159,7 +159,7 @@ export class Preferences extends React.Component<
             </span>
             <span>
               <Octicon className="icon" symbol={OcticonSymbol.person} />
-              綜合
+              整合
             </span>
             <span>
               <Octicon className="icon" symbol={OcticonSymbol.gitCommit} />
