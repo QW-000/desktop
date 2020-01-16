@@ -92,7 +92,7 @@ export class Integrations extends React.Component<
   private renderExternalEditor() {
     const options = this.props.availableEditors
     const selectedEditor = this.state.selectedExternalEditor
-    const label = __DARWIN__ ? 'External Editor' : 'External editor'
+    const label = __DARWIN__ ? 'External Editor' : '外部編輯器'
 
     if (options.length === 0) {
       // this is emulating the <Select/> component's UI so the styles are
@@ -104,8 +104,8 @@ export class Integrations extends React.Component<
         <div className="select-component no-options-found">
           <label>{label}</label>
           <span>
-            No editors found.{' '}
-            <LinkButton uri="https://atom.io/">Install Atom?</LinkButton>
+            沒有找到編輯器! {' '}
+            <LinkButton uri="https://atom.io/">安裝 Atom?</LinkButton>
           </span>
         </div>
       )
@@ -153,7 +153,7 @@ export class Integrations extends React.Component<
 
     return (
       <div className="brutalism">
-        <strong>{__DARWIN__ ? 'Merge Tool' : 'Merge tool'}</strong>
+        <strong>{__DARWIN__ ? 'Merge Tool' : '合併工具'}</strong>
 
         <Row>
           <TextBox

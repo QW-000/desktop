@@ -36,7 +36,7 @@ export class SAMLReauthRequiredDialog extends React.Component<
     return (
       <Dialog
         title={
-          __DARWIN__ ? 'Re-authorization Required' : 'Re-authorization required'
+          __DARWIN__ ? 'Re-authorization Required' : '需要重新授權'
         }
         loading={this.state.loading}
         onDismissed={this.props.onDismissed}
@@ -45,18 +45,15 @@ export class SAMLReauthRequiredDialog extends React.Component<
       >
         <DialogContent>
           <p>
-            The "{this.props.organizationName}" organization has enabled or
-            enforced SAML SSO. To access this repository, you must sign in again
-            and grant GitHub Desktop permission to access the organization's
-            repositories.
+            "{this.props.organizationName}" 組織已啟用或強制執行 SAML SSO。
+            要存取此存儲庫，您必須再次登入並授予 GitHub Desktop 權限以存取組織的存儲庫。
           </p>
           <p>
-            Would you like to open a browser to grant GitHub Desktop permission
-            to access the repository?
+            您是否要開啟瀏覽器以授予 GitHub Desktop 存取存儲庫的權限?
           </p>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup okButtonText="Grant" />
+          <OkCancelButtonGroup okButtonText="同意" />
         </DialogFooter>
       </Dialog>
     )
