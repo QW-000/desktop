@@ -10,7 +10,10 @@ import { CommitIdentity } from '../../models/commit-identity'
 import { ICommitMessage } from '../../models/commit-message'
 import { Dispatcher } from '../dispatcher'
 import { IGitHubUser } from '../../lib/databases/github-user-database'
-import { Repository } from '../../models/repository'
+import {
+  Repository,
+  isRepositoryWithGitHubRepository,
+} from '../../models/repository'
 import { Button } from '../lib/button'
 import { Avatar } from '../lib/avatar'
 import { Loading } from '../lib/loading'
@@ -464,8 +467,9 @@ export class CommitMessage extends React.Component<
     if (!hasWritePermissionForRepository) {
       return (
         <PermissionsCommitWarning>
-          您沒有權限來推送 {' '}
-          <strong>{repository.name}</strong>.
+          您沒有對 <strong>{repository.name}</strong> 的寫入權限。
+          想要 <LinkButton onClick={this.onMakeFork}>製作一個分支</LinkButton>
+          ?
         </PermissionsCommitWarning>
       )
     } else if (currentBranchProtected) {
@@ -485,6 +489,12 @@ export class CommitMessage extends React.Component<
     this.props.dispatcher.showFoldout({
       type: FoldoutType.Branch,
     })
+  }
+
+  private onMakeFork = () => {
+    if (isRepositoryWithGitHubRepository(this.props.repository)) {
+      this.props.dispatcher.showCreateForkDialog(this.props.repository)
+    }
   }
 
   public render() {

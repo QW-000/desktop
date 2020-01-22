@@ -5,6 +5,8 @@ import { Ref } from '../lib/ref'
 import { Repository } from '../../models/repository'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
+const okButtonText = __DARWIN__ ? 'Continue in Browser' : '在瀏覽器繼續'
+
 interface IWorkflowPushRejectedDialogProps {
   readonly rejectedPath: string
   readonly repository: Repository
@@ -47,7 +49,7 @@ export class WorkflowPushRejectedDialog extends React.Component<
           </p>
         </DialogContent>
         <DialogFooter>
-          <OkCancelButtonGroup okButtonText="同意" />
+          <OkCancelButtonGroup okButtonText={okButtonText} />
         </DialogFooter>
       </Dialog>
     )
