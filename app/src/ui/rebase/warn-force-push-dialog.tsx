@@ -54,7 +54,7 @@ export class WarnForcePushDialog extends React.Component<
           </p>
           <p>
             在變基流程結束時，GitHub Desktop 將使您能夠強制推送分支以更新上游分支。
-            強制推送將變更遠端伺服器上的歷史記錄，並可能對該分支上的其他合作者造成問題。
+            強制推送將變更遠端伺服器上的歷程記錄，並可能對該分支上的其他合作者造成問題。
           </p>
           <div>
             <Checkbox

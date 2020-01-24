@@ -207,7 +207,7 @@ export class Merge extends React.Component<IMergeProps, IMergeState> {
   private renderInvalidMergeMessage() {
     return (
       <React.Fragment>
-        無法在此存儲庫中合併不相關的歷史記錄
+        無法在此存儲庫中合併不相關的歷程記錄
       </React.Fragment>
     )
   }

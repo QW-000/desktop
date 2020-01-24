@@ -177,7 +177,7 @@ export function buildDefaultMenu({
         click: emit('show-changes'),
       },
       {
-        label: __DARWIN__ ? '顯示歷史' : '歷史(&H)',
+        label: __DARWIN__ ? '顯示歷程' : '歷程(&H)',
         id: 'show-history',
         accelerator: 'CmdOrCtrl+2',
         click: emit('show-history'),

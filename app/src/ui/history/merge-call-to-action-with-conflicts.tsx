@@ -133,7 +133,7 @@ export class MergeCallToActionWithConflicts extends React.Component<
   private renderInvalidMergeMessage() {
     return (
       <div className="merge-message">
-        無法在此存儲庫中合併不相關的歷史記錄
+        無法在此存儲庫中合併不相關的歷程記錄
       </div>
     )
   }
