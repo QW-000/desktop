@@ -33,6 +33,7 @@ export class WorkflowPushRejectedDialog extends React.Component<
   public render() {
     return (
       <Dialog
+        id="workflow-push-rejected"
         title={__DARWIN__ ? '推送遭拒' : '推送遭拒'}
         loading={this.state.loading}
         onDismissed={this.props.onDismissed}
@@ -41,7 +42,7 @@ export class WorkflowPushRejectedDialog extends React.Component<
       >
         <DialogContent>
           <p>
-            伺服器拒絕此推送，因為此推送包含對工作流程檔案 ( <Ref>{this.props.rejectedPath}</Ref>) 的修改。
+            伺服器拒絕此推送，因為此推送包含對工作流程檔案 <Ref>{this.props.rejectedPath}</Ref> 的修改。
             為了能夠推送到工作流程檔案，GitHub Desktop 需要請求其它權限。
           </p>
           <p>

@@ -54,8 +54,8 @@ interface ICommitMessageProps {
   readonly isCommitting: boolean
   readonly placeholder: string
   readonly prepopulateCommitSummary: boolean
-  readonly currentBranchProtected: boolean
-  readonly hasWritePermissionForRepository: boolean
+  readonly showBranchProtected: boolean
+  readonly showNoWriteAccess: boolean
 
   /**
    * Whether or not to show a field for adding co-authors to
@@ -458,13 +458,9 @@ export class CommitMessage extends React.Component<
       return null
     }
 
-    const {
-      currentBranchProtected,
-      hasWritePermissionForRepository,
-      repository,
-    } = this.props
+    const { showBranchProtected, showNoWriteAccess, repository } = this.props
 
-    if (!hasWritePermissionForRepository) {
+    if (showNoWriteAccess) {
       return (
         <PermissionsCommitWarning>
           您沒有對 <strong>{repository.name}</strong> 的寫入權限。
@@ -472,7 +468,7 @@ export class CommitMessage extends React.Component<
           ?
         </PermissionsCommitWarning>
       )
-    } else if (currentBranchProtected) {
+    } else if (showBranchProtected) {
       return (
         <PermissionsCommitWarning>
           <strong>{branch}</strong> 是受保護的分支。 想要 {' '}
