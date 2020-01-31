@@ -91,10 +91,10 @@ export class NoPullRequests extends React.Component<INoPullRequestsProps, {}> {
       return (
         <div className="call-to-action">
           <LinkButton uri={this.props.upstreamPullRequestsUrl}>
-            View pull requests
+            檢視拉取請求
           </LinkButton>
-          {' for '}
-          <strong>{this.props.upstreamRepositoryName}</strong> on GitHub
+          {' 於 '}
+          <strong>{this.props.upstreamRepositoryName}</strong> GitHub 上
         </div>
       )
     } else if (this.props.isOnDefaultBranch) {
