@@ -464,8 +464,8 @@ export class CommitMessage extends React.Component<
       return (
         <PermissionsCommitWarning>
           您沒有對 <strong>{repository.name}</strong> 的寫入權限。
-          想要 <LinkButton onClick={this.onMakeFork}>製作一個分支</LinkButton>
-          ?
+          想要 {' '}
+          <LinkButton onClick={this.onMakeFork}>製作一個分支</LinkButton>?
         </PermissionsCommitWarning>
       )
     } else if (showBranchProtected) {
