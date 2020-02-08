@@ -26,24 +26,21 @@ export function showUncaughtException(isLaunchError: boolean, error: Error) {
     crashWindow.show()
   })
 
-  crashWindow.onFailedToLoad(() => {
-    dialog.showMessageBox(
-      {
-        type: 'error',
-        title: __DARWIN__ ? `Unrecoverable Error` : '無法復原之錯誤',
-        message:
-          `GitHub Desktop 遇到無法復原之錯誤，需要重新啟動。\n\n` +
-          `這已被報告給團隊，但如果您屢次遇到此錯誤請報告` +
-          `這個問題到此 GitHub Desktop 的問題跟踪。\n\n${error.stack ||
-            error.message}`,
-      },
-      response => {
-        if (!__DEV__) {
-          app.relaunch()
-        }
-        app.quit()
-      }
-    )
+  crashWindow.onFailedToLoad(async () => {
+    await dialog.showMessageBox({
+      type: 'error',
+      title: __DARWIN__ ? `Unrecoverable Error` : '無法復原之錯誤',
+      message:
+        `GitHub Desktop 遇到無法復原之錯誤，需要重新啟動。\n\n` +
+        `這已被報告給團隊，但如果您屢次遇到此錯誤請報告 ` +
+        `這個問題到此 GitHub Desktop 的問題跟踪。\n\n${error.stack ||
+          error.message}`,
+    })
+
+    if (!__DEV__) {
+      app.relaunch()
+    }
+    app.quit()
   })
 
   crashWindow.onClose(() => {
