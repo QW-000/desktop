@@ -15,11 +15,11 @@ import { envForRemoteOperation } from '../../git/environment'
 
 const nl = __WIN32__ ? '\r\n' : '\n'
 const InititalReadmeContents =
-  `# Welcome to GitHub Desktop!${nl}${nl}` +
-  `This is your README. READMEs are where you can communicate ` +
-  `what your project is and how to use it.${nl}${nl}` +
-  `Write your name on line 6, save it, and then head ` +
-  `back to GitHub Desktop.${nl}`
+  `# 歡迎使用 GitHub Desktop!${nl}${nl}` +
+  `這是你的讀我檔案。 README 檔案是您可以傳達的地方 ` +
+  `您的項目是什麼以及如何使用。${nl}${nl}` +
+  `在第 6 行上寫下您的名字並儲存，然後 ` +
+  `返回到 GitHub Desktop。${nl}`
 
 async function createAPIRepository(account: Account, name: string) {
   const api = new API(account.endpoint, account.token)
@@ -28,7 +28,7 @@ async function createAPIRepository(account: Account, name: string) {
     return await api.createRepository(
       null,
       name,
-      'GitHub Desktop tutorial repository',
+      'GitHub Desktop 教學存儲庫',
       true
     )
   } catch (err) {
@@ -37,19 +37,19 @@ async function createAPIRepository(account: Account, name: string) {
       err.responseStatus === 422 &&
       err.apiError !== null
     ) {
-      if (err.apiError.message === 'Repository creation failed.') {
+      if (err.apiError.message === '存儲庫建立失敗。') {
         if (
           err.apiError.errors &&
           err.apiError.errors.some(
-            x => x.message === 'name already exists on this account'
+            x => x.message === '帳戶上已存在此名稱'
           )
         ) {
           throw new Error(
-            'You already have a repository named ' +
-              `"${name}" on your account at ${friendlyEndpointName(
-                account
-              )}.\n\n` +
-              'Please delete the repository and try again.'
+            '在 ' +
+                `"${name}" 帳戶上已經有一個名為 ${friendlyEndpointName(
+                  account
+                )}的存儲庫。\n\n` +
+                '請刪除存儲庫，然後重試。'
           )
         }
       }
@@ -65,7 +65,7 @@ async function pushRepo(
   remote: IRemote,
   progressCb: (title: string, value: number, description?: string) => void
 ) {
-  const pushTitle = `Pushing repository to ${friendlyEndpointName(account)}`
+  const pushTitle = `將存儲庫推送到 ${friendlyEndpointName(account)}`
   progressCb(pushTitle, 0)
 
   const pushOpts = await executionOptionsWithProgress(
@@ -103,18 +103,18 @@ export async function createTutorialRepository(
   progressCb: (title: string, value: number, description?: string) => void
 ) {
   const endpointName = friendlyEndpointName(account)
-  progressCb(`Creating repository on ${endpointName}`, 0)
+  progressCb(`在 ${endpointName} 建立存儲庫`, 0)
 
   if (await pathExists(path)) {
     throw new Error(
-      `The path '${path}' already exists. Please move it ` +
-        'out of the way, or remove it, and then try again.'
+      `路徑 '${path}' 已經存在。 請移動 ` +
+            '或將其移除，然後重試。'
     )
   }
 
   const repo = await createAPIRepository(account, name)
 
-  progressCb('Initializing local repository', 0.2)
+  progressCb('初始化本機存儲庫', 0.2)
 
   await ensureDir(path)
   await git(['init'], path, 'tutorial:init')
@@ -140,7 +140,7 @@ export async function createTutorialRepository(
     progressCb(title, 0.3 + value * 0.6, description)
   })
 
-  progressCb('Finalizing tutorial repository', 0.9)
+  progressCb('完成教學存儲庫', 0.9)
 
   return repo
 }
