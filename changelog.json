@@ -1,5 +1,18 @@
 {
   "releases": {
+    "2.3.2-beta3": [
+      "[Fixed] Checkout correct PR branch from “open this in GitHub Desktop” link on GitHub.com pull request page - #9108",
+      "[Fixed] Ensure branch protection warning works when branch names contain special characters - #9086",
+      "[Fixed] Fix graphic indicating files selected in Dark Mode - #8716. Thanks @say25!",
+      "[Fixed] Support keyboard scrolling in diffs - #9074"
+    ],
+    "2.3.2-beta2": [
+      "[Fixed] Make text in error dialogs selectable - #7606",
+      "[Fixed] Prevent bringing changes to another branch from failing silently - #9038",
+      "[Fixed] Ensure local branch is also deleted when deleting a branch that no longer exists on the remote - #8831",
+      "[Improved] Format errors containing raw Git output with fixed-width font - #8964",
+      "[Improved] Upgrade to Electron 7 - #8967"
+    ],
     "2.3.0-test2": ["Testing upgrade from Electron v6 to v7"],
     "2.3.0-test1": ["Testing upgrade from Electron v5 to v6"],
     "2.3.2-beta1": [],
