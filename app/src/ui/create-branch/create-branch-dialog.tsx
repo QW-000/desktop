@@ -9,7 +9,10 @@ import { Row } from '../lib/row'
 import { Ref } from '../lib/ref'
 import { LinkButton } from '../lib/link-button'
 import { Dialog, DialogError, DialogContent, DialogFooter } from '../dialog'
-import { VerticalSegmentedControl } from '../lib/vertical-segmented-control'
+import {
+  VerticalSegmentedControl,
+  ISegmentedItem,
+} from '../lib/vertical-segmented-control'
 import {
   TipState,
   IUnbornRepository,
@@ -28,13 +31,16 @@ import {
   UncommittedChangesStrategy,
   UncommittedChangesStrategyKind,
 } from '../../models/uncommitted-changes-strategy'
+import { GitHubRepository } from '../../models/github-repository'
 
 interface ICreateBranchProps {
   readonly repository: Repository
+  readonly upstreamGitHubRepository: GitHubRepository | null
   readonly dispatcher: Dispatcher
   readonly onDismissed: () => void
   readonly tip: IUnbornRepository | IDetachedHead | IValidBranch
   readonly defaultBranch: Branch | null
+  readonly upstreamDefaultBranch: Branch | null
   readonly allBranches: ReadonlyArray<Branch>
   readonly initialName: string
   readonly currentBranchProtected: boolean
@@ -76,8 +82,9 @@ interface ICreateBranchState {
   readonly defaultBranchAtCreateStart: Branch | null
 }
 
+/** Only used for the `onBaseBranchChanged` callback */
 enum SelectedBranch {
-  DefaultBranch = 0,
+  DefaultishBranch = 0,
   CurrentBranch = 1,
 }
 
@@ -89,14 +96,16 @@ export class CreateBranch extends React.Component<
   public constructor(props: ICreateBranchProps) {
     super(props)
 
+    const startPoint = getStartPoint(props, StartPoint.UpstreamDefaultBranch)
+
     this.state = {
       currentError: null,
       proposedName: props.initialName,
       sanitizedName: '',
-      startPoint: getStartPoint(props, StartPoint.DefaultBranch),
+      startPoint,
       isCreatingBranch: false,
       tipAtCreateStart: props.tip,
-      defaultBranchAtCreateStart: props.defaultBranch,
+      defaultBranchAtCreateStart: getBranchForStartPoint(startPoint, props),
     }
   }
 
@@ -114,7 +123,10 @@ export class CreateBranch extends React.Component<
     if (!this.state.isCreatingBranch) {
       this.setState({
         tipAtCreateStart: nextProps.tip,
-        defaultBranchAtCreateStart: nextProps.defaultBranch,
+        defaultBranchAtCreateStart: getBranchForStartPoint(
+          this.state.startPoint,
+          nextProps
+        ),
       })
     }
   }
@@ -141,60 +153,40 @@ export class CreateBranch extends React.Component<
         </p>
       )
     } else if (tip.kind === TipState.Valid) {
-      const currentBranch = tip.branch
+      if (
+        this.props.upstreamGitHubRepository !== null &&
+        this.props.upstreamDefaultBranch !== null
+      ) {
+        return this.renderForkBranchSelection(
+          tip.branch.name,
+          this.props.upstreamDefaultBranch,
+          this.props.upstreamGitHubRepository.fullName
+        )
+      }
+
       const defaultBranch = this.state.isCreatingBranch
         ? this.props.defaultBranch
         : this.state.defaultBranchAtCreateStart
 
-      if (!defaultBranch || defaultBranch.name === currentBranch.name) {
-        const defaultBranchLink = (
-          <LinkButton uri="https://help.github.com/articles/setting-the-default-branch/">
-            預設分支
-          </LinkButton>
-        )
-        return (
-          <p>
-            您的新分支將基於當前 (
-            <Ref>{currentBranch.name}</Ref>
-            ) 分支簽出。 <Ref>{currentBranch.name}</Ref> 是您的 {defaultBranchLink} 存儲庫。
-          </p>
-        )
-      } else {
-        const items = [
-          {
-            title: defaultBranch.name,
-            描述:
-              "存儲庫中的預設分支。 選擇此選項以開始一些不依賴於當前分支的新內容。",
-          },
-          {
-            title: currentBranch.name,
-            描述:
-              '當前簽出的分支。 如果您需要在此分支中完成工作，請選擇此選項。',
-          },
-        ]
-
-        const startPoint = this.state.startPoint
-        const selectedIndex = startPoint === StartPoint.DefaultBranch ? 0 : 1
-
-        return (
-          <Row>
-            <VerticalSegmentedControl
-              label="建立分支基於…"
-              items={items}
-              selectedIndex={selectedIndex}
-              onSelectionChanged={this.onBaseBranchChanged}
-            />
-          </Row>
-        )
-      }
+      return this.renderRegularBranchSelection(tip.branch.name, defaultBranch)
     } else {
       return assertNever(tip, `Unknown tip kind ${tipKind}`)
     }
   }
 
   private onBaseBranchChanged = (selection: SelectedBranch) => {
-    if (selection === SelectedBranch.DefaultBranch) {
-      this.setState({ startPoint: StartPoint.DefaultBranch })
+    if (selection === SelectedBranch.DefaultishBranch) {
+      // is this a fork?
+      if (
+        this.props.upstreamGitHubRepository !== null &&
+        this.props.upstreamDefaultBranch !== null
+      ) {
+        this.setState({
+          startPoint: StartPoint.UpstreamDefaultBranch,
+        })
+      } else {
+        this.setState({ startPoint: StartPoint.DefaultBranch })
+      }
     } else if (selection === SelectedBranch.CurrentBranch) {
       this.setState({ startPoint: StartPoint.CurrentBranch })
     } else {
@@ -277,8 +269,14 @@ export class CreateBranch extends React.Component<
     const name = this.state.sanitizedName
 
     let startPoint: string | null = null
+    let noTrack = false
 
-    const { defaultBranch, currentBranchProtected, repository } = this.props
+    const {
+      defaultBranch,
+      upstreamDefaultBranch,
+      currentBranchProtected,
+      repository,
+    } = this.props
 
     if (this.state.startPoint === StartPoint.DefaultBranch) {
       // This really shouldn't happen, we take all kinds of precautions
@@ -292,6 +290,19 @@ export class CreateBranch extends React.Component<
 
       startPoint = defaultBranch.name
     }
+    if (this.state.startPoint === StartPoint.UpstreamDefaultBranch) {
+      // This really shouldn't happen, we take all kinds of precautions
+      // to make sure the startPoint state is valid given the current props.
+      if (!upstreamDefaultBranch) {
+        this.setState({
+          currentError: new Error('無法確定預設分支'),
+        })
+        return
+      }
+
+      startPoint = upstreamDefaultBranch.name
+      noTrack = true
+    }
 
     if (name.length > 0) {
       // never prompt to stash changes if someone is switching away from a protected branch
@@ -303,14 +314,134 @@ export class CreateBranch extends React.Component<
         : this.props.selectedUncommittedChangesStrategy
 
       this.setState({ isCreatingBranch: true })
-      const timer = startTimer('create branch', repository)
+      const timer = startTimer('建立分支', repository)
       await this.props.dispatcher.createBranch(
         repository,
         name,
         startPoint,
-        strategy
+        strategy,
+        noTrack
       )
       timer.done()
     }
   }
+
+  /**
+   * Render options for a non-fork repository
+   *
+   * Gives user the option to make a new branch from
+   * the default branch.
+   */
+  private renderRegularBranchSelection(
+    currentBranchName: string,
+    defaultBranch: Branch | null
+  ) {
+    if (defaultBranch === null || defaultBranch.name === currentBranchName) {
+      return (
+        <p>
+          您的新分支將基於當前 (
+          <Ref>{currentBranchName}</Ref>
+          ) 分支簽出。 <Ref>{currentBranchName}</Ref> 是您的 {defaultBranchLink}  存儲庫。
+        </p>
+      )
+    } else {
+      const items = [
+        {
+          title: defaultBranch.name,
+          description:
+            "存儲庫中的預設分支。 選擇此選項以開始一些不依賴於當前分支的新內容。",
+        },
+        {
+          title: currentBranchName,
+          description:
+            '當前簽出的分支。 如果您需要在此分支中完成工作，請選擇此選項。',
+        },
+      ]
+
+      const selectedIndex =
+        this.state.startPoint === StartPoint.DefaultBranch ? 0 : 1
+
+      return this.renderOptions(items, selectedIndex)
+    }
+  }
+
+  /**
+   * Render options if we're in a fork
+   *
+   * Gives user the option to make a new branch from
+   * the upstream default branch.
+   */
+  private renderForkBranchSelection(
+    currentBranchName: string,
+    upstreamDefaultBranch: Branch,
+    upstreamRepositoryFullName: string
+  ) {
+    // we assume here that the upstream and this
+    // fork will have the same default branch name
+    if (currentBranchName === upstreamDefaultBranch.nameWithoutRemote) {
+      return (
+        <p>
+          您的新分支將基於 {' '}
+          <strong>{upstreamRepositoryFullName}</strong>
+          的 {defaultBranchLink} (
+          <Ref>{upstreamDefaultBranch.nameWithoutRemote}</Ref>)。
+        </p>
+      )
+    } else {
+      const items = [
+        {
+          title: upstreamDefaultBranch.name,
+          description:
+            "上游存儲庫的預設分支。 選擇此選項以開始一些不依賴於當前分支的新內容。",
+        },
+        {
+          title: currentBranchName,
+          description:
+            '當前簽出的分支。 如果您需要在此分支中完成工作，請選擇此選項。',
+        },
+      ]
+
+      const selectedIndex =
+        this.state.startPoint === StartPoint.UpstreamDefaultBranch ? 0 : 1
+
+      return this.renderOptions(items, selectedIndex)
+    }
+  }
+
+  /** Shared method for rendering two choices in this component */
+  private renderOptions = (
+    items: ReadonlyArray<ISegmentedItem>,
+    selectedIndex: number
+  ) => (
+    <Row>
+      <VerticalSegmentedControl
+        label="建立基本分支…"
+        items={items}
+        selectedIndex={selectedIndex}
+        onSelectionChanged={this.onBaseBranchChanged}
+      />
+    </Row>
+  )
+}
+
+/** Reusable snippet */
+const defaultBranchLink = (
+  <LinkButton uri="https://help.github.com/articles/setting-the-default-branch/">
+    預設分支
+  </LinkButton>
+)
+
+/** Given some branches and a start point, return the proper branch */
+function getBranchForStartPoint(
+  startPoint: StartPoint,
+  branchInfo: {
+    readonly defaultBranch: Branch | null
+    readonly upstreamDefaultBranch: Branch | null
+  }
+) {
+  return startPoint === StartPoint.UpstreamDefaultBranch
+    ? branchInfo.upstreamDefaultBranch
+    : startPoint === StartPoint.DefaultBranch
+    ? branchInfo.defaultBranch
+    : null
 }

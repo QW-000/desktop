@@ -123,7 +123,7 @@ export function enableCreateForkFlow(): boolean {
  * CRL distribution points and/or an offiline revocation server.
  */
 export function enableSchannelCheckRevokeOptOut(): boolean {
-  return enableDevelopmentFeatures()
+  return enableBetaFeatures()
 }
 
 /**
@@ -131,7 +131,7 @@ export function enableSchannelCheckRevokeOptOut(): boolean {
  * system-configured proxy url and passing that to Git.
  */
 export function enableAutomaticGitProxyConfiguration(): boolean {
-  return enableDevelopmentFeatures()
+  return enableBetaFeatures()
 }
 
 /**
@@ -139,5 +139,19 @@ export function enableAutomaticGitProxyConfiguration(): boolean {
  * "Repository" in the app menu?
  */
 export function enableCreateGitHubIssueFromMenu(): boolean {
+  return enableBetaFeatures()
+}
+
+/**
+ * Should we update remote url if it has changed?
+ */
+export function enableUpdateRemoteUrl(): boolean {
+  return enableBetaFeatures()
+}
+/**
+ * Should we show the fork-specific, "branch from the upstream
+ * default branch" version of the create branch dialog?
+ */
+export function enableForkyCreateBranchUI(): boolean {
   return enableBetaFeatures()
 }

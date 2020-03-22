@@ -20,9 +20,8 @@ interface IAppearanceProps {
 const themes: ReadonlyArray<ISegmentedItem> = [
   { title: '明亮', description: 'GitHub Desktop 的預設主題' },
   {
-    title: '黑暗 (測試版)',
-    description:
-      '黑暗主題測試版仍在開發中，將可能遇到的任何問題報告給我們追蹤。',
+    title: '黑暗',
+    description: 'GitHub Desktop 也適合您的夜晚創造物',
   },
 ]
 
