@@ -164,6 +164,7 @@ export class ConfigureGitUser extends React.Component<
       author,
       author,
       [],
+      [],
       []
     )
     const emoji = new Map()
@@ -211,6 +212,7 @@ export class ConfigureGitUser extends React.Component<
             gitHubUsers={null}
             gitHubRepository={null}
             isLocal={false}
+            showUnpushedIndicator={false}
           />
         </div>
       </div>

@@ -331,7 +331,7 @@ export function buildDefaultMenu({
         label: __DARWIN__
           ? '在 GitHub 上建立論題'
           : '在 GitHub 上建立論題(&I)',
-        accelerator: 'CmdOrCtrl+Shift+I',
+        accelerator: 'CmdOrCtrl+I',
         click: emit('create-issue-in-repository-on-github'),
         visible: enableCreateGitHubIssueFromMenu(),
       },

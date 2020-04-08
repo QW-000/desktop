@@ -106,6 +106,7 @@ import {
   IRepositoryState,
   ChangesSelectionKind,
   ChangesWorkingDirectorySelection,
+  IDivergingBranchBannerState,
 } from '../app-state'
 import { IGitHubUser } from '../databases/github-user-database'
 import {
@@ -253,7 +254,7 @@ import {
 } from '../../models/uncommitted-changes-strategy'
 import { IStashEntry, StashedChangesLoadStates } from '../../models/stash-entry'
 import { RebaseFlowStep, RebaseStep } from '../../models/rebase-flow-step'
-import { arrayEquals } from '../equality'
+import { arrayEquals, shallowEquals } from '../equality'
 import { MenuLabelsEvent } from '../../models/menu-labels'
 import { findRemoteBranchName } from './helpers/find-branch-name'
 import { updateRemoteUrl } from './updates/update-remote-url'
@@ -265,6 +266,7 @@ import {
 } from '../../models/tutorial-step'
 import { OnboardingTutorialAssessor } from './helpers/tutorial-assessor'
 import { getUntrackedFiles } from '../status'
+import { enableProgressBarOnIcon } from '../feature-flag'
 import { isBranchPushable } from '../helpers/push-control'
 import {
   findAssociatedPullRequest,
@@ -1024,20 +1026,19 @@ export class AppStore extends TypedBaseStore<IAppState> {
         ? cachedDefaultBranch
         : null
 
+    const aheadBehindUpdater = this.currentAheadBehindUpdater
     let inferredBranch: Branch | null = null
     let aheadBehindOfInferredBranch: IAheadBehind | null = null
-    if (tip.kind === TipState.Valid && compareState.aheadBehindCache !== null) {
+    if (tip.kind === TipState.Valid && aheadBehindUpdater !== null) {
       inferredBranch = await inferComparisonBranch(
         repository,
         allBranches,
         currentPullRequest,
-        tip.branch,
-        getRemotes,
-        compareState.aheadBehindCache
+        getRemotes
       )
 
       if (inferredBranch !== null) {
-        aheadBehindOfInferredBranch = compareState.aheadBehindCache.get(
+        aheadBehindOfInferredBranch = await aheadBehindUpdater.executeAsyncTask(
           tip.branch.tip.sha,
           inferredBranch.tip.sha
         )
@@ -1054,8 +1055,11 @@ export class AppStore extends TypedBaseStore<IAppState> {
       },
     }))
 
+    let currentCount = 0
+    let countChanged = false
+
     if (inferredBranch !== null) {
-      const currentCount = getBehindOrDefault(aheadBehindOfInferredBranch)
+      currentCount = getBehindOrDefault(aheadBehindOfInferredBranch)
 
       const prevInferredBranchState =
         state.compareState.inferredComparisonBranch
@@ -1064,12 +1068,29 @@ export class AppStore extends TypedBaseStore<IAppState> {
         prevInferredBranchState.aheadBehind
       )
 
-      // we only want to show the banner when the the number
-      // commits behind has changed since the last it was visible
-      const countChanged = currentCount > 0 && previousCount !== currentCount
-      this._setDivergingBranchBannerVisibility(repository, countChanged)
+      countChanged = currentCount > 0 && previousCount !== currentCount
+    }
+
+    if (countChanged) {
+      // If the number of commits between the inferred branch and the current branch
+      // has changed, show both the prompt and the nudge and reset the dismiss state.
+      this._updateDivergingBranchBannerState(repository, {
+        isPromptVisible: true,
+        isNudgeVisible: true,
+        isPromptDismissed: false,
+      })
+    } else if (currentCount > 0) {
+      // If there's any commit between the inferred branch and the current branch
+      // make the prompt visible.
+      this._updateDivergingBranchBannerState(repository, {
+        isPromptVisible: true,
+      })
     } else {
-      this._setDivergingBranchBannerVisibility(repository, false)
+      // Hide both the prompt and the nudge.
+      this._updateDivergingBranchBannerState(repository, {
+        isPromptVisible: false,
+        isNudgeVisible: false,
+      })
     }
 
     const cachedState = compareState.formState
@@ -3452,7 +3473,13 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.repositoryStateCache.update(repository, () => ({
       pushPullFetchProgress,
     }))
-
+    if (enableProgressBarOnIcon()) {
+      if (pushPullFetchProgress !== null) {
+        remote.getCurrentWindow().setProgressBar(pushPullFetchProgress.value)
+      } else {
+        remote.getCurrentWindow().setProgressBar(0)
+      }
+    }
     if (this.selectedRepository === repository) {
       this.emitUpdate()
     }
@@ -4605,24 +4632,29 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.emitUpdate()
   }
 
-  public _setDivergingBranchBannerVisibility(
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public _updateDivergingBranchBannerState(
     repository: Repository,
-    visible: boolean
+    divergingBranchBannerState: Partial<IDivergingBranchBannerState>
   ) {
-    const state = this.repositoryStateCache.get(repository)
-    const { compareState } = state
+    const currentBannerState = this.repositoryStateCache.get(repository)
+      .compareState.divergingBranchBannerState
 
-    if (compareState.isDivergingBranchBannerVisible !== visible) {
-      this.repositoryStateCache.updateCompareState(repository, () => ({
-        isDivergingBranchBannerVisible: visible,
-      }))
-
-      if (visible) {
-        this.statsStore.recordDivergingBranchBannerDisplayed()
-      }
-
-      this.emitUpdate()
+    const newBannerState = {
+      ...currentBannerState,
+      ...divergingBranchBannerState,
     }
+
+    // If none of the flags changed, we can skip updating the state.
+    if (shallowEquals(currentBannerState, newBannerState)) {
+      return
+    }
+
+    this.repositoryStateCache.updateCompareState(repository, () => ({
+      divergingBranchBannerState: newBannerState,
+    }))
+
+    this.emitUpdate()
   }
 
   public _reportStats() {

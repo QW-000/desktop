@@ -12,6 +12,7 @@
 
   .branches-list {
     width: 350px;
+    min-height: 0;
   }
 }
 
@@ -108,6 +109,10 @@
     .ci-status {
       margin-right: var(--spacing-half);
     }
+  }
+
+  .filter-list-group-header {
+    @include ellipsis;
   }
 }
 

@@ -21,6 +21,11 @@ function enableDevelopmentFeatures(): boolean {
   return false
 }
 
+/** Should we show progress bars on the Windows app taskbar icon? */
+export function enableProgressBarOnIcon(): boolean {
+  return enableBetaFeatures()
+}
+
 /** Should the app enable beta features? */
 //@ts-ignore: this will be used again in the future
 function enableBetaFeatures(): boolean {
@@ -123,7 +128,7 @@ export function enableCreateForkFlow(): boolean {
  * CRL distribution points and/or an offiline revocation server.
  */
 export function enableSchannelCheckRevokeOptOut(): boolean {
-  return enableBetaFeatures()
+  return true
 }
 
 /**
@@ -131,7 +136,7 @@ export function enableSchannelCheckRevokeOptOut(): boolean {
  * system-configured proxy url and passing that to Git.
  */
 export function enableAutomaticGitProxyConfiguration(): boolean {
-  return enableBetaFeatures()
+  return true
 }
 
 /**
@@ -139,19 +144,37 @@ export function enableAutomaticGitProxyConfiguration(): boolean {
  * "Repository" in the app menu?
  */
 export function enableCreateGitHubIssueFromMenu(): boolean {
-  return enableBetaFeatures()
+  return true
 }
 
 /**
  * Should we update remote url if it has changed?
  */
 export function enableUpdateRemoteUrl(): boolean {
-  return enableBetaFeatures()
+  return true
 }
+
 /**
  * Should we show the fork-specific, "branch from the upstream
  * default branch" version of the create branch dialog?
  */
 export function enableForkyCreateBranchUI(): boolean {
+  return true
+}
+
+/**
+ * Should we show the NDDB banner?
+ *
+ * (It's a notification in the history sidebar that there
+ * are new commits upstream.)
+ */
+export function enableNDDBBanner(): boolean {
   return enableBetaFeatures()
+}
+
+/**
+ * Should we show the git tag information in the app UI?
+ */
+export function enableGitTagsDisplay(): boolean {
+  return enableDevelopmentFeatures()
 }
