@@ -102,7 +102,7 @@ export class CommitListItem extends React.Component<
       <div className="unpushed-indicator-container">
         <div
           className="unpushed-indicator"
-          title="This commit hasn't been pushed to the remote repository yet"
+          title="此提交尚未推送到遠端存儲庫"
         >
           <Octicon symbol={OcticonSymbol.arrowUp} />
         </div>

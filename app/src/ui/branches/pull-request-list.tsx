@@ -181,7 +181,7 @@ export class PullRequestList extends React.Component<
 
     this.props.dispatcher.closeFoldout(FoldoutType.Branch)
     const timer = startTimer(
-      'checkout pull request from list',
+      '從清單中簽出拉取請求',
       this.props.repository
     )
     this.props.dispatcher
@@ -208,7 +208,7 @@ export class PullRequestList extends React.Component<
   private renderListHeader = () => {
     return (
       <div className="filter-list-group-header">
-        Pull requests in {this.getRepositoryName()}
+        在 {this.getRepositoryName()} 中拉取請求
       </div>
     )
   }
@@ -222,7 +222,7 @@ export class PullRequestList extends React.Component<
       <Button
         disabled={this.props.isLoadingPullRequests}
         onClick={this.onRefreshPullRequests}
-        tooltip="Refresh the list of pull requests"
+        tooltip="更新拉取請求清單"
       >
         <Octicon
           symbol={OcticonSymbol.sync}
