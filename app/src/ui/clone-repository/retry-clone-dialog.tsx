@@ -28,7 +28,7 @@ export class RetryCloneDialog extends React.Component<IRetryCloneProps> {
     return (
       <Dialog
         id="clone-failed"
-        title={__DARWIN__ ? 'Retry Clone' : 'Retry clone'}
+        title={__DARWIN__ ? 'Retry Clone' : '重試克隆'}
         type="error"
         onDismissed={this.props.onDismissed}
         onSubmit={this.cloneAgain}
@@ -39,7 +39,7 @@ export class RetryCloneDialog extends React.Component<IRetryCloneProps> {
 
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={__DARWIN__ ? 'Retry Clone' : 'Retry clone'}
+            okButtonText={__DARWIN__ ? 'Retry Clone' : '重試克隆'}
           />
         </DialogFooter>
       </Dialog>
@@ -50,8 +50,8 @@ export class RetryCloneDialog extends React.Component<IRetryCloneProps> {
     if (this.props.errorMessage.length === 0) {
       return (
         <p>
-          Cloning failed to complete. You can attempt to retry to clone
-          <em>{this.props.repository.name}</em> or dismiss this warning.
+          克隆無法完成。 您可以嘗試重試克隆
+          <em>{this.props.repository.name}</em> 或忽略此警告。
         </p>
       )
     }
@@ -60,7 +60,7 @@ export class RetryCloneDialog extends React.Component<IRetryCloneProps> {
       <div>
         {this.props.errorMessage}
         <p>
-          Would you like to retry cloning{' '}
+          您想重試克隆{' '}
           <Ref>{this.props.repository.name}</Ref>?
         </p>
       </div>

@@ -129,13 +129,13 @@ export class CommitList extends React.Component<ICommitListProps, {}> {
     numUnpushedTags: number
   ) {
     if (isLocalCommit) {
-      return 'This commit has not been pushed to the remote repository'
+      return '此提交尚未推送到遠端存儲庫'
     }
 
     if (numUnpushedTags > 0) {
-      return `This commit has ${numUnpushedTags} tag${
+      return `此提交具有 ${numUnpushedTags} tag${
         numUnpushedTags > 1 ? 's' : ''
-      } to push`
+      } 推送`
     }
 
     return undefined

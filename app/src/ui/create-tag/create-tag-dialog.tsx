@@ -60,7 +60,7 @@ export class CreateTag extends React.Component<
     return (
       <Dialog
         id="create-tag"
-        title={__DARWIN__ ? 'Create a Tag' : 'Create a tag'}
+        title={__DARWIN__ ? 'Create a Tag' : '建立一個標籤'}
         onSubmit={this.createTag}
         onDismissed={this.props.onDismissed}
         loading={this.state.isCreatingTag}
@@ -71,7 +71,7 @@ export class CreateTag extends React.Component<
         <DialogContent>
           <Row>
             <TextBox
-              label="Name"
+              label="名稱"
               value={this.state.proposedName}
               autoFocus={true}
               onValueChanged={this.updateTagName}
@@ -83,7 +83,7 @@ export class CreateTag extends React.Component<
 
         <DialogFooter>
           <OkCancelButtonGroup
-            okButtonText={__DARWIN__ ? 'Create Tag' : 'Create tag'}
+            okButtonText={__DARWIN__ ? 'Create Tag' : '建立標籤'}
             okButtonDisabled={disabled}
           />
         </DialogFooter>
@@ -99,7 +99,7 @@ export class CreateTag extends React.Component<
         <Row className="warning-helper-text">
           <Octicon symbol={OcticonSymbol.alert} />
           <p>
-            Will be created as <Ref>{sanitizedName}</Ref>.
+            將建立為 <Ref>{sanitizedName}</Ref>。
           </p>
         </Row>
       )
@@ -113,7 +113,7 @@ export class CreateTag extends React.Component<
 
     if (sanitizedName.length > MaxTagNameLength) {
       return (
-        <>The tag name cannot be longer than {MaxTagNameLength} characters</>
+        <>標籤名稱不能超過 {MaxTagNameLength} 個字元</>
       )
     }
 
@@ -128,7 +128,7 @@ export class CreateTag extends React.Component<
     if (alreadyExists) {
       return (
         <>
-          A tag named <Ref>{sanitizedName}</Ref> already exists
+          名為 <Ref>{sanitizedName}</Ref> 的標籤已存在
         </>
       )
     }
