@@ -328,6 +328,13 @@ export class Dispatcher {
     return this.appStore._refreshOrRecoverRepository(repository)
   }
 
+  /**
+   * Refreshes the list of local tags. This would be used, e.g., when the app gains focus.
+   */
+  public refreshTags(repository: Repository): Promise<void> {
+    return this.appStore._refreshTags(repository)
+  }
+
   /** Show the popup. This will close any current popup. */
   public showPopup(popup: Popup): Promise<void> {
     return this.appStore._showPopup(popup)
@@ -486,6 +493,35 @@ export class Dispatcher {
       uncommittedChangesStrategy,
       noTrackOption
     )
+  }
+
+  /**
+   * Create a new tag on the given target commit.
+   */
+  public createTag(
+    repository: Repository,
+    name: string,
+    targetCommitSha: string
+  ): Promise<void> {
+    return this.appStore._createTag(repository, name, targetCommitSha)
+  }
+
+  /**
+   * Show the tag creation dialog.
+   */
+  public showCreateTagDialog(
+    repository: Repository,
+    targetCommitSha: string,
+    localTags: Map<string, string> | null,
+    initialName?: string
+  ): Promise<void> {
+    return this.showPopup({
+      type: PopupType.CreateTag,
+      repository,
+      targetCommitSha,
+      initialName,
+      localTags,
+    })
   }
 
   /** Check out the given branch. */

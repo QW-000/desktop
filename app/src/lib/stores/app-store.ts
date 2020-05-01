@@ -276,6 +276,7 @@ import { parseRemote } from '../../lib/remote-parsing'
 import { createTutorialRepository } from './helpers/create-tutorial-repository'
 import { sendNonFatalException } from '../helpers/non-fatal-exception'
 import { getDefaultDir } from '../../ui/lib/default-dir'
+import { clearTagsToPushCache } from './helpers/fetch-tags-to-push-memoized'
 
 const LastSelectedRepositoryIDKey = 'last-selected-repository-id'
 
@@ -434,6 +435,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
     this.gitStoreCache = new GitStoreCache(
       shell,
+      this.statsStore,
       (repo, store) => this.onGitStoreUpdated(repo, store),
       (repo, commits) => this.loadAndCacheUsers(repo, this.accounts, commits),
       error => this.emitError(error)
@@ -831,7 +833,9 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.repositoryStateCache.update(repository, () => ({
       commitLookup: gitStore.commitLookup,
       localCommitSHAs: gitStore.localCommitSHAs,
+      localTags: gitStore.localTags,
       aheadBehind: gitStore.aheadBehind,
+      tagsToPush: gitStore.tagsToPush,
       remote: gitStore.currentRemote,
       lastFetched: gitStore.lastFetched,
     }))
@@ -1548,6 +1552,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     repository: Repository,
     previouslySelectedRepository: Repository | CloningRepository | null
   ): Promise<Repository | null> {
+    await this._refreshTags(repository)
     this._refreshRepository(repository)
 
     if (isRepositoryWithGitHubRepository(repository)) {
@@ -2707,6 +2712,13 @@ export class AppStore extends TypedBaseStore<IAppState> {
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _refreshTags(repository: Repository): Promise<void> {
+    const gitStore = this.gitStoreCache.get(repository)
+
+    return gitStore.refreshTags()
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
   public async _refreshRepository(repository: Repository): Promise<void> {
     if (repository.missing) {
       return
@@ -2772,6 +2784,10 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this._initializeCompare(repository)
 
     this.updateCurrentTutorialStep(repository)
+
+    this.withAuthenticatingUser(repository, (_, account) =>
+      gitStore.fetchTagsToPush(account)
+    )
   }
 
   private async updateStashEntryCountMetric(
@@ -3058,6 +3074,22 @@ export class AppStore extends TypedBaseStore<IAppState> {
     )
     this._closePopup()
     return repo
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _createTag(
+    repository: Repository,
+    name: string,
+    targetCommitSha: string
+  ): Promise<void> {
+    const gitStore = this.gitStoreCache.get(repository)
+
+    await this.withAuthenticatingUser(repository, (_, account) =>
+      gitStore.createTag(account, name, targetCommitSha)
+    )
+    this.statsStore.recordTagCreatedInDesktop()
+
+    this._closePopup()
   }
 
   private updateCheckoutProgress(
@@ -3477,7 +3509,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       if (pushPullFetchProgress !== null) {
         remote.getCurrentWindow().setProgressBar(pushPullFetchProgress.value)
       } else {
-        remote.getCurrentWindow().setProgressBar(0)
+        remote.getCurrentWindow().setProgressBar(-1)
       }
     }
     if (this.selectedRepository === repository) {
@@ -3510,7 +3542,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       return
     }
 
-    return this.withPushPullFetch(repository, async () => {
+    return this.withPushPullFetch(repository, account, async () => {
       const { tip } = state.branchesState
 
       if (tip.kind === TipState.Unborn) {
@@ -3698,6 +3730,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
   private async withPushPullFetch(
     repository: Repository,
+    account: IGitAccount | null,
     fn: () => Promise<void>
   ): Promise<void> {
     const state = this.repositoryStateCache.get(repository)
@@ -3705,6 +3738,10 @@ export class AppStore extends TypedBaseStore<IAppState> {
     if (state.isPushPullFetchInProgress) {
       return
     }
+
+    // Clear the cache to make sure that the tags to push information
+    // is refetched after a push/pull.
+    clearTagsToPushCache(this.gitStoreCache.get(repository).currentRemote)
 
     this.repositoryStateCache.update(repository, () => ({
       isPushPullFetchInProgress: true,
@@ -3732,7 +3769,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     repository: Repository,
     account: IGitAccount | null
   ): Promise<void> {
-    return this.withPushPullFetch(repository, async () => {
+    return this.withPushPullFetch(repository, account, async () => {
       const gitStore = this.gitStoreCache.get(repository)
       const remote = gitStore.currentRemote
 
@@ -3837,6 +3874,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
           // any new branch will immediately report as protected
           await this.refreshBranchProtectionState(repository)
 
+          await this._refreshTags(repository)
           await this._refreshRepository(repository)
 
           this.updatePushPullFetchProgress(repository, {
@@ -4029,6 +4067,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         const gitStore = this.gitStoreCache.get(repository)
         await gitStore.fetchRefspec(account, refspec)
 
+        await this._refreshTags(repository)
         return this._refreshRepository(repository)
       }
     )
@@ -4077,7 +4116,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     fetchType: FetchType,
     remotes?: IRemote[]
   ): Promise<void> {
-    await this.withPushPullFetch(repository, async () => {
+    await this.withPushPullFetch(repository, account, async () => {
       const gitStore = this.gitStoreCache.get(repository)
 
       try {
@@ -4117,6 +4156,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         // any new branch will immediately report as protected
         await this.refreshBranchProtectionState(repository)
 
+        await this._refreshTags(repository)
         await this._refreshRepository(repository)
 
         this.updatePushPullFetchProgress(repository, {

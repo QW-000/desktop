@@ -10,6 +10,7 @@ import { ICommitContext } from './commit'
 import { IStashEntry } from './stash-entry'
 import { Account } from '../models/account'
 import { Progress } from './progress'
+import { CloningRepository } from './cloning-repository'
 
 export enum PopupType {
   RenameBranch = 1,
@@ -57,6 +58,10 @@ export enum PopupType {
   SAMLReauthRequired,
   CreateFork,
   SChannelNoRevocationCheck,
+  CreateTag,
+  LocalChangesOverwritten,
+  RebaseConflicts,
+  RetryClone,
 }
 
 export type Popup =
@@ -225,4 +230,17 @@ export type Popup =
   | {
       type: PopupType.SChannelNoRevocationCheck
       url: string
+    }
+  | {
+      type: PopupType.CreateTag
+      repository: Repository
+      targetCommitSha: string
+      initialName?: string
+      localTags: Map<string, string> | null
+    }
+  | {
+      type: PopupType.RetryClone
+      repository: Repository | CloningRepository
+      retryAction: RetryAction
+      errorMessage: string
     }

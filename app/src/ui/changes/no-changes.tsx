@@ -319,7 +319,12 @@ export class NoChanges extends React.Component<
     this.props.dispatcher.recordSuggestedStepOpenInExternalEditor()
 
   private renderRemoteAction() {
-    const { remote, aheadBehind, branchesState } = this.props.repositoryState
+    const {
+      remote,
+      aheadBehind,
+      branchesState,
+      tagsToPush,
+    } = this.props.repositoryState
     const { tip, defaultBranch, currentPullRequest } = branchesState
 
     if (tip.kind !== TipState.Valid) {
@@ -347,8 +352,11 @@ export class NoChanges extends React.Component<
       return this.renderPullBranchAction(tip, remote, aheadBehind)
     }
 
-    if (aheadBehind.ahead > 0) {
-      return this.renderPushBranchAction(tip, remote, aheadBehind)
+    if (
+      aheadBehind.ahead > 0 ||
+      (tagsToPush !== null && tagsToPush.length > 0)
+    ) {
+      return this.renderPushBranchAction(tip, remote, aheadBehind, tagsToPush)
     }
 
     if (enableNoChangesCreatePRBlankslateAction()) {
@@ -561,7 +569,8 @@ export class NoChanges extends React.Component<
   private renderPushBranchAction(
     tip: IValidBranch,
     remote: IRemote,
-    aheadBehind: IAheadBehind
+    aheadBehind: IAheadBehind,
+    tagsToPush: ReadonlyArray<string> | null
   ) {
     const itemId: MenuIDs = 'push'
     const menuItem = this.getMenuItemInfo(itemId)
@@ -573,12 +582,28 @@ export class NoChanges extends React.Component<
 
     const isGitHub = this.props.repository.gitHubRepository !== null
 
-    const description = (
-      <>
-        你有{' '}
-        {aheadBehind.ahead === 1 ? '一項本機提交' : '本機提交'} 等待被推到 {isGitHub ? 'GitHub' : '遠端'}。
-      </>
-    )
+    const itemsToPushTypes = []
+    const itemsToPushDescriptions = []
+
+    if (aheadBehind.ahead > 0) {
+      itemsToPushTypes.push('commits')
+      itemsToPushDescriptions.push(
+        aheadBehind.ahead === 1
+          ? '1 項本機提交'
+          : `${aheadBehind.ahead} 本機提交`
+      )
+    }
+
+    if (tagsToPush !== null && tagsToPush.length > 0) {
+      itemsToPushTypes.push('tags')
+      itemsToPushDescriptions.push(
+        tagsToPush.length === 1 ? '1 tag' : `${tagsToPush.length} tags`
+      )
+    }
+
+    const description = `你有 ${itemsToPushDescriptions.join(
+      ' 與 '
+    )} 等待被推到 ${isGitHub ? 'GitHub' : '遠端'}。`
 
     const discoverabilityContent = (
       <>
@@ -586,9 +611,9 @@ export class NoChanges extends React.Component<
       </>
     )
 
-    const title = `推送 ${aheadBehind.ahead} ${
-      aheadBehind.ahead === 1 ? '提交' : '提交'
-    } 到 ${remote.name} 遠端`
+    const title = `推送 ${itemsToPushTypes.join(' 與 ')} 到 ${
+      remote.name
+    } 遠端`
 
     const buttonText = `推送 ${remote.name}`
 

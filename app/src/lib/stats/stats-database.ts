@@ -346,6 +346,16 @@ export interface IDailyMeasures {
    * How many times has the user begun creating an issue from Desktop?
    */
   readonly issueCreationWebpageOpenedCount: number
+
+  /**
+   * How many tags have been created from the Desktop UI?
+   */
+  readonly tagsCreatedInDesktop: number
+
+  /**
+   * How many tags have been created in total.
+   */
+  readonly tagsCreated: number
 }
 
 export class StatsDatabase extends Dexie {
