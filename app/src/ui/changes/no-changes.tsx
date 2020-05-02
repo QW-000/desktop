@@ -586,7 +586,7 @@ export class NoChanges extends React.Component<
     const itemsToPushDescriptions = []
 
     if (aheadBehind.ahead > 0) {
-      itemsToPushTypes.push('commits')
+      itemsToPushTypes.push('提交')
       itemsToPushDescriptions.push(
         aheadBehind.ahead === 1
           ? '1 項本機提交'
@@ -595,9 +595,9 @@ export class NoChanges extends React.Component<
     }
 
     if (tagsToPush !== null && tagsToPush.length > 0) {
-      itemsToPushTypes.push('tags')
+      itemsToPushTypes.push('標籤')
       itemsToPushDescriptions.push(
-        tagsToPush.length === 1 ? '1 tag' : `${tagsToPush.length} tags`
+        tagsToPush.length === 1 ? '1 標籤' : `${tagsToPush.length} 標籤`
       )
     }
 
