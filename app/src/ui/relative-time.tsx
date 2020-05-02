@@ -4,7 +4,7 @@ import 'moment/locale/zh-TW'
 
 console.log(moment.locale());
 moment.locale('zh-TW');
-const momentDurationFormatSetup = require('moment-duration-format')
+const momentDurationFormatSetup = require('moment')
 
 // setup moment plugin
 momentDurationFormatSetup(moment)
@@ -90,7 +90,7 @@ export class RelativeTime extends React.Component<
     const duration = Math.abs(diff)
     const absoluteText = then.format('LLLL')
     const relativeText =
-      this.props.abbreviate === true
+      this.props.abbreviate === false
         ? moment
             .duration(duration, 'milliseconds')
             .format('y[年] M[月] w[週] d[天] h[小時] m[分鐘]', {
