@@ -482,7 +482,7 @@ export class TextDiff extends React.Component<ITextDiffProps, {}> {
 
     const items = [
       {
-        label: 'Copy',
+        label: '複製',
         action,
         enabled: this.onCopy && isTextSelected,
       },

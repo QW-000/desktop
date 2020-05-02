@@ -93,7 +93,7 @@ export class RelativeTime extends React.Component<
       this.props.abbreviate === true
         ? moment
             .duration(duration, 'milliseconds')
-            .format('y[y] M[m] w[w] d[d] h[h] m[m]', {
+            .format('y[年] M[月] w[週] d[天] h[小時] m[分鐘]', {
               largest: 1,
             })
         : then.from(now)
