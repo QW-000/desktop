@@ -1,6 +1,10 @@
 import * as React from 'react'
 import { WelcomeStep } from './welcome'
 import { LinkButton } from '../lib/link-button'
+import { Dispatcher } from '../dispatcher'
+import { Octicon, OcticonSymbol } from '../octicons'
+import { Button } from '../lib/button'
+import { Loading } from '../lib/loading'
 
 /**
  * The URL to the sign-up page on GitHub.com. Used in conjunction
@@ -11,6 +15,8 @@ export const CreateAccountURL = 'https://github.com/join?source=github-desktop'
 
 interface IStartProps {
   readonly advance: (step: WelcomeStep) => void
+  readonly dispatcher: Dispatcher
+  readonly loadingBrowserAuth: boolean
 }
 
 /** The first step of the Welcome flow. */
@@ -26,25 +32,34 @@ export class Start extends React.Component<IStartProps, {}> {
 
         <p className="welcome-text">
           新的 GitHub?{' '}
-          <LinkButton uri={CreateAccountURL}>
+          <LinkButton uri={CreateAccountURL} className="create-account-link">
             建立免費帳戶。
           </LinkButton>
         </p>
 
-        <hr className="short-rule" />
-
-        <div>
-          <LinkButton className="welcome-button" onClick={this.signInToDotCom}>
+        <div className="welcome-main-buttons">
+          <Button
+            type="submit"
+            className="button-with-icon"
+            disabled={this.props.loadingBrowserAuth}
+            onClick={this.signInWithBrowser}
+          >
+            {this.props.loadingBrowserAuth && <Loading />}
             登入 GitHub.com
-          </LinkButton>
+            <Octicon symbol={OcticonSymbol.linkExternal} />
+          </Button>
+          {this.props.loadingBrowserAuth ? (
+            <Button onClick={this.cancelBrowserAuth}>取消</Button>
+          ) : (
+            <Button onClick={this.signInToEnterprise}>
+              登入 GitHub Enterprise 伺服器
+            </Button>
+          )}
         </div>
 
         <div>
-          <LinkButton
-            className="welcome-button"
-            onClick={this.signInToEnterprise}
-          >
-            登入 GitHub Enterprise 伺服器
+          <LinkButton onClick={this.signInToDotCom} className="basic-auth-link">
+            使用您的用戶名和密碼登入 GitHub.com
           </LinkButton>
         </div>
 
@@ -55,6 +70,19 @@ export class Start extends React.Component<IStartProps, {}> {
         </div>
       </div>
     )
+  }
+
+  private signInWithBrowser = (event?: React.MouseEvent<HTMLButtonElement>) => {
+    if (event) {
+      event.preventDefault()
+    }
+
+    this.props.advance(WelcomeStep.SignInToDotComWithBrowser)
+    this.props.dispatcher.requestBrowserAuthenticationToDotcom()
+  }
+
+  private cancelBrowserAuth = () => {
+    this.props.advance(WelcomeStep.Start)
   }
 
   private signInToDotCom = () => {

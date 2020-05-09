@@ -17,6 +17,7 @@ import { Dialog, DialogError, DialogContent, DialogFooter } from '../dialog'
 import { getWelcomeMessage } from '../../lib/2fa'
 import { getDotComAPIEndpoint } from '../../lib/api'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
+import { Button } from '../lib/button'
 
 interface ISignInProps {
   readonly dispatcher: Dispatcher
@@ -110,7 +111,11 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
     this.setState({ otpToken })
   }
 
-  private onSignInWithBrowser = () => {
+  private onSignInWithBrowser = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+
     this.props.dispatcher.requestBrowserAuthentication()
   }
 
@@ -206,6 +211,22 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
 
     return (
       <DialogContent>
+        <Row className="sign-in-with-browser">
+          <Button
+            className="button-with-icon"
+            type="submit"
+            onClick={this.onSignInWithBrowser}
+            disabled={disableSubmit}
+          >
+            使用您的瀏覽器登入
+            <Octicon symbol={OcticonSymbol.linkExternal} />
+          </Button>
+        </Row>
+
+        <div className="horizontal-rule">
+          <span className="horizontal-rule-content">or</span>
+        </div>
+
         <Row>
           <TextBox
             label="用戶名稱或電子郵件地址"
@@ -227,21 +248,6 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
             uri={state.forgotPasswordUrl}
           >
             忘記密碼?
-          </LinkButton>
-        </Row>
-
-        <div className="horizontal-rule">
-          <span className="horizontal-rule-content">或</span>
-        </div>
-
-        <Row className="sign-in-with-browser">
-          <LinkButton
-            className="link-with-icon"
-            onClick={this.onSignInWithBrowser}
-            disabled={disableSubmit}
-          >
-            使用您的瀏覽器登入
-            <Octicon symbol={OcticonSymbol.linkExternal} />
           </LinkButton>
         </Row>
       </DialogContent>
