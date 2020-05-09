@@ -366,7 +366,7 @@ export class CommitSummary extends React.Component<
                 title={filesDescription}
               >
                 <Checkbox
-                  label="Hide Whitespace"
+                  label="隱藏空格"
                   value={
                     this.props.hideWhitespaceInDiff
                       ? CheckboxValue.On
