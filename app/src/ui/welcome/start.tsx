@@ -5,6 +5,7 @@ import { Dispatcher } from '../dispatcher'
 import { Octicon, OcticonSymbol } from '../octicons'
 import { Button } from '../lib/button'
 import { Loading } from '../lib/loading'
+import { BrowserRedirectMessage } from '../lib/authentication-form'
 
 /**
  * The URL to the sign-up page on GitHub.com. Used in conjunction
@@ -25,17 +26,25 @@ export class Start extends React.Component<IStartProps, {}> {
     return (
       <div id="start">
         <h1 className="welcome-title">歡迎使用 GitHub&nbsp;Desktop</h1>
-        <p className="welcome-text">
-          GitHub Desktop 是一種在 GitHub 上為項目做貢獻的無縫方式
-             與 GitHub Enterprise 伺服器。 在下方登入可以開始使用您的項目。
-        </p>
-
-        <p className="welcome-text">
-          新的 GitHub?{' '}
-          <LinkButton uri={CreateAccountURL} className="create-account-link">
-            建立免費帳戶。
-          </LinkButton>
-        </p>
+        {!this.props.loadingBrowserAuth ? (
+          <>
+            <p className="welcome-text">
+            GitHub Desktop 是一種在 GitHub 上為項目做貢獻的無縫方式
+               與 GitHub Enterprise 伺服器。 在下方登入可以開始使用您的項目。
+            </p>
+            <p className="welcome-text">
+              新的 GitHub?{' '}
+              <LinkButton
+                uri={CreateAccountURL}
+                className="create-account-link"
+              >
+                建立免費帳戶。
+              </LinkButton>
+            </p>
+          </>
+        ) : (
+          <p>{BrowserRedirectMessage}</p>
+        )}
 
         <div className="welcome-main-buttons">
           <Button
@@ -56,12 +65,17 @@ export class Start extends React.Component<IStartProps, {}> {
             </Button>
           )}
         </div>
-
-        <div>
-          <LinkButton onClick={this.signInToDotCom} className="basic-auth-link">
-            使用您的用戶名和密碼登入 GitHub.com
-          </LinkButton>
-        </div>
+        {/* don't render this link if the user is already mid-browser sign in */}
+        {!this.props.loadingBrowserAuth && (
+          <div>
+            <LinkButton
+              onClick={this.signInToDotCom}
+              className="basic-auth-link"
+            >
+              使用您的用戶名和密碼登入 GitHub.com
+            </LinkButton>
+          </div>
+        )}
 
         <div className="skip-action-container">
           <LinkButton className="skip-button" onClick={this.skip}>
