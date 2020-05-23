@@ -90,7 +90,7 @@ require('wicg-focus-ring')
 
 // setup this moment.js plugin so we can use easier
 // syntax for formatting time duration
-const momentDurationFormatSetup = require('moment-duration-format')
+const momentDurationFormatSetup = require('moment')
 momentDurationFormatSetup(moment)
 
 const startTime = performance.now()
