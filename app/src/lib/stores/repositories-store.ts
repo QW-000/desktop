@@ -13,7 +13,6 @@ import { Repository } from '../../models/repository'
 import { fatalError } from '../fatal-error'
 import { IAPIRepository, IAPIBranch, IAPIRepositoryPermissions } from '../api'
 import { TypedBaseStore } from './base-store'
-import { enableBranchProtectionChecks } from '../feature-flag'
 
 /** The store for local repositories. */
 export class RepositoriesStore extends TypedBaseStore<
@@ -133,6 +132,7 @@ export class RepositoriesStore extends TypedBaseStore<
             repo.id!,
             gitHubRepository,
             repo.missing,
+            repo.workflowPreferences,
             repo.isTutorialRepository
           )
           inflatedRepos.push(inflatedRepo)
@@ -261,6 +261,7 @@ export class RepositoriesStore extends TypedBaseStore<
       repository.id,
       repository.gitHubRepository,
       missing,
+      repository.workflowPreferences,
       repository.isTutorialRepository
     )
   }
@@ -289,6 +290,7 @@ export class RepositoriesStore extends TypedBaseStore<
       repository.id,
       repository.gitHubRepository,
       false,
+      repository.workflowPreferences,
       repository.isTutorialRepository
     )
   }
@@ -480,6 +482,7 @@ export class RepositoriesStore extends TypedBaseStore<
       repository.id,
       updatedGitHubRepo,
       repository.missing,
+      repository.workflowPreferences,
       repository.isTutorialRepository
     )
   }
@@ -489,10 +492,6 @@ export class RepositoriesStore extends TypedBaseStore<
     gitHubRepository: GitHubRepository,
     protectedBranches: ReadonlyArray<IAPIBranch>
   ): Promise<void> {
-    if (!enableBranchProtectionChecks()) {
-      return
-    }
-
     const dbID = gitHubRepository.dbID
     if (!dbID) {
       return fatalError(
