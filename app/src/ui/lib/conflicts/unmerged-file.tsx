@@ -381,7 +381,7 @@ const renderResolvedFileStatusSummary: React.FunctionComponent<{
     isConflictWithMarkers(props.status) &&
     props.status.conflictMarkerCount === 0
   ) {
-    return <div className="file-conflicts-status">No conflicts remaining</div>
+    return <div className="file-conflicts-status">沒有衝突了</div>
   }
 
   const statusString = resolvedFileStatusString(
