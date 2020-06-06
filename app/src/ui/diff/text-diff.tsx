@@ -629,11 +629,11 @@ export class TextDiff extends React.Component<ITextDiffProps, {}> {
     let type = ''
 
     if (rangeType === DiffRangeType.Additions) {
-      type = __DARWIN__ ? 'Added' : 'added'
+      type = __DARWIN__ ? 'Added' : '增加'
     } else if (rangeType === DiffRangeType.Deletions) {
-      type = __DARWIN__ ? 'Removed' : 'removed'
+      type = __DARWIN__ ? 'Removed' : '刪除'
     } else if (rangeType === DiffRangeType.Mixed) {
-      type = __DARWIN__ ? 'Modified' : 'modified'
+      type = __DARWIN__ ? 'Modified' : '修改'
     } else {
       assertNever(rangeType, `Invalid range type: ${rangeType}`)
     }
@@ -641,7 +641,7 @@ export class TextDiff extends React.Component<ITextDiffProps, {}> {
     const plural = numLines > 1 ? 's' : ''
     return __DARWIN__
       ? `Discard ${type} Line${plural}`
-      : `Discard ${type} line${plural}`
+      : `丟棄 ${type} line${plural}`
   }
 
   private onCopy = (editor: Editor, event: Event) => {

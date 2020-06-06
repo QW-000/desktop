@@ -221,7 +221,7 @@ export class CommitListItem extends React.PureComponent<
       const tagName = commit.tags[0]
 
       return {
-        label: `Delete tag ${tagName}`,
+        label: `刪除標籤 ${tagName}`,
         action: () => onDeleteTag(tagName),
         enabled: unpushedTags.includes(tagName),
       }
@@ -231,7 +231,7 @@ export class CommitListItem extends React.PureComponent<
     const unpushedTagsSet = new Set(unpushedTags)
 
     return {
-      label: 'Delete tag…',
+      label: '刪除標籤…',
       submenu: commit.tags.map(tagName => {
         return {
           label: tagName,

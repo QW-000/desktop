@@ -22,7 +22,7 @@ export class ForkSettings extends React.Component<IGitIgnoreProps, {}> {
   public render() {
     return (
       <DialogContent>
-        <h2>I'll be using this fork…</h2>
+        <h2>我將使用這個分叉…</h2>
 
         <div className="radio-component">
           <input
@@ -36,7 +36,7 @@ export class ForkSettings extends React.Component<IGitIgnoreProps, {}> {
             onChange={this.onForkContributionTargetChanged}
           />
           <label htmlFor={RadioButtonId.Parent}>
-            To contribute to the parent repository
+            為上代存儲庫做出貢獻
           </label>
         </div>
         <div className="radio-component">
@@ -49,7 +49,7 @@ export class ForkSettings extends React.Component<IGitIgnoreProps, {}> {
             }
             onChange={this.onForkContributionTargetChanged}
           />
-          <label htmlFor={RadioButtonId.Self}>For my own purposes</label>
+          <label htmlFor={RadioButtonId.Self}>對於我自己的目的</label>
         </div>
 
         <ForkSettingsDescription

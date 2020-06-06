@@ -180,7 +180,7 @@ export function getNonForkGitHubRepository(
       return repository.gitHubRepository.parent
   }
 
-  return assertNever(forkContributionTarget, 'Invalid fork contribution target')
+  return assertNever(forkContributionTarget, '無效的分叉貢獻目標')
 }
 
 /**
