@@ -23,7 +23,12 @@ import { getVersion, getName } from './lib/app-proxy'
 import { getOS } from '../lib/get-os'
 import { validatedRepositoryPath } from '../lib/stores/helpers/validated-repository-path'
 import { MenuEvent } from '../main-process/menu'
-import { Repository, getGitHubHtmlUrl } from '../models/repository'
+import {
+  Repository,
+  getGitHubHtmlUrl,
+  getNonForkGitHubRepository,
+  isRepositoryWithGitHubRepository,
+} from '../models/repository'
 import { Branch } from '../models/branch'
 import { PreferencesTab } from '../models/preferences'
 import { findItemByAccessKey, itemIsSelectable } from '../models/app-menu'
@@ -112,10 +117,12 @@ import { getUncommittedChangesStrategy } from '../models/uncommitted-changes-str
 import { SAMLReauthRequiredDialog } from './saml-reauth-required/saml-reauth-required'
 import { CreateForkDialog } from './forks/create-fork-dialog'
 import { SChannelNoRevocationCheckDialog } from './schannel-no-revocation-check/schannel-no-revocation-check'
-import { findUpstreamRemoteBranch } from '../lib/branch'
+import { findDefaultUpstreamBranch } from '../lib/branch'
 import { GitHubRepository } from '../models/github-repository'
 import { CreateTag } from './create-tag'
 import { RetryCloneDialog } from './clone-repository/retry-clone-dialog'
+import { DeleteTag } from './delete-tag'
+import { ChooseForkSettings } from './choose-fork-settings'
 
 const MinuteInMilliseconds = 1000 * 60
 const HourInMilliseconds = MinuteInMilliseconds * 60
@@ -1397,7 +1404,7 @@ export class App extends React.Component<IAppProps, IAppState> {
 
         return (
           <RepositorySettings
-            key="repository-settings"
+            key={`repository-settings-${repository.hash}`}
             remote={state.remote}
             dispatcher={this.props.dispatcher}
             repository={repository}
@@ -1463,17 +1470,13 @@ export class App extends React.Component<IAppProps, IAppState> {
 
         if (
           enableForkyCreateBranchUI() &&
-          repository.gitHubRepository !== null &&
-          repository.gitHubRepository.parent !== null
+          isRepositoryWithGitHubRepository(repository)
         ) {
-          upstreamGhRepo = repository.gitHubRepository.parent
-          if (upstreamGhRepo.defaultBranch !== null) {
-            upstreamDefaultBranch =
-              findUpstreamRemoteBranch(
-                upstreamGhRepo.defaultBranch,
-                branchesState.allBranches
-              ) || null
-          }
+          upstreamGhRepo = getNonForkGitHubRepository(repository)
+          upstreamDefaultBranch = findDefaultUpstreamBranch(
+            repository,
+            branchesState.allBranches
+          )
         }
 
         return (
@@ -1946,6 +1949,17 @@ export class App extends React.Component<IAppProps, IAppState> {
           />
         )
       }
+      case PopupType.DeleteTag: {
+        return (
+          <DeleteTag
+            key="delete-tag"
+            repository={popup.repository}
+            onDismissed={this.onPopupDismissed}
+            dispatcher={this.props.dispatcher}
+            tagName={popup.tagName}
+          />
+        )
+      }
       case PopupType.RetryClone: {
         return (
           <RetryCloneDialog
@@ -1954,6 +1968,15 @@ export class App extends React.Component<IAppProps, IAppState> {
             onDismissed={this.onPopupDismissed}
             dispatcher={this.props.dispatcher}
             errorMessage={popup.errorMessage}
+          />
+        )
+      }
+      case PopupType.ChooseForkSettings: {
+        return (
+          <ChooseForkSettings
+            repository={popup.repository}
+            onDismissed={this.onPopupDismissed}
+            dispatcher={this.props.dispatcher}
           />
         )
       }
@@ -2557,6 +2580,8 @@ export class App extends React.Component<IAppProps, IAppState> {
           appMenu={state.appMenuState[0]}
           currentTutorialStep={state.currentOnboardingTutorialStep}
           onExitTutorial={this.onExitTutorial}
+          isShowingModal={this.isShowingModal}
+          isShowingFoldout={this.state.currentFoldout !== null}
         />
       )
     } else if (selectedState.type === SelectionType.CloningRepository) {

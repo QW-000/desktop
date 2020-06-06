@@ -25,6 +25,7 @@ import {
   DiffSelectionType,
   DiffType,
   ImageDiffType,
+  ITextDiff,
 } from '../../models/diff'
 import { FetchType } from '../../models/fetch'
 import {
@@ -267,7 +268,7 @@ import { parseRemote } from '../../lib/remote-parsing'
 import { createTutorialRepository } from './helpers/create-tutorial-repository'
 import { sendNonFatalException } from '../helpers/non-fatal-exception'
 import { getDefaultDir } from '../../ui/lib/default-dir'
-import { clearTagsToPushCache } from './helpers/fetch-tags-to-push-memoized'
+import { WorkflowPreferences } from '../../models/workflow-preferences'
 
 const LastSelectedRepositoryIDKey = 'last-selected-repository-id'
 
@@ -435,7 +436,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     const window = remote.getCurrentWindow()
     this.windowState = getWindowState(window)
 
-    this.onWindowZoomFactorChanged(window.webContents.getZoomFactor())
+    this.onWindowZoomFactorChanged(window.webContents.zoomFactor)
 
     this.wireupIpcEventHandlers(window)
     this.wireupStoreEventHandlers()
@@ -1538,7 +1539,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
     repository: Repository,
     previouslySelectedRepository: Repository | CloningRepository | null
   ): Promise<Repository | null> {
-    await this._refreshTags(repository)
     this._refreshRepository(repository)
 
     if (isRepositoryWithGitHubRepository(repository)) {
@@ -2188,8 +2188,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
     }))
     this.emitUpdate()
 
-    this._hideStashedChanges(repository)
-
     if (selectedSection === RepositorySectionTab.History) {
       return this.refreshHistorySection(repository)
     } else if (selectedSection === RepositorySectionTab.Changes) {
@@ -2340,6 +2338,13 @@ export class AppStore extends TypedBaseStore<IAppState> {
   }
 
   public _hideStashedChanges(repository: Repository) {
+    const { changesState } = this.repositoryStateCache.get(repository)
+
+    // makes this safe to call even when the stash ui is not visible
+    if (changesState.selection.kind !== ChangesSelectionKind.Stash) {
+      return
+    }
+
     this.repositoryStateCache.updateChangesState(repository, state => {
       const files = state.workingDirectory.files
       const selectedFileIds = files
@@ -2694,13 +2699,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
-  public async _refreshTags(repository: Repository): Promise<void> {
-    const gitStore = this.gitStoreCache.get(repository)
-
-    return gitStore.refreshTags()
-  }
-
-  /** This shouldn't be called directly. See `Dispatcher`. */
   public async _refreshRepository(repository: Repository): Promise<void> {
     if (repository.missing) {
       return
@@ -2752,6 +2750,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
       refreshSectionPromise,
     ])
 
+    await gitStore.refreshTags()
+
     // this promise is fire-and-forget, so no need to await it
     this.updateStashEntryCountMetric(
       repository,
@@ -2766,10 +2766,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this._initializeCompare(repository)
 
     this.updateCurrentTutorialStep(repository)
-
-    this.withAuthenticatingUser(repository, (_, account) =>
-      gitStore.fetchTagsToPush(account)
-    )
   }
 
   private async updateStashEntryCountMetric(
@@ -2965,12 +2961,12 @@ export class AppStore extends TypedBaseStore<IAppState> {
       return
     }
 
-    if (currentPopup.type === PopupType.CloneRepository) {
-      this._completeOpenInDesktop(() => Promise.resolve(null))
-    }
-
     if (popupType !== undefined && currentPopup.type !== popupType) {
       return
+    }
+
+    if (currentPopup.type === PopupType.CloneRepository) {
+      this._completeOpenInDesktop(() => Promise.resolve(null))
     }
 
     this.currentPopup = null
@@ -3065,12 +3061,16 @@ export class AppStore extends TypedBaseStore<IAppState> {
   ): Promise<void> {
     const gitStore = this.gitStoreCache.get(repository)
 
-    await this.withAuthenticatingUser(repository, (_, account) =>
-      gitStore.createTag(account, name, targetCommitSha)
-    )
-    this.statsStore.recordTagCreatedInDesktop()
+    await gitStore.createTag(name, targetCommitSha)
 
     this._closePopup()
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _deleteTag(repository: Repository, name: string): Promise<void> {
+    const gitStore = this.gitStoreCache.get(repository)
+
+    await gitStore.deleteTag(name)
   }
 
   private updateCheckoutProgress(
@@ -3614,6 +3614,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
               safeRemote,
               branch.name,
               branch.upstreamWithoutRemote,
+              gitStore.tagsToPush,
               options,
               progress => {
                 this.updatePushPullFetchProgress(repository, {
@@ -3623,6 +3624,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
                 })
               }
             )
+            gitStore.clearTagsToPush()
 
             await gitStore.fetchRemotes(
               account,
@@ -3716,10 +3718,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
     if (state.isPushPullFetchInProgress) {
       return
     }
-
-    // Clear the cache to make sure that the tags to push information
-    // is refetched after a push/pull.
-    clearTagsToPushCache(this.gitStoreCache.get(repository).currentRemote)
 
     this.repositoryStateCache.update(repository, () => ({
       isPushPullFetchInProgress: true,
@@ -3852,7 +3850,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
           // any new branch will immediately report as protected
           await this.refreshBranchProtectionState(repository)
 
-          await this._refreshTags(repository)
           await this._refreshRepository(repository)
 
           this.updatePushPullFetchProgress(repository, {
@@ -4009,6 +4006,18 @@ export class AppStore extends TypedBaseStore<IAppState> {
     return this._refreshRepository(repository)
   }
 
+  public async _discardChangesFromSelection(
+    repository: Repository,
+    filePath: string,
+    diff: ITextDiff,
+    selection: DiffSelection
+  ) {
+    const gitStore = this.gitStoreCache.get(repository)
+    await gitStore.discardChangesFromSelection(filePath, diff, selection)
+
+    return this._refreshRepository(repository)
+  }
+
   public async _undoCommit(
     repository: Repository,
     commit: Commit
@@ -4045,7 +4054,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
         const gitStore = this.gitStoreCache.get(repository)
         await gitStore.fetchRefspec(account, refspec)
 
-        await this._refreshTags(repository)
         return this._refreshRepository(repository)
       }
     )
@@ -4134,7 +4142,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
         // any new branch will immediately report as protected
         await this.refreshBranchProtectionState(repository)
 
-        await this._refreshTags(repository)
         await this._refreshRepository(repository)
 
         this.updatePushPullFetchProgress(repository, {
@@ -4845,6 +4852,17 @@ export class AppStore extends TypedBaseStore<IAppState> {
     return this.repositoriesStore.updateRepositoryMissing(repository, missing)
   }
 
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _updateRepositoryWorkflowPreferences(
+    repository: Repository,
+    workflowPreferences: WorkflowPreferences
+  ): Promise<void> {
+    await this.repositoriesStore.updateRepositoryWorkflowPreferences(
+      repository,
+      workflowPreferences
+    )
+  }
+
   /**
    * Add a tutorial repository.
    *
@@ -4936,9 +4954,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
       this._removeCloningRepository(r)
     })
 
-    const repositoryIDs = localRepositories.map(r => r.id)
-    for (const id of repositoryIDs) {
-      await this.repositoriesStore.removeRepository(id)
+    for (const repository of localRepositories) {
+      await this.repositoriesStore.removeRepository(repository)
     }
 
     const allRepositories = await this.repositoriesStore.getAll()

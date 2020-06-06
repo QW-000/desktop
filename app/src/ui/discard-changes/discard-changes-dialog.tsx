@@ -8,7 +8,6 @@ import { PathText } from '../lib/path-text'
 import { Monospaced } from '../lib/monospaced'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { TrashNameLabel } from '../lib/context-menu'
-import { toPlatformCase } from '../../lib/platform-case'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 
 interface IDiscardChangesProps {
@@ -64,18 +63,22 @@ export class DiscardChanges extends React.Component<
     return __DARWIN__ ? 'Discard changes' : '放棄變更'
   }
 
+  private getDialogTitle() {
+    if (this.props.discardingAllChanges) {
+      return __DARWIN__
+        ? 'Confirm Discard All Changes'
+        : '確認放棄全部變更'
+    }
+    return __DARWIN__ ? 'Confirm Discard changes' : '確認放棄變更'
+  }
+
   public render() {
-    const discardingAllChanges = this.props.discardingAllChanges
     const isDiscardingChanges = this.state.isDiscardingChanges
 
     return (
       <Dialog
         id="discard-changes"
-        title={
-          discardingAllChanges
-            ? toPlatformCase('確認放棄全部變更')
-            : toPlatformCase('確認放棄變更')
-        }
+        title={this.getDialogTitle()}
         onDismissed={this.props.onDismissed}
         onSubmit={this.discard}
         dismissable={isDiscardingChanges ? false : true}

@@ -59,7 +59,7 @@ import { CloneRepositoryTab } from '../../models/clone-repository-tab'
 import { CloningRepository } from '../../models/cloning-repository'
 import { Commit, ICommitContext, CommitOneLine } from '../../models/commit'
 import { ICommitMessage } from '../../models/commit-message'
-import { DiffSelection, ImageDiffType } from '../../models/diff'
+import { DiffSelection, ImageDiffType, ITextDiff } from '../../models/diff'
 import { FetchType } from '../../models/fetch'
 import { GitHubRepository } from '../../models/github-repository'
 import { ManualConflictResolution } from '../../models/manual-conflict-resolution'
@@ -70,6 +70,7 @@ import {
   RepositoryWithGitHubRepository,
   isRepositoryWithGitHubRepository,
   getGitHubHtmlUrl,
+  isRepositoryWithForkedGitHubRepository,
 } from '../../models/repository'
 import { RetryAction, RetryActionType } from '../../models/retry-actions'
 import {
@@ -94,6 +95,8 @@ import {
 } from '../../models/uncommitted-changes-strategy'
 import { RebaseFlowStep, RebaseStep } from '../../models/rebase-flow-step'
 import { IStashEntry } from '../../models/stash-entry'
+import { WorkflowPreferences } from '../../models/workflow-preferences'
+import { enableForkSettings } from '../../lib/feature-flag'
 
 /**
  * An error handler function.
@@ -328,13 +331,6 @@ export class Dispatcher {
     return this.appStore._refreshOrRecoverRepository(repository)
   }
 
-  /**
-   * Refreshes the list of local tags. This would be used, e.g., when the app gains focus.
-   */
-  public refreshTags(repository: Repository): Promise<void> {
-    return this.appStore._refreshTags(repository)
-  }
-
   /** Show the popup. This will close any current popup. */
   public showPopup(popup: Popup): Promise<void> {
     return this.appStore._showPopup(popup)
@@ -507,6 +503,13 @@ export class Dispatcher {
   }
 
   /**
+   * Deletes the passed tag.
+   */
+  public deleteTag(repository: Repository, name: string): Promise<void> {
+    return this.appStore._deleteTag(repository, name)
+  }
+
+  /**
    * Show the tag creation dialog.
    */
   public showCreateTagDialog(
@@ -521,6 +524,20 @@ export class Dispatcher {
       targetCommitSha,
       initialName,
       localTags,
+    })
+  }
+
+  /**
+   * Show the confirmation dialog to delete a tag.
+   */
+  public showDeleteTagDialog(
+    repository: Repository,
+    tagName: string
+  ): Promise<void> {
+    return this.showPopup({
+      type: PopupType.DeleteTag,
+      repository,
+      tagName,
     })
   }
 
@@ -650,6 +667,16 @@ export class Dispatcher {
       const addedRepository = addedRepositories[0]
       await this.selectRepository(addedRepository)
 
+      if (
+        enableForkSettings() &&
+        isRepositoryWithForkedGitHubRepository(addedRepository)
+      ) {
+        this.showPopup({
+          type: PopupType.ChooseForkSettings,
+          repository: addedRepository,
+        })
+      }
+
       return addedRepository
     })
   }
@@ -681,6 +708,21 @@ export class Dispatcher {
     files: ReadonlyArray<WorkingDirectoryFileChange>
   ): Promise<void> {
     return this.appStore._discardChanges(repository, files)
+  }
+
+  /** Discard the changes from the given diff selection. */
+  public discardChangesFromSelection(
+    repository: Repository,
+    filePath: string,
+    diff: ITextDiff,
+    selection: DiffSelection
+  ): Promise<void> {
+    return this.appStore._discardChangesFromSelection(
+      repository,
+      filePath,
+      diff,
+      selection
+    )
   }
 
   /** Undo the given commit. */
@@ -1440,6 +1482,22 @@ export class Dispatcher {
     }
   }
 
+  /**
+   * Change the workflow preferences for the specified repository.
+   *
+   * @param repository            The repositosy to update.
+   * @param workflowPreferences   The object with the workflow settings to use.
+   */
+  public async updateRepositoryWorkflowPreferences(
+    repository: Repository,
+    workflowPreferences: WorkflowPreferences
+  ) {
+    await this.appStore._updateRepositoryWorkflowPreferences(
+      repository,
+      workflowPreferences
+    )
+  }
+
   /** Update the repository's path. */
   private async updateRepositoryPath(
     repository: Repository,
@@ -2056,8 +2114,8 @@ export class Dispatcher {
   public async convertRepositoryToFork(
     repository: RepositoryWithGitHubRepository,
     fork: IAPIRepository
-  ) {
-    await this.appStore._convertRepositoryToFork(repository, fork)
+  ): Promise<Repository> {
+    return this.appStore._convertRepositoryToFork(repository, fork)
   }
 
   /**

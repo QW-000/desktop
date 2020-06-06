@@ -8,7 +8,7 @@ import { mapStatus } from '../../lib/status'
 interface IChangedFileDetailsProps {
   readonly path: string
   readonly status: AppFileStatus
-  readonly diff: IDiff
+  readonly diff: IDiff | null
 }
 
 /** Displays information about a file */
@@ -36,6 +36,11 @@ export class ChangedFileDetails extends React.Component<
 
   private renderDecorator() {
     const diff = this.props.diff
+
+    if (diff === null) {
+      return null
+    }
+
     if (diff.kind === DiffType.Text && diff.lineEndingsChange) {
       const message = `警告: 行尾將更改為 '${
         diff.lineEndingsChange.from
