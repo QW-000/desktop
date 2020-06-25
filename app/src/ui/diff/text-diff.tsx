@@ -154,6 +154,11 @@ interface ITextDiffProps {
     diff: ITextDiff,
     diffSelection: DiffSelection
   ) => void
+  /**
+   * Whether we'll show a confirmation dialog when the user
+   * discards changes.
+   */
+  readonly askForConfirmationOnDiscardChanges?: boolean
 }
 
 const diffGutterName = 'diff-gutter'
@@ -182,7 +187,7 @@ function showSearch(cm: Editor) {
   ) {
     searchLabel.style.display = 'none'
     searchField.placeholder = 'Search'
-    searchField.style.width = null
+    searchField.style.width = null!
   }
 }
 
@@ -626,6 +631,7 @@ export class TextDiff extends React.Component<ITextDiffProps, {}> {
   }
 
   private getDiscardLabel(rangeType: DiffRangeType, numLines: number): string {
+    const suffix = this.props.askForConfirmationOnDiscardChanges ? '…' : ''
     let type = ''
 
     if (rangeType === DiffRangeType.Additions) {
@@ -635,13 +641,13 @@ export class TextDiff extends React.Component<ITextDiffProps, {}> {
     } else if (rangeType === DiffRangeType.Mixed) {
       type = __DARWIN__ ? 'Modified' : '修改'
     } else {
-      assertNever(rangeType, `Invalid range type: ${rangeType}`)
+      assertNever(rangeType, `無效的範圍類型: ${rangeType}`)
     }
 
     const plural = numLines > 1 ? 's' : ''
     return __DARWIN__
-      ? `Discard ${type} Line${plural}`
-      : `丟棄 ${type} line${plural}`
+      ? `Discard ${type} Line${plural}${suffix}`
+      : `丟棄 ${type} 行 ${plural}${suffix}`
   }
 
   private onCopy = (editor: Editor, event: Event) => {

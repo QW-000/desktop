@@ -1323,6 +1323,31 @@ export class Dispatcher {
   }
 
   /**
+   * Subscribe to an event which is emitted whenever the sign in store re-evaluates
+   * whether or not GitHub.com supports username and password authentication.
+   *
+   * Note that this event may fire without the state having changed as it's
+   * fired when refreshed and not when changed.
+   */
+  public onDotComSupportsBasicAuthUpdated(
+    fn: (dotComSupportsBasicAuth: boolean) => void
+  ) {
+    return this.appStore._onDotComSupportsBasicAuthUpdated(fn)
+  }
+
+  /**
+   * Attempt to _synchronously_ retrieve whether GitHub.com supports
+   * username and password authentication. If the SignInStore has
+   * previously checked the API to determine the actual status that
+   * cached value is returned. If not we attempt to calculate the
+   * most probably state based on the current date and the deprecation
+   * timeline.
+   */
+  public tryGetDotComSupportsBasicAuth(): boolean {
+    return this.appStore._tryGetDotComSupportsBasicAuth()
+  }
+
+  /**
    * Initiate a sign in flow for github.com. This will put the store
    * in the Authentication step ready to receive user credentials.
    */
@@ -2323,6 +2348,24 @@ export class Dispatcher {
     callback: StatusCallBack
   ): IDisposable {
     return this.commitStatusStore.subscribe(repository, ref, callback)
+  }
+
+  /**
+   * Creates a stash for the current branch. Note that this will
+   * override any stash that already exists for the current branch.
+   *
+   * @param repository
+   * @param showConfirmationDialog  Whether to show a confirmation dialog if an
+   *                                existing stash exists (defaults to true).
+   */
+  public createStashForCurrentBranch(
+    repository: Repository,
+    showConfirmationDialog: boolean = true
+  ) {
+    return this.appStore._createStashForCurrentBranch(
+      repository,
+      showConfirmationDialog
+    )
   }
 
   /** Drops the given stash in the given repository */

@@ -283,7 +283,6 @@ export class Publish extends React.Component<IPublishProps, IPublishState> {
     const account = this.getAccountForTab(tab)
     if (!account) {
       fatalError(`嘗試在沒有帳戶的情況下發布。 這似乎不可能!`)
-      return
     }
 
     const settings = currentTabState.settings

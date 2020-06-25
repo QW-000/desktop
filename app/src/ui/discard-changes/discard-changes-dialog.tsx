@@ -60,7 +60,7 @@ export class DiscardChanges extends React.Component<
     if (this.props.discardingAllChanges) {
       return __DARWIN__ ? 'Discard All Changes' : '放棄全部變更'
     }
-    return __DARWIN__ ? 'Discard changes' : '放棄變更'
+    return __DARWIN__ ? 'Discard Changes' : '放棄變更'
   }
 
   private getDialogTitle() {
@@ -69,7 +69,7 @@ export class DiscardChanges extends React.Component<
         ? 'Confirm Discard All Changes'
         : '確認放棄全部變更'
     }
-    return __DARWIN__ ? 'Confirm Discard changes' : '確認放棄變更'
+    return __DARWIN__ ? 'Confirm Discard Changes' : '確認放棄變更'
   }
 
   public render() {

@@ -21,6 +21,12 @@ const showPullRequestLabel = __DARWIN__
 const defaultBranchNameValue = __DARWIN__ ? '預設分支' : '預設分支'
 const confirmRepositoryRemovalLabel = __DARWIN__ ? '清除…' : '清除(&R)…'
 const repositoryRemovalLabel = __DARWIN__ ? '清除' : '清除(&R)'
+const confirmStashAllChangesLabel = __DARWIN__
+  ? '藏匿全部變更…'
+  : '藏匿全部變更(&S)…'
+const stashAllChangesLabel = __DARWIN__
+  ? '藏匿全部變更'
+  : '藏匿全部變更(&S)'
 
 enum ZoomDirection {
   Reset,
@@ -37,6 +43,7 @@ export function buildDefaultMenu({
   defaultBranchName = defaultBranchNameValue,
   isForcePushForCurrentRepository = false,
   isStashedChangesVisible = false,
+  askForConfirmationWhenStashingAllChanges = true,
 }: MenuLabelsEvent): Electron.Menu {
   defaultBranchName = truncateWithEllipsis(defaultBranchName, 25)
 
@@ -367,6 +374,14 @@ export function buildDefaultMenu({
         id: 'discard-all-changes',
         accelerator: 'CmdOrCtrl+Shift+Backspace',
         click: emit('discard-all-changes'),
+      },
+      {
+        label: askForConfirmationWhenStashingAllChanges
+          ? confirmStashAllChangesLabel
+          : stashAllChangesLabel,
+        id: 'stash-all-changes',
+        accelerator: 'CmdOrCtrl+Shift+S',
+        click: emit('stash-all-changes'),
       },
       separator,
       {
