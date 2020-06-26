@@ -43,7 +43,7 @@ export function mapStatus(status: AppFileStatus): string {
     case AppFileStatusKind.Copied:
       return 'Copied 複製'
     default:
-      return assertNever(status, `未知的檔案狀態 ${status}`)
+      return assertNever(status, `Unknown file status ${status}`)
   }
 }
 

@@ -177,7 +177,7 @@ export class RepositorySettings extends React.Component<
         )
       }
       default:
-        return assertNever(tab, `未知的標籤類型: ${tab}`)
+        return assertNever(tab, `Unknown tab type: ${tab}`)
     }
   }
 
