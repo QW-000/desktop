@@ -28,12 +28,12 @@ export function ForkSettingsDescription(props: IForkSettingsDescription) {
         "在 Github 上檢視" 將在瀏覽器中開啟 <strong>{targetRepository.fullName}</strong>{' '}。
       </li>
       <li>
-        新分支將基於{' '}
-        <strong>{targetRepository.fullName}</strong>的預設分支。
+        新分支將基於 {' '}
+        <strong>{targetRepository.fullName}</strong> 的預設分支。
       </li>
       <li>
-        Autocompletion of user and issues will be based on{' '}
-        <strong>{targetRepository.fullName}</strong>.
+        使用者及論題的自動完成將基於 {' '}
+        <strong>{targetRepository.fullName}</strong>。
       </li>
     </ul>
   )
