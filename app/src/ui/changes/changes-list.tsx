@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as Path from 'path'
 
-import { IGitHubUser } from '../../lib/databases'
 import { Dispatcher } from '../dispatcher'
 import { IMenuItem } from '../../lib/menu-item'
 import { revealInFileManager } from '../../lib/app-shell'
@@ -130,7 +129,6 @@ interface IChangesListProps {
    */
   readonly branch: string | null
   readonly commitAuthor: CommitIdentity | null
-  readonly gitHubUser: IGitHubUser | null
   readonly dispatcher: Dispatcher
   readonly availableWidth: number
   readonly isCommitting: boolean
@@ -348,10 +346,10 @@ export class ChangesList extends React.Component<
 
     const stashAllChangesLabel = __DARWIN__
       ? 'Stash All Changes'
-      : 'Stash all changes'
+      : '藏匿全部變更'
     const confirmStashAllChangesLabel = __DARWIN__
       ? 'Stash All Changes…'
-      : 'Stash all changes…'
+      : '藏匿全部變更…'
 
     const items: IMenuItem[] = [
       {
@@ -653,7 +651,6 @@ export class ChangesList extends React.Component<
       <CommitMessage
         onCreateCommit={this.props.onCreateCommit}
         branch={this.props.branch}
-        gitHubUser={this.props.gitHubUser}
         commitAuthor={this.props.commitAuthor}
         anyFilesSelected={anyFilesSelected}
         repository={repository}
@@ -735,6 +732,13 @@ export class ChangesList extends React.Component<
     const fileCount = this.props.workingDirectory.files.length
     const filesPlural = fileCount === 1 ? '檔案' : '檔案'
     const filesDescription = `${fileCount} 變更${filesPlural}`
+
+    const selectedChangeCount = this.props.workingDirectory.files.filter(
+      file => file.selection.getSelectionType() !== DiffSelectionType.None
+    ).length
+    const selectedFilesPlural = selectedChangeCount === 1 ? '檔案' : '檔案'
+    const selectedChangesDescription = `${selectedChangeCount} 變更 ${selectedFilesPlural} 已選`
+
     const includeAllValue = getIncludeAllValue(
       this.props.workingDirectory,
       this.props.rebaseConflictState
@@ -747,7 +751,11 @@ export class ChangesList extends React.Component<
 
     return (
       <div className="changes-list-container file-list">
-        <div className="header" onContextMenu={this.onContextMenu}>
+        <div
+          className="header"
+          onContextMenu={this.onContextMenu}
+          title={selectedChangesDescription}
+        >
           <Checkbox
             label={filesDescription}
             value={includeAllValue}

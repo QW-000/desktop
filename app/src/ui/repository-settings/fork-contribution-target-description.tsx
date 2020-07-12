@@ -31,6 +31,10 @@ export function ForkSettingsDescription(props: IForkSettingsDescription) {
         新分支將基於{' '}
         <strong>{targetRepository.fullName}</strong>的預設分支。
       </li>
+      <li>
+        Autocompletion of user and issues will be based on{' '}
+        <strong>{targetRepository.fullName}</strong>.
+      </li>
     </ul>
   )
 }

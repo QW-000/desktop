@@ -33,8 +33,9 @@ export function showUncaughtException(isLaunchError: boolean, error: Error) {
       message:
         `GitHub Desktop 遇到無法復原之錯誤，需要重新啟動。\n\n` +
         `這已被報告給團隊，但如果您屢次遇到此錯誤請報告 ` +
-        `這個問題到此 GitHub Desktop 的問題跟踪。\n\n${error.stack ||
-          error.message}`,
+        `這個問題到此 GitHub Desktop 的問題跟踪。\n\n${
+          error.stack || error.message
+        }`,
     })
 
     if (!__DEV__) {

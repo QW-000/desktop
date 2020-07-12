@@ -8,7 +8,6 @@ import {
   ISegmentedItem,
 } from '../lib/vertical-segmented-control'
 import { ApplicationTheme } from '../lib/application-theme'
-import { fatalError } from '../../lib/fatal-error'
 
 interface IAppearanceProps {
   readonly selectedTheme: ApplicationTheme
@@ -17,23 +16,22 @@ interface IAppearanceProps {
   readonly onAutomaticallySwitchThemeChanged: (checked: boolean) => void
 }
 
-const themes: ReadonlyArray<ISegmentedItem> = [
-  { title: '明亮', description: 'GitHub Desktop 的預設主題' },
+const themes: ReadonlyArray<ISegmentedItem<ApplicationTheme>> = [
+  {
+    title: '明亮',
+    description: 'GitHub Desktop 的預設主題',
+    key: ApplicationTheme.Light,
+  },
   {
     title: '黑暗',
     description: 'GitHub Desktop 也適合您的夜晚創造物',
+    key: ApplicationTheme.Dark,
   },
 ]
 
 export class Appearance extends React.Component<IAppearanceProps, {}> {
-  private onSelectedThemeChanged = (index: number) => {
-    if (index === 0) {
-      this.props.onSelectedThemeChanged(ApplicationTheme.Light)
-    } else if (index === 1) {
-      this.props.onSelectedThemeChanged(ApplicationTheme.Dark)
-    } else {
-      fatalError(`未知的主題索引 ${index}`)
-    }
+  private onSelectedThemeChanged = (value: ApplicationTheme) => {
+    this.props.onSelectedThemeChanged(value)
     this.props.onAutomaticallySwitchThemeChanged(false)
   }
 
@@ -43,7 +41,9 @@ export class Appearance extends React.Component<IAppearanceProps, {}> {
     const value = event.currentTarget.checked
 
     if (value) {
-      this.onSelectedThemeChanged(isDarkModeEnabled() ? 1 : 0)
+      this.onSelectedThemeChanged(
+        isDarkModeEnabled() ? ApplicationTheme.Dark : ApplicationTheme.Light
+      )
     }
 
     this.props.onAutomaticallySwitchThemeChanged(value)
@@ -59,14 +59,11 @@ export class Appearance extends React.Component<IAppearanceProps, {}> {
   }
 
   public renderThemeOptions() {
-    const selectedIndex =
-      this.props.selectedTheme === ApplicationTheme.Dark ? 1 : 0
-
     return (
       <Row>
         <VerticalSegmentedControl
           items={themes}
-          selectedIndex={selectedIndex}
+          selectedKey={this.props.selectedTheme}
           onSelectionChanged={this.onSelectedThemeChanged}
         />
       </Row>

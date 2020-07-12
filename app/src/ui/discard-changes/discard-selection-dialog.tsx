@@ -5,7 +5,6 @@ import { Dispatcher } from '../dispatcher'
 import { WorkingDirectoryFileChange } from '../../models/status'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { PathText } from '../lib/path-text'
-import { Monospaced } from '../lib/monospaced'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 import { ITextDiff, DiffSelection } from '../../models/diff'
@@ -80,12 +79,13 @@ export class DiscardSelection extends React.Component<
         type="warning"
       >
         <DialogContent>
-          <p>
-            您確定要放棄對
-            <Monospaced>
+          <p>你確定要放棄選定的變更:</p>
+
+          <ul>
+            <li>
               <PathText path={this.props.file.path} />
-            </Monospaced> 的選定變更嗎?
-          </p>
+            </li>
+          </ul>
 
           <Checkbox
             label="不要再顯示此訊息"

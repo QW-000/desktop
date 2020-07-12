@@ -102,10 +102,12 @@ export class StashAndSwitchBranch extends React.Component<
         title: `保留我的變更 ${this.state.currentBranchName}`,
         description:
           '您正在進行的工作將被隱匿在此分支上以便您之後復原',
+        key: StashAction.StashOnCurrentBranch,
       },
       {
         title: `將我的變更於 ${branchToCheckout.name}`,
         description: '你正在進行的工作將跟踪到新的分支',
+        key: StashAction.MoveToNewBranch,
       },
     ]
 
@@ -114,7 +116,7 @@ export class StashAndSwitchBranch extends React.Component<
         <VerticalSegmentedControl
           label="您對此分支進行了變更。 你想怎麼做呢?"
           items={items}
-          selectedIndex={this.state.selectedStashAction}
+          selectedKey={this.state.selectedStashAction}
           onSelectionChanged={this.onSelectionChanged}
         />
       </Row>

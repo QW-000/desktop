@@ -2,7 +2,6 @@ import * as React from 'react'
 import { join } from 'path'
 import { LinkButton } from '../lib/link-button'
 import { Button } from '../lib/button'
-import { Monospaced } from '../lib/monospaced'
 import { Repository } from '../../models/repository'
 import { Dispatcher } from '../dispatcher'
 import { Octicon, OcticonSymbol } from '../octicons'
@@ -15,6 +14,7 @@ import { encodePathAsUrl } from '../../lib/path'
 import { ExternalEditor } from '../../lib/editors'
 import { PopupType } from '../../models/popup'
 import { PreferencesTab } from '../../models/preferences'
+import { Ref } from '../lib/ref'
 
 const TutorialPanelImage = encodePathAsUrl(
   __dirname,
@@ -184,7 +184,7 @@ export class TutorialPanel extends React.Component<
             <p className="description">
               在首選的本文編輯器中開啟此存儲庫。 編輯此
               {` `}
-              <Monospaced>README.md</Monospaced>
+              <Ref>README.md</Ref>
               {` `}
               檔案，儲存並返回。
             </p>

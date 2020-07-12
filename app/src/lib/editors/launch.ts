@@ -17,9 +17,7 @@ export async function launchExternalEditor(
   if (!exists) {
     const label = __DARWIN__ ? '喜好' : '選項'
     throw new ExternalEditorError(
-      `無法在 '${editor.editor}' 路徑 '${
-        editor.path
-      }' 找到執行檔。  請開啟 ${label} 並選擇一個可用的編輯器。`,
+      `無法在 '${editor.editor}' 路徑 '${editor.path}' 找到執行檔。  請開啟 ${label} 並選擇一個可用的編輯器。`,
       { openPreferences: true }
     )
   }

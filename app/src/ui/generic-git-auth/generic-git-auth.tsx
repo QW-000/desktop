@@ -3,9 +3,9 @@ import * as React from 'react'
 import { TextBox } from '../lib/text-box'
 import { Row } from '../lib/row'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
-import { Monospaced } from '../lib/monospaced'
 import { RetryAction } from '../../models/retry-actions'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
+import { Ref } from '../lib/ref'
 
 interface IGenericGitAuthenticationProps {
   /** The hostname with which the user tried to authenticate. */
@@ -53,8 +53,8 @@ export class GenericGitAuthentication extends React.Component<
       >
         <DialogContent>
           <p>
-             無法以{' '}的身分驗證
-            <Monospaced>{this.props.hostname}</Monospaced>。 請輸入您的用戶名和密碼再試一次。
+            無法以 <Ref>{this.props.hostname}</Ref>
+            進行身份驗證。 請輸入您的用戶名和密碼再試一次。
           </p>
 
           <Row>
