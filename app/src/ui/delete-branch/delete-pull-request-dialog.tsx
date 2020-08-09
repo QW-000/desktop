@@ -56,6 +56,6 @@ export class DeletePullRequest extends React.Component<IDeleteBranchProps, {}> {
       false
     )
 
-    return this.props.dispatcher.closePopup()
+    return this.props.onDismissed()
   }
 }

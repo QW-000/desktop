@@ -5,6 +5,7 @@ import { LinkButton } from '../lib/link-button'
 import { SamplesURL } from '../../lib/stats'
 import { UncommittedChangesStrategyKind } from '../../models/uncommitted-changes-strategy'
 import { enableSchannelCheckRevokeOptOut } from '../../lib/feature-flag'
+import { RadioButton } from '../lib/radio-button'
 
 interface IAdvancedPreferencesProps {
   readonly optOutOfUsageTracking: boolean
@@ -84,10 +85,8 @@ export class Advanced extends React.Component<
   }
 
   private onUncommittedChangesStrategyKindChanged = (
-    event: React.FormEvent<HTMLInputElement>
+    value: UncommittedChangesStrategyKind
   ) => {
-    const value = event.currentTarget.value as UncommittedChangesStrategyKind
-
     this.setState({ uncommittedChangesStrategyKind: value })
     this.props.onUncommittedChangesStrategyKindChanged(value)
   }
@@ -112,53 +111,36 @@ export class Advanced extends React.Component<
       <DialogContent>
         <div className="advanced-section">
           <h2>如果我有變更並且切換了分支...</h2>
-          <div className="radio-component">
-            <input
-              type="radio"
-              id={UncommittedChangesStrategyKind.AskForConfirmation}
-              value={UncommittedChangesStrategyKind.AskForConfirmation}
-              checked={
-                this.state.uncommittedChangesStrategyKind ===
-                UncommittedChangesStrategyKind.AskForConfirmation
-              }
-              onChange={this.onUncommittedChangesStrategyKindChanged}
-            />
-            <label htmlFor={UncommittedChangesStrategyKind.AskForConfirmation}>
-              問我在哪裡我想要的變更
-            </label>
-          </div>
-          <div className="radio-component">
-            <input
-              type="radio"
-              id={UncommittedChangesStrategyKind.MoveToNewBranch}
-              value={UncommittedChangesStrategyKind.MoveToNewBranch}
-              checked={
-                this.state.uncommittedChangesStrategyKind ===
-                UncommittedChangesStrategyKind.MoveToNewBranch
-              }
-              onChange={this.onUncommittedChangesStrategyKindChanged}
-            />
-            <label htmlFor={UncommittedChangesStrategyKind.MoveToNewBranch}>
-              總是將我的變更帶到新分支
-            </label>
-          </div>
-          <div className="radio-component">
-            <input
-              type="radio"
-              id={UncommittedChangesStrategyKind.StashOnCurrentBranch}
-              value={UncommittedChangesStrategyKind.StashOnCurrentBranch}
-              checked={
-                this.state.uncommittedChangesStrategyKind ===
-                UncommittedChangesStrategyKind.StashOnCurrentBranch
-              }
-              onChange={this.onUncommittedChangesStrategyKindChanged}
-            />
-            <label
-              htmlFor={UncommittedChangesStrategyKind.StashOnCurrentBranch}
-            >
-              總是藏匿並保留我的變更在當前分支上
-            </label>
-          </div>
+
+          <RadioButton
+            value={UncommittedChangesStrategyKind.AskForConfirmation}
+            checked={
+              this.state.uncommittedChangesStrategyKind ===
+              UncommittedChangesStrategyKind.AskForConfirmation
+            }
+            label="問我在哪裡我想要的變更"
+            onSelected={this.onUncommittedChangesStrategyKindChanged}
+          />
+
+          <RadioButton
+            value={UncommittedChangesStrategyKind.MoveToNewBranch}
+            checked={
+              this.state.uncommittedChangesStrategyKind ===
+              UncommittedChangesStrategyKind.MoveToNewBranch
+            }
+            label="總是將我的變更帶到新分支"
+            onSelected={this.onUncommittedChangesStrategyKindChanged}
+          />
+
+          <RadioButton
+            value={UncommittedChangesStrategyKind.StashOnCurrentBranch}
+            checked={
+              this.state.uncommittedChangesStrategyKind ===
+              UncommittedChangesStrategyKind.StashOnCurrentBranch
+            }
+            label="總是藏匿並保留我的變更在當前分支上"
+            onSelected={this.onUncommittedChangesStrategyKindChanged}
+          />
         </div>
         <div className="advanced-section">
           <h2>在動作之前顯示確定對話框...</h2>
@@ -224,7 +206,7 @@ export class Advanced extends React.Component<
       <div className="git-advanced-section">
         <h2>Git</h2>
         <Checkbox
-          label="Disable certificate revocation checks"
+          label="禁用認證撤銷檢查"
           value={
             this.props.schannelCheckRevoke
               ? CheckboxValue.Off

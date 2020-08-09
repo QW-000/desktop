@@ -5,7 +5,7 @@ import { ICommandModule, mriArgv } from '../load-commands'
 import { openDesktop } from '../open-desktop'
 import { parseRemote } from '../../lib/remote-parsing'
 
-const command: ICommandModule = {
+export const command: ICommandModule = {
   command: 'open <path>',
   aliases: ['<path>'],
   description: '在 GitHub Desktop 中開啟一個 git 存儲庫',
@@ -37,4 +37,3 @@ const command: ICommandModule = {
     }
   },
 }
-export = command

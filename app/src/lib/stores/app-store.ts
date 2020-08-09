@@ -227,7 +227,7 @@ import {
 import { BranchPruner } from './helpers/branch-pruner'
 import { enableUpdateRemoteUrl } from '../feature-flag'
 import { Banner, BannerType } from '../../models/banner'
-import * as moment from 'moment'
+import moment from 'moment'
 import { isDarkModeEnabled } from '../../ui/lib/dark-theme'
 import { ComputedAction } from '../../models/computed-action'
 import {
@@ -313,6 +313,8 @@ const shellKey = 'shell'
 // lower interval ensures user interactions like switching repositories and
 // switching between apps does not result in excessive fetching in the app
 const BackgroundFetchMinimumInterval = 30 * 60 * 1000
+
+const MaxInvalidFoldersToDisplay = 3
 
 export class AppStore extends TypedBaseStore<IAppState> {
   private readonly gitStoreCache: GitStoreCache
@@ -3605,7 +3607,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         if (safeRemote.name !== remote.name) {
           sendNonFatalException(
             'remoteNameMismatch',
-            new Error('The current remote name differs from the branch remote')
+            new Error('當前遠端名稱與分支遠端名稱不同')
           )
         }
 
@@ -4899,7 +4901,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       )
       this.tutorialAssessor.onNewTutorialRepository()
     } else {
-      const error = new Error(`${path} isn't a git repository.`)
+      const error = new Error(`${path} 不是 GIT 存儲庫。`)
       this.emitError(error)
     }
   }
@@ -4909,6 +4911,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
   ): Promise<ReadonlyArray<Repository>> {
     const addedRepositories = new Array<Repository>()
     const lfsRepositories = new Array<Repository>()
+    const invalidPaths: Array<string> = []
+
     for (const path of paths) {
       const validatedPath = await validatedRepositoryPath(path)
       if (validatedPath) {
@@ -4933,9 +4937,12 @@ export class AppStore extends TypedBaseStore<IAppState> {
           lfsRepositories.push(refreshedRepo)
         }
       } else {
-        const error = new Error(`${path} 不是 GIT 存儲庫。`)
-        this.emitError(error)
+        invalidPaths.push(path)
       }
+    }
+
+    if (invalidPaths.length > 0) {
+      this.emitError(new Error(this.getInvalidRepoPathsMessage(invalidPaths)))
     }
 
     if (lfsRepositories.length > 0) {
@@ -4993,6 +5000,23 @@ export class AppStore extends TypedBaseStore<IAppState> {
     }
   }
 
+  private getInvalidRepoPathsMessage(
+    invalidPaths: ReadonlyArray<string>
+  ): string {
+    if (invalidPaths.length === 1) {
+      return `${invalidPaths} 不是 GIT 存儲庫。`
+    }
+
+    return `以下路徑不是 Git 存儲庫:\n\n${invalidPaths
+      .slice(0, MaxInvalidFoldersToDisplay)
+      .map(path => `- ${path}`)
+      .join('\n')}${
+      invalidPaths.length > MaxInvalidFoldersToDisplay
+        ? `\n\n(與 ${invalidPaths.length - MaxInvalidFoldersToDisplay} 更多)`
+        : ''
+    }`
+  }
+
   private async withAuthenticatingUser<T>(
     repository: Repository,
     fn: (repository: Repository, account: IGitAccount | null) => Promise<T>
@@ -5028,7 +5052,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
     if (account instanceof Account) {
       const hasValidToken =
-        account.token.length > 0 ? 'has token' : 'empty token'
+        account.token.length > 0 ? '具有權杖' : '空的權杖'
       log.info(
         `[AppStore.withAuthenticatingUser] account found for repository: ${repository.name} - ${account.login} (${hasValidToken})`
       )
@@ -5381,7 +5405,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       }
     } else {
       const cloneURL = forceUnwrap(
-        "This pull request's clone URL is not populated but should be",
+        "此拉取請求的克隆網址未填寫，但應該是",
         head.gitHubRepository.cloneURL
       )
       const remoteName = forkPullRequestRemoteName(
@@ -5394,7 +5418,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
       if (remote.url !== cloneURL) {
         const error = new Error(
-          `Expected PR remote ${remoteName} url to be ${cloneURL} got ${remote.url}.`
+          `預期的 PR 遠端 ${remoteName} 為 ${cloneURL} 收到 ${remote.url}。`
         )
 
         log.error(error.message)
@@ -5747,7 +5771,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       } else {
         this.emitError(
           new Error(
-            `Failed creating the tutorial repository.\n\n${err.message}`
+            `建立教學庫失敗。\n\n${err.message}`
           )
         )
       }
