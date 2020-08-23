@@ -6,32 +6,6 @@ import { Octicon, OcticonSymbol } from '../octicons'
 import { Ref } from './ref'
 import { IStashEntry } from '../../models/stash-entry'
 
-export function renderBranchNameWarning(
-  proposedName: string,
-  sanitizedName: string
-) {
-  if (proposedName.length > 0 && /^\s*$/.test(sanitizedName)) {
-    return (
-      <Row className="warning-helper-text">
-        <Octicon symbol={OcticonSymbol.alert} />
-        <p>
-          <Ref>{proposedName}</Ref> 不是有效的分支名稱。
-        </p>
-      </Row>
-    )
-  } else if (proposedName !== sanitizedName) {
-    return (
-      <Row className="warning-helper-text">
-        <Octicon symbol={OcticonSymbol.alert} />
-        <p>
-          將建立為 <Ref>{sanitizedName}</Ref>.
-        </p>
-      </Row>
-    )
-  } else {
-    return null
-  }
-}
 export function renderBranchHasRemoteWarning(branch: Branch) {
   if (branch.upstream != null) {
     return (
@@ -78,8 +52,7 @@ export function renderStashWillBeLostWarning(stash: IStashEntry | null) {
     <Row className="warning-helper-text">
       <Octicon symbol={OcticonSymbol.alert} />
       <p>
-        Your current stashed changes on this branch will no longer be visible in
-        GitHub Desktop if the branch is renamed.
+        如果重新命名該分支，則您在該分支上當前藏匿的變更將不再在 GitHub Desktop 中可見。
       </p>
     </Row>
   )
