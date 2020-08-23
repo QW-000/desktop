@@ -86,14 +86,14 @@ export class Git extends React.Component<IGitProps, IGitState> {
     if (sanitizedBranchName === '') {
       return (
         <>
-          <Ref>{proposedBranchName}</Ref> is an invalid branch name.
+          <Ref>{proposedBranchName}</Ref> 是無效的分支名稱。
         </>
       )
     }
 
     return (
       <>
-        Will be saved as <Ref>{sanitizedBranchName}</Ref>.
+        將另存為 <Ref>{sanitizedBranchName}</Ref>。
       </>
     )
   }
@@ -107,7 +107,7 @@ export class Git extends React.Component<IGitProps, IGitState> {
 
     return (
       <div className="default-branch-component">
-        <h2>Default branch for new repositories</h2>
+        <h2>新存儲庫的預設分支</h2>
 
         {SuggestedBranchNames.map((branchName: string) => (
           <RadioButton
@@ -124,7 +124,7 @@ export class Git extends React.Component<IGitProps, IGitState> {
           key={OtherNameForDefaultBranch}
           checked={defaultBranchIsOther}
           value={OtherNameForDefaultBranch}
-          label="Other…"
+          label="其它…"
           onSelected={this.onDefaultBranchChanged}
         />
 
@@ -138,7 +138,7 @@ export class Git extends React.Component<IGitProps, IGitState> {
         )}
 
         <p className="git-settings-description">
-          These preferences will edit your global Git config.
+          這些偏好將編輯您的全局 Git 組態。
         </p>
       </div>
     )
