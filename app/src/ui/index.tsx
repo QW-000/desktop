@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import * as Path from 'path'
 
-import * as moment from 'moment'
+import moment from 'moment'
 
 import { ipcRenderer, remote } from 'electron'
 
@@ -76,7 +76,7 @@ import 'wicg-focus-ring'
 
 // setup this moment.js plugin so we can use easier
 // syntax for formatting time duration
-import momentDurationFormatSetup from 'moment-duration-format'
+
 
 if (__DEV__) {
   installDevGlobals()
@@ -97,7 +97,7 @@ process.env['LOCAL_GIT_DIRECTORY'] = Path.resolve(__dirname, 'git')
 // instead of just blindly trusting what's set in
 // the current environment. See https://git.io/JJ7KF
 delete process.env.GIT_EXEC_PATH
-
+const momentDurationFormatSetup = require('moment')
 momentDurationFormatSetup(moment)
 
 const startTime = performance.now()
