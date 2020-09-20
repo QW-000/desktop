@@ -13,8 +13,8 @@ export function parseFilesToBeOverwritten(errorMessage: string) {
       }
     } else {
       if (
-        line.startsWith('error:') &&
-        line.includes('files would be overwritten') &&
+        line.startsWith('錯誤:') &&
+        line.includes('檔案將被取代') &&
         line.endsWith(':')
       ) {
         inFilesList = true

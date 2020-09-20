@@ -15,13 +15,13 @@ export function BranchAlreadyUpToDate({
     theirBranch !== undefined ? (
       <span>
         <strong>{ourBranch}</strong>
-        {' is already up to date with '}
+        {' 已經是最新的同 '}
         <strong>{theirBranch}</strong>
       </span>
     ) : (
       <span>
         <strong>{ourBranch}</strong>
-        {' is already up to date'}
+        {' 已經是最新的'}
       </span>
     )
 

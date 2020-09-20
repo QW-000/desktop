@@ -61,9 +61,9 @@ export class Prompts extends React.Component<
   public render() {
     return (
       <DialogContent>
-        <h2>Show a confirmation dialog before...</h2>
+        <h2>在之前顯示確定對話框...</h2>
         <Checkbox
-          label="Removing repositories"
+          label="刪除存儲庫"
           value={
             this.state.confirmRepositoryRemoval
               ? CheckboxValue.On
@@ -72,7 +72,7 @@ export class Prompts extends React.Component<
           onChange={this.onConfirmRepositoryRemovalChanged}
         />
         <Checkbox
-          label="Discarding changes"
+          label="放棄變更"
           value={
             this.state.confirmDiscardChanges
               ? CheckboxValue.On
@@ -81,7 +81,7 @@ export class Prompts extends React.Component<
           onChange={this.onConfirmDiscardChangesChanged}
         />
         <Checkbox
-          label="Force pushing"
+          label="強制推送"
           value={
             this.state.confirmForcePush ? CheckboxValue.On : CheckboxValue.Off
           }
