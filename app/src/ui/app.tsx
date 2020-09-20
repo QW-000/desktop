@@ -112,7 +112,6 @@ import { WorkflowPushRejectedDialog } from './workflow-push-rejected/workflow-pu
 import { getUncommittedChangesStrategy } from '../models/uncommitted-changes-strategy'
 import { SAMLReauthRequiredDialog } from './saml-reauth-required/saml-reauth-required'
 import { CreateForkDialog } from './forks/create-fork-dialog'
-import { SChannelNoRevocationCheckDialog } from './schannel-no-revocation-check/schannel-no-revocation-check'
 import { findDefaultUpstreamBranch } from '../lib/branch'
 import { GitHubRepository } from '../models/github-repository'
 import { CreateTag } from './create-tag'
@@ -134,16 +133,6 @@ const UpdateCheckInterval = 4 * HourInMilliseconds
  * Send usage stats every 4 hours
  */
 const SendStatsInterval = 4 * HourInMilliseconds
-
-/**
- * Wait 2 minutes before refreshing repository indicators
- */
-const InitialRepositoryIndicatorTimeout = 2 * MinuteInMilliseconds
-
-/**
- * Refresh repository indicators every 15 minutes.
- */
-const UpdateRepositoryIndicatorInterval = 15 * MinuteInMilliseconds
 
 interface IAppProps {
   readonly dispatcher: Dispatcher
@@ -215,16 +204,6 @@ export class App extends React.Component<IAppProps, IAppState> {
         },
         { timeout: ReadyDelay }
       )
-
-      const initialTimeout = window.setTimeout(async () => {
-        window.clearTimeout(initialTimeout)
-
-        await this.props.appStore.refreshAllSidebarIndicators()
-
-        this.updateIntervalHandle = window.setInterval(() => {
-          this.props.appStore.refreshAllSidebarIndicators()
-        }, UpdateRepositoryIndicatorInterval)
-      }, InitialRepositoryIndicatorTimeout)
     })
 
     this.state = props.appStore.getState()
@@ -1055,7 +1034,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     }
 
     if (repository instanceof CloningRepository || repository.missing) {
-      this.props.dispatcher.removeRepositories([repository], false)
+      this.props.dispatcher.removeRepository(repository, false)
       return
     }
 
@@ -1065,18 +1044,15 @@ export class App extends React.Component<IAppProps, IAppState> {
         repository,
       })
     } else {
-      this.props.dispatcher.removeRepositories([repository], false)
+      this.props.dispatcher.removeRepository(repository, false)
     }
   }
 
-  private onConfirmRepoRemoval = (
+  private onConfirmRepoRemoval = async (
     repository: Repository,
     deleteRepoFromDisk: boolean
   ) => {
-    return this.props.dispatcher.removeRepositories(
-      [repository],
-      deleteRepoFromDisk
-    )
+    await this.props.dispatcher.removeRepository(repository, deleteRepoFromDisk)
   }
 
   private getRepository(): Repository | CloningRepository | null {
@@ -1398,6 +1374,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             selectedShell={this.state.selectedShell}
             selectedTheme={this.state.selectedTheme}
             automaticallySwitchTheme={this.state.automaticallySwitchTheme}
+            repositoryIndicatorsEnabled={this.state.repositoryIndicatorsEnabled}
           />
         )
       case PopupType.MergeBranch: {
@@ -1958,13 +1935,6 @@ export class App extends React.Component<IAppProps, IAppState> {
             account={popup.account}
           />
         )
-      case PopupType.SChannelNoRevocationCheck:
-        return (
-          <SChannelNoRevocationCheckDialog
-            onDismissed={onPopupDismissedFn}
-            url={popup.url}
-          />
-        )
       case PopupType.CreateTag: {
         return (
           <CreateTag
@@ -2014,6 +1984,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             hasExistingStash={existingStash !== null}
             retryAction={popup.retryAction}
             onDismissed={onPopupDismissedFn}
+            files={popup.files}
           />
         )
       default:

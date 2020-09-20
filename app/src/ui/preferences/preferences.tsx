@@ -12,7 +12,6 @@ import { Dialog, DialogFooter, DialogError } from '../dialog'
 import {
   getGlobalConfigValue,
   setGlobalConfigValue,
-  getGlobalBooleanConfigValue,
 } from '../../lib/git/config'
 import { lookupPreferredEmail } from '../../lib/email'
 import { Shell, getAvailableShells } from '../../lib/shells'
@@ -36,6 +35,7 @@ import {
   setDefaultBranch,
   getDefaultBranch,
 } from '../../lib/helpers/default-branch'
+import { Prompts } from './prompts'
 
 interface IPreferencesProps {
   readonly dispatcher: Dispatcher
@@ -52,6 +52,7 @@ interface IPreferencesProps {
   readonly selectedShell: Shell
   readonly selectedTheme: ApplicationTheme
   readonly automaticallySwitchTheme: boolean
+  readonly repositoryIndicatorsEnabled: boolean
 }
 
 interface IPreferencesState {
@@ -80,8 +81,7 @@ interface IPreferencesState {
    * choice to delete the lock file.
    */
   readonly existingLockFilePath?: string
-  readonly initialSchannelCheckRevoke: boolean | null
-  readonly schannelCheckRevoke: boolean | null
+  readonly repositoryIndicatorsEnabled: boolean
 }
 
 /** The app-level preferences component. */
@@ -110,8 +110,7 @@ export class Preferences extends React.Component<
       selectedExternalEditor: this.props.selectedExternalEditor,
       availableShells: [],
       selectedShell: this.props.selectedShell,
-      initialSchannelCheckRevoke: null,
-      schannelCheckRevoke: null,
+      repositoryIndicatorsEnabled: this.props.repositoryIndicatorsEnabled,
     }
   }
 
@@ -119,14 +118,6 @@ export class Preferences extends React.Component<
     const initialCommitterName = await getGlobalConfigValue('user.name')
     const initialCommitterEmail = await getGlobalConfigValue('user.email')
     const initialDefaultBranch = await getDefaultBranch()
-
-    // There's no point in us reading http.schannelCheckRevoke on macOS, it's
-    // just a wasted Git process since the option only affects Windows. Besides,
-    // the checkbox will not be visible unless running on Windows so we'll just
-    // default to the default value for lack of anything better.
-    const initialSchannelCheckRevoke = __WIN32__
-      ? await getGlobalBooleanConfigValue('http.schannelCheckRevoke')
-      : null
 
     let committerName = initialCommitterName
     let committerEmail = initialCommitterEmail
@@ -170,8 +161,6 @@ export class Preferences extends React.Component<
       uncommittedChangesStrategyKind: this.props.uncommittedChangesStrategyKind,
       availableShells,
       availableEditors,
-      initialSchannelCheckRevoke,
-      schannelCheckRevoke: initialSchannelCheckRevoke,
     })
   }
 
@@ -203,8 +192,12 @@ export class Preferences extends React.Component<
               Git
             </span>
             <span>
-              <Octicon className="icon" symbol={OcticonSymbol.paintcan} />
+              <Octicon className="icon" symbol={OcticonSymbol.paintbrush} />
               外觀
+            </span>
+            <span>
+              <Octicon className="icon" symbol={OcticonSymbol.question} />
+              提示
             </span>
             <span>
               <Octicon className="icon" symbol={OcticonSymbol.settings} />
@@ -310,27 +303,36 @@ export class Preferences extends React.Component<
           />
         )
         break
-      case PreferencesTab.Advanced: {
+      case PreferencesTab.Prompts: {
         View = (
-          <Advanced
-            optOutOfUsageTracking={this.state.optOutOfUsageTracking}
+          <Prompts
             confirmRepositoryRemoval={this.state.confirmRepositoryRemoval}
             confirmDiscardChanges={this.state.confirmDiscardChanges}
             confirmForcePush={this.state.confirmForcePush}
-            uncommittedChangesStrategyKind={
-              this.state.uncommittedChangesStrategyKind
-            }
-            onOptOutofReportingchanged={this.onOptOutofReportingChanged}
             onConfirmRepositoryRemovalChanged={
               this.onConfirmRepositoryRemovalChanged
             }
             onConfirmDiscardChangesChanged={this.onConfirmDiscardChangesChanged}
             onConfirmForcePushChanged={this.onConfirmForcePushChanged}
+          />
+        )
+        break
+      }
+      case PreferencesTab.Advanced: {
+        View = (
+          <Advanced
+            optOutOfUsageTracking={this.state.optOutOfUsageTracking}
+            repositoryIndicatorsEnabled={this.state.repositoryIndicatorsEnabled}
+            uncommittedChangesStrategyKind={
+              this.state.uncommittedChangesStrategyKind
+            }
+            onOptOutofReportingchanged={this.onOptOutofReportingChanged}
             onUncommittedChangesStrategyKindChanged={
               this.onUncommittedChangesStrategyKindChanged
             }
-            schannelCheckRevoke={this.state.schannelCheckRevoke}
-            onSchannelCheckRevokeChanged={this.onSchannelCheckRevokeChanged}
+            onRepositoryIndicatorsEnabledChanged={
+              this.onRepositoryIndicatorsEnabledChanged
+            }
           />
         )
         break
@@ -340,6 +342,12 @@ export class Preferences extends React.Component<
     }
 
     return <div className="tab-container">{View}</div>
+  }
+
+  private onRepositoryIndicatorsEnabledChanged = (
+    repositoryIndicatorsEnabled: boolean
+  ) => {
+    this.setState({ repositoryIndicatorsEnabled })
   }
 
   private onLockFileDeleted = () => {
@@ -409,10 +417,6 @@ export class Preferences extends React.Component<
     )
   }
 
-  private onSchannelCheckRevokeChanged = (value: boolean) => {
-    this.setState({ schannelCheckRevoke: value })
-  }
-
   private renderFooter() {
     const hasDisabledError = this.state.disallowedCharactersMessage != null
 
@@ -423,6 +427,7 @@ export class Preferences extends React.Component<
         return null
       case PreferencesTab.Integrations:
       case PreferencesTab.Advanced:
+      case PreferencesTab.Prompts:
       case PreferencesTab.Git: {
         return (
           <DialogFooter>
@@ -463,14 +468,11 @@ export class Preferences extends React.Component<
       }
 
       if (
-        this.state.schannelCheckRevoke !==
-          this.state.initialSchannelCheckRevoke &&
-        this.state.schannelCheckRevoke !== null &&
-        __WIN32__
+        this.props.repositoryIndicatorsEnabled !==
+        this.state.repositoryIndicatorsEnabled
       ) {
-        await setGlobalConfigValue(
-          'http.schannelCheckRevoke',
-          this.state.schannelCheckRevoke.toString()
+        this.props.dispatcher.setRepositoryIndicatorsEnabled(
+          this.state.repositoryIndicatorsEnabled
         )
       }
     } catch (e) {

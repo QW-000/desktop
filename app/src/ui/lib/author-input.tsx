@@ -10,7 +10,7 @@ import classNames from 'classnames'
 import { UserAutocompletionProvider, IUserHit } from '../autocompletion'
 import { compare } from '../../lib/compare'
 import { arrayEquals } from '../../lib/equality'
-import { OcticonSymbol } from '../octicons'
+import { OcticonSymbol, syncClockwise } from '../octicons'
 import { IAuthor } from '../../models/author'
 import { showContextualMenu } from '../main-process-proxy'
 import { IMenuItem } from '../../lib/menu-item'
@@ -306,7 +306,7 @@ function renderUnknownHandleMarkReplacementElement(
     ? `無法找到名為 ${username} 的用戶`
     : `正在搜尋 @${username}`
 
-  const symbol = isError ? OcticonSymbol.stop : OcticonSymbol.sync
+  const symbol = isError ? OcticonSymbol.stop : syncClockwise
 
   const spinner = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
   spinner.classList.add('icon')
