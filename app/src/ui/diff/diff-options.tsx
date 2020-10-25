@@ -134,11 +134,11 @@ export class DiffOptions extends React.Component<
   private renderShowSideBySide() {
     return (
       <section>
-        <h3>Diff display</h3>
+        <h3>差異顯示</h3>
         <RadioButton
           value="Unified"
           checked={!this.props.showSideBySideDiff}
-          label="Unified"
+          label="一致"
           onSelected={this.onUnifiedSelected}
         />
         <RadioButton
@@ -162,7 +162,7 @@ export class DiffOptions extends React.Component<
     }
     return (
       <section>
-        <h3>Whitespace</h3>
+        <h3>空格</h3>
         <Checkbox
           value={
             this.props.hideWhitespaceChanges
@@ -171,7 +171,7 @@ export class DiffOptions extends React.Component<
           }
           onChange={this.onHideWhitespaceChangesChanged}
           label={
-            __DARWIN__ ? 'Hide Whitespace Changes' : 'Hide whitespace changes'
+            __DARWIN__ ? 'Hide Whitespace Changes' : '隱藏空格變更'
           }
         />
       </section>
