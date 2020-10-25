@@ -404,10 +404,10 @@ export class Dispatcher {
   ): Promise<void> {
     const { askForConfirmationOnForcePush } = this.appStore.getState()
 
-    const hasOverridenForcePushCheck =
+    const hasOverriddenForcePushCheck =
       options !== undefined && options.continueWithForcePush
 
-    if (askForConfirmationOnForcePush && !hasOverridenForcePushCheck) {
+    if (askForConfirmationOnForcePush && !hasOverriddenForcePushCheck) {
       const showWarning = await this.warnAboutRemoteCommits(
         repository,
         baseBranch,
@@ -774,7 +774,7 @@ export class Dispatcher {
   }
 
   /**
-   * Set the divering branch notification nudge's visibility
+   * Set the diverging branch notification nudge's visibility
    */
   public setDivergingBranchNudgeVisibility(
     repository: Repository,
@@ -786,7 +786,7 @@ export class Dispatcher {
   }
 
   /**
-   * Hide the divering branch notification banner
+   * Hide the diverging branch notification banner
    */
   public dismissDivergingBranchBanner(repository: Repository) {
     return this.appStore._updateDivergingBranchBannerState(repository, {
@@ -1082,7 +1082,7 @@ export class Dispatcher {
   }
 
   /**
-   * Continue with the rebase after the user has resovled all conflicts with
+   * Continue with the rebase after the user has resolved all conflicts with
    * tracked files in the working directory.
    */
   public async continueRebase(
@@ -1466,7 +1466,7 @@ export class Dispatcher {
   public async showCreateForkDialog(
     repository: RepositoryWithGitHubRepository
   ): Promise<void> {
-    await this.appStore._showCreateforkDialog(repository)
+    await this.appStore._showCreateForkDialog(repository)
   }
 
   /**
@@ -1506,7 +1506,7 @@ export class Dispatcher {
   /**
    * Change the workflow preferences for the specified repository.
    *
-   * @param repository            The repositosy to update.
+   * @param repository            The repository to update.
    * @param workflowPreferences   The object with the workflow settings to use.
    */
   public async updateRepositoryWorkflowPreferences(
@@ -1965,6 +1965,11 @@ export class Dispatcher {
     )
   }
 
+  /** Change the side by side diff setting */
+  public onShowSideBySideDiffChanged(showSideBySideDiff: boolean) {
+    return this.appStore._setShowSideBySideDiff(showSideBySideDiff)
+  }
+
   /** Install the global Git LFS filters. */
   public installGlobalLFSFilters(force: boolean): Promise<void> {
     return this.appStore._installGlobalLFSFilters(force)
@@ -2093,7 +2098,7 @@ export class Dispatcher {
   }
 
   /**
-   * Initialze the compare state for the current repository.
+   * Initialize the compare state for the current repository.
    */
   public initializeCompare(
     repository: Repository,
@@ -2450,7 +2455,7 @@ export class Dispatcher {
 
   /**
    * Increment the number of times the user has opened their repository in
-   * Finder/Explorerfrom the suggested next steps view
+   * Finder/Explorer from the suggested next steps view
    */
   public recordSuggestedStepOpenWorkingDirectory(): Promise<void> {
     return this.statsStore.recordSuggestedStepOpenWorkingDirectory()
@@ -2497,7 +2502,7 @@ export class Dispatcher {
   }
 
   /**
-   * Moves unconmitted changes to the branch being checked out
+   * Moves uncommitted changes to the branch being checked out
    */
   public async moveChangesToBranchAndCheckout(
     repository: Repository,

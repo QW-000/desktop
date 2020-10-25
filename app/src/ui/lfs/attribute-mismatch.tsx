@@ -65,7 +65,7 @@ export class AttributeMismatch extends React.Component<
             : '更新現存的 Git LFS 過濾器?'
         }
         onDismissed={this.props.onDismissed}
-        onSubmit={this.onSumit}
+        onSubmit={this.onSubmit}
       >
         <DialogContent>
           <p>
@@ -86,7 +86,7 @@ export class AttributeMismatch extends React.Component<
     )
   }
 
-  private onSumit = () => {
+  private onSubmit = () => {
     this.props.onUpdateExistingFilters()
     this.props.onDismissed()
   }
