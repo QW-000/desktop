@@ -359,7 +359,7 @@ export class CommitSummary extends React.Component<
             {enableSideBySideDiffs() || (
               <li
                 className="commit-summary-meta-item without-truncation"
-                title="Hide Whitespace"
+                title="隱藏空格"
               >
                 <Checkbox
                   label="隱藏空格"
@@ -377,7 +377,7 @@ export class CommitSummary extends React.Component<
               <>
                 <li
                   className="commit-summary-meta-item without-truncation"
-                  title="Split View"
+                  title="分割檢視"
                 >
                   <DiffOptions
                     onHideWhitespaceChangesChanged={

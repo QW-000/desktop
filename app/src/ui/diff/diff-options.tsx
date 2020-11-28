@@ -109,7 +109,7 @@ export class DiffOptions extends React.Component<
           <Octicon symbol={OcticonSymbol.gear} />
           <Octicon symbol={OcticonSymbol.triangleDown} />
           {this.state.showNewCallout && (
-            <div className="call-to-action-bubble">New</div>
+            <div className="call-to-action-bubble">新增</div>
           )}
         </button>
         {this.state.isOpen && this.renderPopover()}
@@ -150,8 +150,8 @@ export class DiffOptions extends React.Component<
           checked={this.props.showSideBySideDiff}
           label={
             <>
-              <div>Split</div>
-              <div className="call-to-action-bubble">Beta</div>
+              <div>分割</div>
+              <div className="call-to-action-bubble">測試版</div>
             </>
           }
           onSelected={this.onSideBySideSelected}
