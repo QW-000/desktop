@@ -296,8 +296,8 @@ export function buildDefaultMenu({
       },
       {
         label: __DARWIN__
-          ? `開啟${selectedShell ?? platformDefaultShell}`
-          : `開啟${selectedShell ?? platformDefaultShell}(&P)`,
+          ? `開啟 ${selectedShell ?? platformDefaultShell}`
+          : `開啟 ${selectedShell ?? platformDefaultShell}(&P)`,
         id: 'open-in-shell',
         accelerator: 'Ctrl+`',
         click: emit('open-in-shell'),
@@ -314,8 +314,8 @@ export function buildDefaultMenu({
       },
       {
         label: __DARWIN__
-          ? `開啟${selectedExternalEditor ?? '外部編輯器'}`
-          : `開啟${selectedExternalEditor ?? '外部編輯器'}(&O)`,
+          ? `開啟 ${selectedExternalEditor ?? '外部編輯器'}`
+          : `開啟 ${selectedExternalEditor ?? '外部編輯器'}(&O)`,
         id: 'open-external-editor',
         accelerator: 'CmdOrCtrl+Shift+A',
         click: emit('open-external-editor'),
