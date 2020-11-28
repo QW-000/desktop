@@ -18,12 +18,6 @@ interface IStartProps {
   readonly advance: (step: WelcomeStep) => void
   readonly dispatcher: Dispatcher
   readonly loadingBrowserAuth: boolean
-
-  /**
-   * Whether or not GitHub.com supports authenticating with username
-   * and password or if we have to enforce the web flow
-   */
-  readonly dotComSupportsBasicAuth: boolean
 }
 
 /** The first step of the Welcome flow. */
@@ -71,18 +65,6 @@ export class Start extends React.Component<IStartProps, {}> {
             </Button>
           )}
         </div>
-        {/* don't render this link if the user is already mid-browser sign in */}
-        {!this.props.loadingBrowserAuth && this.props.dotComSupportsBasicAuth && (
-          <div>
-            <LinkButton
-              onClick={this.signInToDotCom}
-              className="basic-auth-link"
-            >
-              使用您的用戶名和密碼登入 GitHub.com
-            </LinkButton>
-          </div>
-        )}
-
         <div className="skip-action-container">
           <LinkButton className="skip-button" onClick={this.skip}>
             略過此步驟
@@ -103,10 +85,6 @@ export class Start extends React.Component<IStartProps, {}> {
 
   private cancelBrowserAuth = () => {
     this.props.advance(WelcomeStep.Start)
-  }
-
-  private signInToDotCom = () => {
-    this.props.advance(WelcomeStep.SignInToDotCom)
   }
 
   private signInToEnterprise = () => {

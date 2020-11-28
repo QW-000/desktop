@@ -7,11 +7,8 @@ import { ensureDir } from 'fs-extra'
 import { UNSAFE_openDirectory } from '../shell'
 import { enableCreateGitHubIssueFromMenu } from '../../lib/feature-flag'
 import { MenuLabelsEvent } from '../../models/menu-labels'
-import { DefaultEditorLabel } from '../../ui/lib/context-menu'
 
-const defaultShellLabel = __DARWIN__
-  ? '開啟終端機'
-  : '開啟命令提示字元'
+const platformDefaultShell = __WIN32__ ? '命令提示字元' : '終端機'
 const createPullRequestLabel = __DARWIN__
   ? '建立拉取請求'
   : '建立拉取請求(&P)'
@@ -54,14 +51,6 @@ export function buildDefaultMenu({
   const pullRequestLabel = hasCurrentPullRequest
     ? showPullRequestLabel
     : createPullRequestLabel
-
-  const shellLabel =
-    selectedShell === null ? defaultShellLabel : `開啟 ${selectedShell}`
-
-  const editorLabel =
-    selectedExternalEditor === null
-      ? DefaultEditorLabel
-      : `開啟 ${selectedExternalEditor}`
 
   const template = new Array<Electron.MenuItemConstructorOptions>()
   const separator: Electron.MenuItemConstructorOptions = { type: 'separator' }
@@ -306,7 +295,9 @@ export function buildDefaultMenu({
         click: emit('view-repository-on-github'),
       },
       {
-        label: shellLabel,
+        label: __DARWIN__
+          ? `開啟${selectedShell ?? platformDefaultShell}`
+          : `開啟${selectedShell ?? platformDefaultShell}(&P)`,
         id: 'open-in-shell',
         accelerator: 'Ctrl+`',
         click: emit('open-in-shell'),
@@ -322,7 +313,9 @@ export function buildDefaultMenu({
         click: emit('open-working-directory'),
       },
       {
-        label: editorLabel,
+        label: __DARWIN__
+          ? `開啟${selectedExternalEditor ?? '外部編輯器'}`
+          : `開啟${selectedExternalEditor ?? '外部編輯器'}(&O)`,
         id: 'open-external-editor',
         accelerator: 'CmdOrCtrl+Shift+A',
         click: emit('open-external-editor'),
@@ -484,7 +477,7 @@ export function buildDefaultMenu({
   }
 
   const showLogsLabel = __DARWIN__
-    ? 'Show Logs in Finder'
+    ? '在 Finder 中顯示日誌'
     : __WIN32__
     ? '顯示檔案管理器中的日誌(&H)'
     : '顯示檔案管理器中的日誌(&H)'

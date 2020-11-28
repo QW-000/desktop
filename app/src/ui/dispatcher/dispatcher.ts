@@ -92,10 +92,7 @@ import {
   ICombinedRefCheck,
 } from '../../lib/stores/commit-status-store'
 import { MergeTreeResult } from '../../models/merge'
-import {
-  UncommittedChangesStrategy,
-  UncommittedChangesStrategyKind,
-} from '../../models/uncommitted-changes-strategy'
+import { UncommittedChangesStrategy } from '../../models/uncommitted-changes-strategy'
 import { RebaseFlowStep, RebaseStep } from '../../models/rebase-flow-step'
 import { IStashEntry } from '../../models/stash-entry'
 import { WorkflowPreferences } from '../../models/workflow-preferences'
@@ -483,14 +480,12 @@ export class Dispatcher {
     repository: Repository,
     name: string,
     startPoint: string | null,
-    uncommittedChangesStrategy?: UncommittedChangesStrategy,
     noTrackOption: boolean = false
   ): Promise<Repository> {
     return this.appStore._createBranch(
       repository,
       name,
       startPoint,
-      uncommittedChangesStrategy,
       noTrackOption
     )
   }
@@ -549,13 +544,9 @@ export class Dispatcher {
   public checkoutBranch(
     repository: Repository,
     branch: Branch,
-    uncommittedChangesStrategy?: UncommittedChangesStrategy
+    strategy?: UncommittedChangesStrategy
   ): Promise<Repository> {
-    return this.appStore._checkoutBranch(
-      repository,
-      branch,
-      uncommittedChangesStrategy
-    )
+    return this.appStore._checkoutBranch(repository, branch, strategy)
   }
 
   /** Push the current branch. */
@@ -1319,31 +1310,6 @@ export class Dispatcher {
   }
 
   /**
-   * Subscribe to an event which is emitted whenever the sign in store re-evaluates
-   * whether or not GitHub.com supports username and password authentication.
-   *
-   * Note that this event may fire without the state having changed as it's
-   * fired when refreshed and not when changed.
-   */
-  public onDotComSupportsBasicAuthUpdated(
-    fn: (dotComSupportsBasicAuth: boolean) => void
-  ) {
-    return this.appStore._onDotComSupportsBasicAuthUpdated(fn)
-  }
-
-  /**
-   * Attempt to _synchronously_ retrieve whether GitHub.com supports
-   * username and password authentication. If the SignInStore has
-   * previously checked the API to determine the actual status that
-   * cached value is returned. If not we attempt to calculate the
-   * most probably state based on the current date and the deprecation
-   * timeline.
-   */
-  public tryGetDotComSupportsBasicAuth(): boolean {
-    return this.appStore._tryGetDotComSupportsBasicAuth()
-  }
-
-  /**
    * Initiate a sign in flow for github.com. This will put the store
    * in the Authentication step ready to receive user credentials.
    */
@@ -1795,10 +1761,10 @@ export class Dispatcher {
   /**
    * Sets the user's preference for handling uncommitted changes when switching branches
    */
-  public setUncommittedChangesStrategyKindSetting(
-    value: UncommittedChangesStrategyKind
+  public setUncommittedChangesStrategySetting(
+    value: UncommittedChangesStrategy
   ): Promise<void> {
-    return this.appStore._setUncommittedChangesStrategyKindSetting(value)
+    return this.appStore._setUncommittedChangesStrategySetting(value)
   }
 
   /**
@@ -1815,7 +1781,7 @@ export class Dispatcher {
     return this.appStore._setShell(shell)
   }
 
-  public async checkoutLocalBranch(repository: Repository, branch: string) {
+  private async checkoutLocalBranch(repository: Repository, branch: string) {
     let shouldCheckoutBranch = true
 
     const state = this.repositoryStateManager.get(repository)
@@ -2501,19 +2467,6 @@ export class Dispatcher {
     return this.statsStore.recordSuggestedStepViewStash()
   }
 
-  /**
-   * Moves uncommitted changes to the branch being checked out
-   */
-  public async moveChangesToBranchAndCheckout(
-    repository: Repository,
-    branchToCheckout: Branch
-  ) {
-    return this.appStore._moveChangesToBranchAndCheckout(
-      repository,
-      branchToCheckout
-    )
-  }
-
   /** Record when the user takes no action on the stash entry */
   public recordNoActionTakenOnStash(): Promise<void> {
     return this.statsStore.recordNoActionTakenOnStash()
@@ -2573,5 +2526,9 @@ export class Dispatcher {
 
   public setRepositoryIndicatorsEnabled(repositoryIndicatorsEnabled: boolean) {
     this.appStore._setRepositoryIndicatorsEnabled(repositoryIndicatorsEnabled)
+  }
+
+  public recordDiffOptionsViewed() {
+    return this.statsStore.recordDiffOptionsViewed()
   }
 }

@@ -3,23 +3,23 @@ import { DialogContent } from '../dialog'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { LinkButton } from '../lib/link-button'
 import { SamplesURL } from '../../lib/stats'
-import { UncommittedChangesStrategyKind } from '../../models/uncommitted-changes-strategy'
+import { UncommittedChangesStrategy } from '../../models/uncommitted-changes-strategy'
 import { RadioButton } from '../lib/radio-button'
 
 interface IAdvancedPreferencesProps {
   readonly optOutOfUsageTracking: boolean
-  readonly uncommittedChangesStrategyKind: UncommittedChangesStrategyKind
+  readonly uncommittedChangesStrategy: UncommittedChangesStrategy
   readonly repositoryIndicatorsEnabled: boolean
   readonly onOptOutofReportingchanged: (checked: boolean) => void
-  readonly onUncommittedChangesStrategyKindChanged: (
-    value: UncommittedChangesStrategyKind
+  readonly onUncommittedChangesStrategyChanged: (
+    value: UncommittedChangesStrategy
   ) => void
   readonly onRepositoryIndicatorsEnabledChanged: (enabled: boolean) => void
 }
 
 interface IAdvancedPreferencesState {
   readonly optOutOfUsageTracking: boolean
-  readonly uncommittedChangesStrategyKind: UncommittedChangesStrategyKind
+  readonly uncommittedChangesStrategy: UncommittedChangesStrategy
 }
 
 export class Advanced extends React.Component<
@@ -31,7 +31,7 @@ export class Advanced extends React.Component<
 
     this.state = {
       optOutOfUsageTracking: this.props.optOutOfUsageTracking,
-      uncommittedChangesStrategyKind: this.props.uncommittedChangesStrategyKind,
+      uncommittedChangesStrategy: this.props.uncommittedChangesStrategy,
     }
   }
 
@@ -44,11 +44,11 @@ export class Advanced extends React.Component<
     this.props.onOptOutofReportingchanged(value)
   }
 
-  private onUncommittedChangesStrategyKindChanged = (
-    value: UncommittedChangesStrategyKind
+  private onUncommittedChangesStrategyChanged = (
+    value: UncommittedChangesStrategy
   ) => {
-    this.setState({ uncommittedChangesStrategyKind: value })
-    this.props.onUncommittedChangesStrategyKindChanged(value)
+    this.setState({ uncommittedChangesStrategy: value })
+    this.props.onUncommittedChangesStrategyChanged(value)
   }
 
   private onRepositoryIndicatorsEnabledChanged = (
@@ -72,33 +72,33 @@ export class Advanced extends React.Component<
           <h2>如果我有變更並且切換了分支...</h2>
 
           <RadioButton
-            value={UncommittedChangesStrategyKind.AskForConfirmation}
+            value={UncommittedChangesStrategy.AskForConfirmation}
             checked={
-              this.state.uncommittedChangesStrategyKind ===
-              UncommittedChangesStrategyKind.AskForConfirmation
+              this.state.uncommittedChangesStrategy ===
+              UncommittedChangesStrategy.AskForConfirmation
             }
             label="問我在哪裡我想要的變更"
-            onSelected={this.onUncommittedChangesStrategyKindChanged}
+            onSelected={this.onUncommittedChangesStrategyChanged}
           />
 
           <RadioButton
-            value={UncommittedChangesStrategyKind.MoveToNewBranch}
+            value={UncommittedChangesStrategy.MoveToNewBranch}
             checked={
-              this.state.uncommittedChangesStrategyKind ===
-              UncommittedChangesStrategyKind.MoveToNewBranch
+              this.state.uncommittedChangesStrategy ===
+              UncommittedChangesStrategy.MoveToNewBranch
             }
             label="總是將我的變更帶到新分支"
-            onSelected={this.onUncommittedChangesStrategyKindChanged}
+            onSelected={this.onUncommittedChangesStrategyChanged}
           />
 
           <RadioButton
-            value={UncommittedChangesStrategyKind.StashOnCurrentBranch}
+            value={UncommittedChangesStrategy.StashOnCurrentBranch}
             checked={
-              this.state.uncommittedChangesStrategyKind ===
-              UncommittedChangesStrategyKind.StashOnCurrentBranch
+              this.state.uncommittedChangesStrategy ===
+              UncommittedChangesStrategy.StashOnCurrentBranch
             }
             label="總是藏匿並保留我的變更在當前分支上"
-            onSelected={this.onUncommittedChangesStrategyKindChanged}
+            onSelected={this.onUncommittedChangesStrategyChanged}
           />
         </div>
         <div className="advanced-section">

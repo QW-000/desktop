@@ -21,6 +21,7 @@ import {
   setNumberArray,
 } from '../local-storage'
 import { PushOptions } from '../git'
+import { getShowSideBySideDiff } from '../../ui/lib/diff-mode'
 
 const StatsEndpoint = 'https://central.github.com/api/usage/desktop'
 
@@ -139,6 +140,10 @@ const DefaultDailyMeasures: IDailyMeasures = {
   tagsCreatedInDesktop: 0,
   tagsCreated: 0,
   tagsDeleted: 0,
+  diffModeChangeCount: 0,
+  diffOptionsViewedCount: 0,
+  repositoryViewChangeCount: 0,
+  unhandledRejectionCount: 0,
 }
 
 interface IOnboardingStats {
@@ -306,6 +311,12 @@ interface ICalculatedStats {
    * them into their own interface
    */
   readonly repositoriesCommittedInWithoutWriteAccess: number
+
+  /**
+   * whether not to the user has chosent to view diffs in split, or unified (the
+   * default) diff view mode
+   */
+  readonly diffMode: 'split' | 'unified'
 }
 
 type DailyStats = ICalculatedStats &
@@ -340,7 +351,7 @@ export class StatsStore implements IStatsStore {
     this.db = db
     this.uiActivityMonitor = uiActivityMonitor
 
-    const storedValue = getBoolean(StatsOptOutKey)
+    const storedValue = getHasOptedOutOfStats()
 
     this.optOut = storedValue || false
 
@@ -351,6 +362,14 @@ export class StatsStore implements IStatsStore {
     }
 
     this.enableUiActivityMonitoring()
+
+    window.addEventListener('unhandledrejection', async () => {
+      try {
+        this.recordUnhandledRejection()
+      } catch (err) {
+        log.error(`Failed recording unhandled rejection`, err)
+      }
+    })
   }
 
   /** Should the app report its daily stats? */
@@ -465,6 +484,7 @@ export class StatsStore implements IStatsStore {
     const repositoriesCommittedInWithoutWriteAccess = getNumberArray(
       RepositoriesCommittedInWithoutWriteAccessKey
     ).length
+    const diffMode = getShowSideBySideDiff() ? 'split' : 'unified'
 
     return {
       eventType: 'usage',
@@ -481,6 +501,7 @@ export class StatsStore implements IStatsStore {
       guid: getGUID(),
       ...repositoryCounts,
       repositoriesCommittedInWithoutWriteAccess,
+      diffMode,
     }
   }
 
@@ -1376,6 +1397,30 @@ export class StatsStore implements IStatsStore {
     }))
   }
 
+  public recordDiffOptionsViewed() {
+    return this.updateDailyMeasures(m => ({
+      diffOptionsViewedCount: m.diffOptionsViewedCount + 1,
+    }))
+  }
+
+  public recordRepositoryViewChanged() {
+    return this.updateDailyMeasures(m => ({
+      repositoryViewChangeCount: m.repositoryViewChangeCount + 1,
+    }))
+  }
+
+  public recordDiffModeChanged() {
+    return this.updateDailyMeasures(m => ({
+      diffModeChangeCount: m.diffModeChangeCount + 1,
+    }))
+  }
+
+  public recordUnhandledRejection() {
+    return this.updateDailyMeasures(m => ({
+      unhandledRejectionCount: m.unhandledRejectionCount + 1,
+    }))
+  }
+
   /** Post some data to our stats endpoint. */
   private post(body: object): Promise<Response> {
     const options: RequestInit = {
@@ -1506,4 +1551,12 @@ function getWelcomeWizardSignInMethod(): 'basic' | 'web' | undefined {
     log.error(`Could not parse welcome wizard sign in method`, ex)
     return undefined
   }
+}
+
+/**
+ * Return a value indicating whether the user has opted out of stats reporting
+ * or not.
+ */
+export function getHasOptedOutOfStats() {
+  return getBoolean(StatsOptOutKey)
 }

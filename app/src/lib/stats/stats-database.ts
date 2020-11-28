@@ -361,6 +361,18 @@ export interface IDailyMeasures {
    * How many tags have been deleted.
    */
   readonly tagsDeleted: number
+
+  /** Number of times the user has changed between unified and split diffs */
+  readonly diffModeChangeCount: number
+
+  /** Number of times the user has opened the diff options popover */
+  readonly diffOptionsViewedCount: number
+
+  /** Number of times the user has switched to or from History/Changes */
+  readonly repositoryViewChangeCount: number
+
+  /** Number of times the user has encountered an unhandled rejection */
+  readonly unhandledRejectionCount: number
 }
 
 export class StatsDatabase extends Dexie {
