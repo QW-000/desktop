@@ -32,7 +32,7 @@ interface ICloneRepositoryProps {
   /** The logged in accounts. */
   readonly dotComAccount: Account | null
 
-  /** The logged in Enterprise Server account. */
+  /** The logged in Enterprise account. */
   readonly enterpriseAccount: Account | null
 
   /** The initial URL or `owner/name` shortcut to use. */
@@ -45,7 +45,7 @@ interface ICloneRepositoryProps {
   readonly onTabSelected: (tab: CloneRepositoryTab) => void
 
   /**
-   * A map keyed on a user account (GitHub.com or GitHub Enterprise Server)
+   * A map keyed on a user account (GitHub.com or GitHub Enterprise)
    * containing an object with repositories that the authenticated
    * user has explicit permission (:read, :write, or :admin) to access
    * as well as information about whether the list of repositories
@@ -90,7 +90,7 @@ interface ICloneRepositoryState {
 
   /**
    * The persisted state of the CloneGitHubRepository component for
-   * the GitHub Enterprise Server account.
+   * the GitHub Enterprise account.
    */
   readonly enterpriseTabState: IGitHubTabState
 
@@ -216,7 +216,7 @@ export class CloneRepository extends React.Component<
           selectedIndex={this.props.selectedTab}
         >
           <span>GitHub.com</span>
-          <span>GitHub Enterprise 伺服器</span>
+          <span>GitHub Enterprise</span>
           <span>網址</span>
         </TabBar>
 
@@ -446,7 +446,7 @@ export class CloneRepository extends React.Component<
             onAction={this.signInEnterprise}
           >
             <div>
-              如果您有 GitHub Enterprise 伺服器帳戶，請登入帳戶以存取您的存儲庫。
+              如果您正在使用 GitHub Enterprise 或 AE 帳戶，請登入帳戶以存取您的存儲庫。
             </div>
           </CallToAction>
         )

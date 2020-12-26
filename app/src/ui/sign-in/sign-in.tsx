@@ -169,7 +169,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
       <DialogContent>
         <Row>
           <TextBox
-            label="Enterprise 伺服器地址"
+            label="Enterprise 位址"
             value={this.state.endpoint}
             onValueChanged={this.onEndpointChanged}
             placeholder="https://github.example.com"
@@ -196,7 +196,7 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
         return (
           <DialogContent>
             <p>
-              您的 GitHub Enterprise 伺服器情況需要您使用瀏覽器登入。
+              您的 GitHub Enterprise 現況需要您使用瀏覽器登入。
             </p>
           </DialogContent>
         )

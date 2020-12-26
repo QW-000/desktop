@@ -57,7 +57,7 @@ export class UsageStatsChange extends React.Component<
               <li>
                 <span>
                   <strong>
-                    如果只是登入到 GitHub Enterprise 伺服器帳戶，或者只使用帶有非 GitHub 遠端控制台的 Desktop
+                    如果只是登入到 GitHub Enterprise 帳戶，或者只使用帶有非 GitHub 遠端控制台的 Desktop
                   </strong>
                   什麼都不會改變。
                 </span>

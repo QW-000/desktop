@@ -150,7 +150,7 @@ describe('emails', () => {
       )
     })
 
-    it('如果沒有 GitHub Enterprise 伺服器的公用位址，則返回無回應', () => {
+    it('如果沒有 GitHub Enterprise 的公用位址，則返回無回應', () => {
       const emails: IAPIEmail[] = [
         {
           email: 'shiftkey@example.com',
@@ -263,7 +263,7 @@ describe('emails', () => {
       ])
     })
 
-    it('returns stealth emails for GitHub Enterprise Server', () => {
+    it('returns stealth emails for GitHub Enterprise', () => {
       const endpoint = `https://github.example.com/api/v3`
       const account = new Account('niik', endpoint, '', [], '', 123, '')
       const attributable = getAttributableEmailsFor(account)

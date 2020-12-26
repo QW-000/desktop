@@ -32,7 +32,7 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
           ? this.renderAccount(this.props.dotComAccount)
           : this.renderSignIn(SignInType.DotCom)}
 
-        <h2>GitHub Enterprise Server</h2>
+        <h2>GitHub Enterprise</h2>
         {this.props.enterpriseAccount
           ? this.renderAccount(this.props.enterpriseAccount)
           : this.renderSignIn(SignInType.Enterprise)}
@@ -92,7 +92,7 @@ export class Accounts extends React.Component<IAccountsProps, {}> {
             onAction={this.onEnterpriseSignIn}
           >
             <div>
-              如果您有 GitHub Enterprise 伺服器帳戶，請登入此帳戶存取存儲庫。
+              如果您正在使用 GitHub Enterprise 或 AE 帳戶，請登入此帳戶存取存儲庫。
             </div>
           </CallToAction>
         )

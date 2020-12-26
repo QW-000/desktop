@@ -25,7 +25,7 @@ interface IUntrustedCertificateProps {
  * certificate.
  *
  * An easy way to test this dialog is to attempt to sign in to GitHub
- * Enterprise Server using  one of the badssl.com domains, such
+ * Enterprise using  one of the badssl.com domains, such
  * as https://self-signed.badssl.com/
  */
 export class UntrustedCertificate extends React.Component<
@@ -52,9 +52,9 @@ export class UntrustedCertificate extends React.Component<
           </p>
           <p>在某些情況下，這可能是預期的。 例如:</p>
           <ul>
-            <li>如果這是 GitHub Enterprise 伺服器試用版。</li>
+            <li>如果這是 GitHub Enterprise 試用版。</li>
             <li>
-              如果您的 GitHub Enterprise 伺服器狀況在不正常的頂層領域上執行。
+              如果您的 GitHub Enterprise 現況在不正常的頂層領域上執行。
             </li>
           </ul>
           <p>

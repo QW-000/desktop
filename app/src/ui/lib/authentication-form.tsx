@@ -17,7 +17,7 @@ interface IAuthenticationFormProps {
    * The URL to the host which we're currently authenticating
    * against. This will be either https://api.github.com when
    * signing in against GitHub.com or a user-specified
-   * URL when signing in against a GitHub Enterprise Server
+   * URL when signing in against a GitHub Enterprise
    * instance.
    */
   readonly endpoint: string
@@ -245,7 +245,7 @@ function getEndpointRequiresWebFlowMessage(endpoint: string): JSX.Element {
   } else {
     return (
       <p>
-        您的 GitHub Enterprise 伺服器情況需要您使用瀏覽器登入。
+        您的 GitHub Enterprise 現況需要您使用瀏覽器登入。
       </p>
     )
   }
